@@ -1,45 +1,55 @@
-export const TESTIMONIALS = [
+// Placeholder testimonials: replace with real quotes from your clients before relying on them.
+// `highlight` (optional) must be an exact substring of `quote`; it renders in bold.
+export const TESTIMONIALS: ReadonlyArray<{
+  quote: string;
+  highlight?: string;
+  name: string;
+  role: string;
+}> = [
   {
     quote:
-      "The new UI design cut our customer support tickets in half. It's been a game-changer for us.",
+      "After the redesign our users stopped getting lost, and support requests dropped noticeably within the first month.",
+    highlight: "support requests dropped noticeably",
     name: "Martina Martinez",
     role: "Customer Manager at SupportEase",
   },
   {
     quote:
-      "Working with Shakeel felt like having a seasoned design partner who truly understood our vision for KYMA and brought it to life in ways we hadn't even imagined.",
+      "Shakeel picked up our vision faster than we could explain it and turned it into something sharper than we'd pictured.",
+    highlight: "turned it into something sharper than we'd pictured",
     name: "Thomas Weber",
     role: "Co-founder of KYMA",
   },
   {
-    quote: "Our website conversion rate improved significantly thanks to Shakeel's expertise.",
+    quote: "Clear process, quick turnaround, and a site that finally converts the traffic we were already getting.",
+    highlight: "a site that finally converts",
     name: "Ben Harper",
     role: "CTO of Nexus",
   },
   {
     quote:
-      "Shakeel's design approach brought clarity to our complex data visualizations. Our users are thrilled!",
+      "Our dashboards were dense and hard to read. Shakeel made the complex parts feel simple without dumbing them down.",
     name: "Michael Wong",
     role: "Data Scientist at DataSphere",
   },
   {
-    quote:
-      "The rebranding exceeded our expectations. It's given us a competitive edge in our industry.",
+    quote: "The new identity feels like us, only more confident. It set us apart in a crowded market.",
+    highlight: "It set us apart in a crowded market.",
     name: "Natalie Rivera",
     role: "Brand Manager at UnityBrands",
   },
   {
-    quote:
-      "The redesign transformed our brand image. We've seen a 30% increase in engagement since launch.",
+    quote: "From first call to launch the project felt easy, and our audience noticed the difference right away.",
+    highlight: "our audience noticed the difference right away",
     name: "Emma Kraft",
     role: "CMO of TechVista",
   },
-] as const;
+];
 
 // Featured pull-quote shown right below the hero projects grid.
 export const FEATURED_TESTIMONIAL = {
   quote:
-    "Working with Shakeel felt like having a seasoned design partner who truly understood our vision for KYMA and brought it to life in ways we hadn't even imagined.",
+    "Working with Shakeel was like adding a senior designer to the team overnight. He understood what KYMA needed and delivered more than we asked for.",
   name: "Thomas Weber",
   role: "Co-founder of KYMA",
 } as const;
