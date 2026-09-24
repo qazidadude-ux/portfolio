@@ -9,44 +9,53 @@ import { Button } from "@/components/ui/Button";
 export function Nav() {
   const [open, setOpen] = useState(false);
 
+  const contactLink = NAV_LINKS.find((link) => link.label === "Contact");
+  const primaryLinks = NAV_LINKS.filter((link) => link.label !== "Contact");
+
   return (
-    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-150">
-      <div className="container-max flex items-center justify-between py-4">
-        <Link href="/" className="text-sm font-semibold tracking-tight">
-          {SITE.name}
-        </Link>
+    <header className="sticky top-4 z-50">
+      <div className="container-max">
+        <div className="flex items-center justify-between gap-4 rounded-full border border-gray-150 bg-white/90 backdrop-blur-md shadow-sm px-3 py-2 md:px-4">
+          <Link href="/" className="flex items-center gap-2.5 shrink-0">
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-black text-xs font-semibold text-white">
+              {SITE.name.charAt(0)}
+            </span>
+            <span className="text-sm font-semibold tracking-tight">{SITE.name}</span>
+          </Link>
 
-        <nav className="hidden md:flex items-center gap-8">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-sm text-gray-600 hover:text-black transition-colors"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
+          <nav className="hidden md:flex items-center gap-8">
+            {primaryLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm text-gray-600 hover:text-black transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
 
-        <div className="hidden md:flex items-center gap-4">
-          <span className="inline-flex items-center gap-2 text-xs text-gray-600">
-            <span className="h-2 w-2 rounded-full bg-accent" />
-            {SITE.availability}
-          </span>
-          <Button href={SITE.bookingUrl} external className="py-2.5 px-5 text-xs">
-            Book a call
-          </Button>
+          <div className="hidden md:flex items-center">
+            {contactLink && (
+              <Link
+                href={contactLink.href}
+                className="rounded-full border border-gray-200 px-5 py-2 text-sm font-medium hover:bg-gray-50 transition-colors"
+              >
+                {contactLink.label}
+              </Link>
+            )}
+          </div>
+
+          <button
+            aria-label="Toggle menu"
+            className="md:hidden flex flex-col gap-1.5 p-2"
+            onClick={() => setOpen((v) => !v)}
+          >
+            <span className={`h-px w-6 bg-black transition-transform ${open ? "translate-y-1.5 rotate-45" : ""}`} />
+            <span className={`h-px w-6 bg-black transition-opacity ${open ? "opacity-0" : ""}`} />
+            <span className={`h-px w-6 bg-black transition-transform ${open ? "-translate-y-1.5 -rotate-45" : ""}`} />
+          </button>
         </div>
-
-        <button
-          aria-label="Toggle menu"
-          className="md:hidden flex flex-col gap-1.5 p-2"
-          onClick={() => setOpen((v) => !v)}
-        >
-          <span className={`h-px w-6 bg-black transition-transform ${open ? "translate-y-1.5 rotate-45" : ""}`} />
-          <span className={`h-px w-6 bg-black transition-opacity ${open ? "opacity-0" : ""}`} />
-          <span className={`h-px w-6 bg-black transition-transform ${open ? "-translate-y-1.5 -rotate-45" : ""}`} />
-        </button>
       </div>
 
       <AnimatePresence>
