@@ -1,8 +1,10 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-:root {
-  /* Grayscale ramp, sampled from the LaunchFolio template's design tokens */
+/* Grayscale ramp, sampled from the LaunchFolio template's design tokens.
+   `.theme-light` pins the light ramp on elements that must stay as designed in either theme. */
+:root,
+.theme-light {
   --color-white: #ffffff;
   --color-gray-50: #fafafa;
   --color-gray-100: #f7f7f7;
@@ -13,6 +15,25 @@
   --color-gray-600: #545454;
   --color-gray-800: #2b2b2b;
   --color-black: #000000;
+  color-scheme: light;
+}
+
+/* Dark theme: the ramp is inverted, so "white" surfaces go dark and "black" text goes light. */
+:root[data-theme="dark"] {
+  --color-white: #0a0a0a;
+  --color-gray-50: #111111;
+  --color-gray-100: #151515;
+  --color-gray-150: #1f1f1f;
+  --color-gray-200: #2e2e2e;
+  --color-gray-400: #5c5c5c;
+  --color-gray-500: #8a8a8a;
+  --color-gray-600: #b3b3b3;
+  --color-gray-800: #e0e0e0;
+  --color-black: #fafafa;
+  color-scheme: dark;
+}
+
+:root {
   --color-accent: #21b30b;
 
   --background: var(--color-white);

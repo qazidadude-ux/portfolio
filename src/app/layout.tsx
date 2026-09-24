@@ -4,6 +4,7 @@ import "./globals.css";
 import { SITE } from "@/data/site";
 import { GridLines } from "@/components/GridLines";
 import { ProgressiveBlur } from "@/components/ProgressiveBlur";
+import { THEME_SCRIPT } from "@/components/ThemeToggle";
 
 const spaceMono = Space_Mono({
   variable: "--font-space-mono",
@@ -26,8 +27,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${spaceMono.variable} h-full antialiased`}>
+    <html lang="en" data-theme="light" suppressHydrationWarning className={`${spaceMono.variable} h-full antialiased`}>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
         <link rel="preconnect" href="https://api.fontshare.com" />
         <link
           href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700&display=swap"

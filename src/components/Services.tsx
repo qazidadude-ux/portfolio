@@ -87,7 +87,7 @@ export function Services() {
               {TECH_STACK.map((tool) => (
                 <motion.div key={tool} variants={revealItem} className="group relative">
                   <div
-                    className={`flex items-center justify-center rounded-[12px] border border-[#dedede] bg-white p-4 ${TILE_SHADOW}`}
+                    className={`flex items-center justify-center rounded-[12px] border border-gray-200 bg-white p-4 ${TILE_SHADOW}`}
                   >
                     <ToolIcon tool={tool} />
                   </div>

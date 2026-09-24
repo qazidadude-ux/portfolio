@@ -100,7 +100,6 @@ export function Hero() {
           />
           <span className="ml-3">{HERO.ctaLabel}</span>
         </a>
-        <span className="text-sm text-gray-500">{SITE.happyClients} Happy clients</span>
       </motion.div>
       </div>
 

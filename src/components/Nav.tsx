@@ -6,12 +6,14 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { NAV_LINKS, SITE } from "@/data/site";
 import { Button } from "@/components/ui/Button";
+import { ThemeToggle, useThemeSync } from "@/components/ThemeToggle";
 
 const NAV_TRANSITION = { duration: 0.6, ease: [0.22, 1, 0.36, 1] } as const;
 
 export function Nav() {
   const [open, setOpen] = useState(false);
   const [expanded, setExpanded] = useState(true);
+  useThemeSync();
 
   useEffect(() => {
     let lastY = window.scrollY;
@@ -62,7 +64,7 @@ export function Nav() {
           layout
           transition={NAV_TRANSITION}
           style={{ borderRadius: 32 }}
-          className={`flex h-14 w-full shrink-0 items-center justify-between gap-4 overflow-hidden border border-[#d9d9d9] px-2 md:px-2.5 transition-[background-color,backdrop-filter] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+          className={`flex h-14 w-full shrink-0 items-center justify-between gap-4 overflow-hidden border border-gray-200 px-2 md:px-2.5 transition-[background-color,backdrop-filter] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
             expanded
               ? "lg:w-[85%] xl:w-[70%] bg-white/50 backdrop-blur-[5px]"
               : "lg:w-fit bg-white/70 backdrop-blur-[14px]"
@@ -106,13 +108,26 @@ export function Nav() {
                 {contactLink && (
                   <Link
                     href={contactLink.href}
-                    className="shrink-0 whitespace-nowrap rounded-[24px] border border-[#dedede] bg-gray-50 px-5 py-1.5 text-sm font-medium shadow-[0_0.6px_0.6px_rgba(0,0,0,0.07),0_1.8px_1.8px_rgba(0,0,0,0.07),0_4.8px_4.8px_rgba(0,0,0,0.06),0_15px_15px_-3.75px_rgba(0,0,0,0.03)] transition-transform duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 active:scale-[0.97]"
+                    className="shrink-0 whitespace-nowrap rounded-[24px] border border-gray-200 bg-gray-50 px-5 py-1.5 text-sm font-medium shadow-[0_0.6px_0.6px_rgba(0,0,0,0.07),0_1.8px_1.8px_rgba(0,0,0,0.07),0_4.8px_4.8px_rgba(0,0,0,0.06),0_15px_15px_-3.75px_rgba(0,0,0,0.03)] transition-transform duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 active:scale-[0.97]"
                   >
                     {contactLink.label}
                   </Link>
                 )}
               </motion.div>
-            ) : null}
+            ) : (
+              // Bar gap (16px) + ml-8 (32px) = 48px from the name.
+              <motion.div
+                key="collapsed"
+                layout
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1, transition: { duration: 0.35, delay: 0.2, ease: "easeOut" } }}
+                exit={{ opacity: 0, transition: { duration: 0.15, ease: "easeOut" } }}
+                transition={NAV_TRANSITION}
+                className="ml-8 hidden shrink-0 md:block"
+              >
+                <ThemeToggle />
+              </motion.div>
+            )}
           </AnimatePresence>
 
           <button

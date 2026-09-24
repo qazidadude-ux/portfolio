@@ -1,5 +1,6 @@
 import { Nav } from "@/components/Nav";
 import { Hero } from "@/components/Hero";
+import { SocialProof } from "@/components/SocialProof";
 import { ProjectsGrid } from "@/components/ProjectsGrid";
 import { ProjectDockProvider } from "@/components/motion/ProjectDock";
 import { FeaturedQuote } from "@/components/FeaturedQuote";
@@ -16,6 +17,7 @@ export default function Home() {
       <main className="relative">
         <ProjectDockProvider>
           <Hero />
+          <SocialProof />
           <ProjectsGrid />
         </ProjectDockProvider>
         <FeaturedQuote />
