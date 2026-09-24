@@ -15,7 +15,7 @@ export function Nav() {
   return (
     <header className="sticky top-4 z-50">
       <div className="container-max">
-        <div className="flex items-center justify-between gap-4 rounded-full border border-gray-150 bg-white/90 backdrop-blur-md shadow-card px-3 py-2 md:px-4">
+        <div className="flex items-center justify-between gap-4 rounded-[32px] border border-[#d9d9d9] bg-white/50 backdrop-blur-[5px] px-3 py-2 md:px-4">
           <Link href="/" className="flex items-center gap-2.5 shrink-0">
             <span className="flex h-8 w-8 items-center justify-center rounded-full bg-black text-xs font-semibold text-white">
               {SITE.name.charAt(0)}
@@ -39,7 +39,7 @@ export function Nav() {
             {contactLink && (
               <Link
                 href={contactLink.href}
-                className="rounded-full border border-gray-200 px-5 py-2 text-sm font-medium hover:bg-gray-50 transition-colors"
+                className="rounded-[24px] border border-[#dedede] bg-gray-50 px-5 py-2.5 text-sm font-medium shadow-[0_0.6px_0.6px_rgba(0,0,0,0.07),0_1.8px_1.8px_rgba(0,0,0,0.07),0_4.8px_4.8px_rgba(0,0,0,0.06),0_15px_15px_-3.75px_rgba(0,0,0,0.03)] transition-transform duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 active:scale-[0.97]"
               >
                 {contactLink.label}
               </Link>
