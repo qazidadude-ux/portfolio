@@ -73,8 +73,9 @@ export function Services() {
         <div className="flex flex-col gap-16">
           <Reveal>
             <SectionHeading>
-              <span className="text-gray-500">Services that </span>
-              supercharge your business.
+              <span className="block text-gray-500">Services that</span>
+              <span className="block">supercharge your</span>
+              <span className="block">business.</span>
             </SectionHeading>
           </Reveal>
 
