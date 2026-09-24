@@ -12,20 +12,37 @@ export function Nav() {
 
   useEffect(() => {
     let lastY = window.scrollY;
+    let anchorY = window.scrollY;
+    let ticking = false;
+    const DEAD_ZONE = 10;
 
-    const onScroll = () => {
+    const update = () => {
+      ticking = false;
       const y = window.scrollY;
+      const delta = y - lastY;
+
       if (y <= 40) {
         setExpanded(true);
-      } else if (y < lastY) {
+        anchorY = y;
+      } else if (delta < 0 && anchorY - y > DEAD_ZONE) {
         setExpanded(true);
-      } else if (y > lastY) {
+        anchorY = y;
+      } else if (delta > 0 && y - anchorY > DEAD_ZONE) {
         setExpanded(false);
+        anchorY = y;
       }
+
       lastY = y;
     };
 
-    onScroll();
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    };
+
+    update();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
