@@ -35,9 +35,9 @@ export function Nav() {
 
   return (
     <header className="sticky top-4 z-50">
-      <div className="container-max">
+      <div className="container-max flex justify-center">
         <div
-          className={`flex items-center justify-between gap-4 rounded-[32px] border border-[#d9d9d9] px-3 py-2 md:px-4 transition-[background-color,backdrop-filter] duration-300 ${
+          className={`flex w-full md:w-[70%] items-center justify-between gap-4 rounded-[32px] border border-[#d9d9d9] px-3 py-2 md:px-4 transition-[background-color,backdrop-filter] duration-300 ${
             expanded ? "bg-white/50 backdrop-blur-[5px]" : "bg-white/70 backdrop-blur-[14px]"
           }`}
         >
