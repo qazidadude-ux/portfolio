@@ -1,18 +1,7 @@
 import type { Metadata } from "next";
-import { Manrope, Inter, Space_Mono } from "next/font/google";
+import { Space_Mono } from "next/font/google";
 import "./globals.css";
 import { SITE } from "@/data/site";
-
-const manrope = Manrope({
-  variable: "--font-manrope",
-  subsets: ["latin"],
-  weight: ["500", "600", "700", "800"],
-});
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
 
 const spaceMono = Space_Mono({
   variable: "--font-space-mono",
@@ -35,10 +24,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-      className={`${manrope.variable} ${inter.variable} ${spaceMono.variable} h-full antialiased`}
-    >
+    <html lang="en" className={`${spaceMono.variable} h-full antialiased`}>
+      <head>
+        <link rel="preconnect" href="https://api.fontshare.com" />
+        <link
+          href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body className="min-h-full flex flex-col bg-white text-black">{children}</body>
     </html>
   );

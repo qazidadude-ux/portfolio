@@ -18,8 +18,8 @@
   --background: var(--color-white);
   --foreground: var(--color-black);
 
-  --font-display: var(--font-manrope);
-  --font-body: var(--font-inter);
+  --font-display: "Switzer", sans-serif;
+  --font-body: "Switzer", sans-serif;
   --font-mono: var(--font-space-mono);
 
   --container-max: 1200px;
