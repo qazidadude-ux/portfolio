@@ -77,6 +77,12 @@ h1, h2, h3, h4 {
   }
 }
 
+@media (min-width: 1024px) {
+  .container-max {
+    padding-inline: 144px;
+  }
+}
+
 /* Hide scrollbar for drag/scroll carousels while keeping native scroll snap */
 .no-scrollbar {
   scrollbar-width: none;
