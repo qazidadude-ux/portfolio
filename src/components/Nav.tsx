@@ -72,7 +72,7 @@ export function Nav() {
             <span className="text-sm font-semibold tracking-tight">{SITE.name}</span>
           </Link>
 
-          <AnimatePresence mode="wait" initial={false}>
+          <AnimatePresence mode="popLayout" initial={false}>
             {expanded ? (
               <motion.div
                 key="expanded"
