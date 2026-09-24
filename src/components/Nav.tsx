@@ -58,7 +58,9 @@ export function Nav() {
           layout
           transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
           className={`flex h-14 w-full shrink-0 items-center justify-between gap-4 rounded-[32px] border border-[#d9d9d9] px-2 md:px-2.5 transition-[background-color,backdrop-filter] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-            expanded ? "md:w-[70%] bg-white/50 backdrop-blur-[5px]" : "md:w-fit bg-white/70 backdrop-blur-[14px]"
+            expanded
+              ? "lg:w-[85%] xl:w-[70%] bg-white/50 backdrop-blur-[5px]"
+              : "lg:w-fit bg-white/70 backdrop-blur-[14px]"
           }`}
         >
           <Link href="/" className="flex items-center gap-2.5 shrink-0">
@@ -69,7 +71,7 @@ export function Nav() {
               height={32}
               className="h-8 w-8 rounded-full object-cover"
             />
-            <span className="text-sm font-semibold tracking-tight">{SITE.name}</span>
+            <span className="whitespace-nowrap text-sm font-semibold tracking-tight">{SITE.name}</span>
           </Link>
 
           <AnimatePresence mode="popLayout" initial={false}>
@@ -80,14 +82,14 @@ export function Nav() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.96 }}
                 transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                className="hidden md:flex items-center gap-8"
+                className="hidden md:flex flex-1 items-center gap-4"
               >
-                <nav className="flex items-center gap-8">
+                <nav className="flex flex-1 items-center justify-center gap-6 lg:gap-8">
                   {primaryLinks.map((link) => (
                     <Link
                       key={link.href}
                       href={link.href}
-                      className="text-sm text-gray-600 hover:text-black transition-colors"
+                      className="whitespace-nowrap text-sm text-gray-600 hover:text-black transition-colors"
                     >
                       {link.label}
                     </Link>
@@ -96,7 +98,7 @@ export function Nav() {
                 {contactLink && (
                   <Link
                     href={contactLink.href}
-                    className="rounded-[24px] border border-[#dedede] bg-gray-50 px-5 py-1.5 text-sm font-medium shadow-[0_0.6px_0.6px_rgba(0,0,0,0.07),0_1.8px_1.8px_rgba(0,0,0,0.07),0_4.8px_4.8px_rgba(0,0,0,0.06),0_15px_15px_-3.75px_rgba(0,0,0,0.03)] transition-transform duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 active:scale-[0.97]"
+                    className="shrink-0 whitespace-nowrap rounded-[24px] border border-[#dedede] bg-gray-50 px-5 py-1.5 text-sm font-medium shadow-[0_0.6px_0.6px_rgba(0,0,0,0.07),0_1.8px_1.8px_rgba(0,0,0,0.07),0_4.8px_4.8px_rgba(0,0,0,0.06),0_15px_15px_-3.75px_rgba(0,0,0,0.03)] transition-transform duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 active:scale-[0.97]"
                   >
                     {contactLink.label}
                   </Link>
