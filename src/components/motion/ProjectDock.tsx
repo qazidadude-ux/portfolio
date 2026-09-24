@@ -1,32 +1,169 @@
 "use client";
 
-import { createContext, useContext, useEffect, useRef, useState, type RefObject } from "react";
+import { createContext, useContext, useEffect, useRef, useState, type ReactNode, type RefObject } from "react";
+import { PROJECTS } from "@/data/projects";
+
+type SlotRefs = RefObject<(HTMLDivElement | null)[]>;
 
 type ProjectDockContextValue = {
-  docked: boolean;
-  gridRef: RefObject<HTMLDivElement | null>;
+  heroSlots: SlotRefs;
+  gridSlots: SlotRefs;
+  ready: boolean;
 };
 
 const ProjectDockContext = createContext<ProjectDockContextValue | null>(null);
 
-export function ProjectDockProvider({ children }: { children: React.ReactNode }) {
-  const gridRef = useRef<HTMLDivElement>(null);
-  const [docked, setDocked] = useState(false);
+export const FAN = [
+  { top: 60, left: 0, rotate: -9 },
+  { top: 20, left: 75, rotate: -3 },
+  { top: 80, left: 150, rotate: 4 },
+  { top: 30, left: 220, rotate: 10 },
+];
+
+export const FAN_RADIUS = 20;
+export const FAN_SHADOW = "0 24px 48px -16px rgba(0,0,0,0.28)";
+
+const GRID_RADIUS = 24;
+const STAGGER = 0.06;
+const SMOOTHING = 0.12;
+// Cards finish landing when the grid's top edge reaches this fraction of the viewport height.
+const LAND_AT_VIEWPORT = 0.35;
+
+type Box = { x: number; y: number; w: number; h: number };
+
+// Uses offset* rather than getBoundingClientRect so in-flight reveal transforms don't skew positions.
+function boxWithin(el: HTMLElement, ancestor: HTMLElement): Box {
+  let x = 0;
+  let y = 0;
+  let node: HTMLElement | null = el;
+  while (node && node !== ancestor) {
+    x += node.offsetLeft;
+    y += node.offsetTop;
+    node = node.offsetParent as HTMLElement | null;
+  }
+  return { x, y, w: el.offsetWidth, h: el.offsetHeight };
+}
+
+const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
+const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+
+export function ProjectDockProvider({ children }: { children: ReactNode }) {
+  const heroSlots = useRef<(HTMLDivElement | null)[]>([]);
+  const gridSlots = useRef<(HTMLDivElement | null)[]>([]);
+  const cards = useRef<(HTMLDivElement | null)[]>([]);
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    const node = gridRef.current;
-    if (!node) return;
+    const overlay = overlayRef.current;
+    const main = overlay?.parentElement;
+    if (!overlay || !main) return;
 
-    const observer = new IntersectionObserver(([entry]) => setDocked(entry.isIntersecting), {
-      rootMargin: "-35% 0px -35% 0px",
-      threshold: 0,
-    });
+    let starts: Box[] = [];
+    let ends: Box[] = [];
+    let endScroll = 1;
+    let current = 0;
+    let target = 0;
+    let raf = 0;
+    let active = false;
 
-    observer.observe(node);
-    return () => observer.disconnect();
+    const render = () => {
+      cards.current.forEach((el, i) => {
+        const s = starts[i];
+        const e = ends[i];
+        if (!el || !s || !e) return;
+        const local = clamp01((current - i * STAGGER) / (1 - STAGGER * (PROJECTS.length - 1)));
+        const t = easeInOut(local);
+        const top = lerp(FAN_RADIUS, GRID_RADIUS, t);
+        const bottom = lerp(FAN_RADIUS, 0, t);
+        el.style.width = `${lerp(s.w, e.w, t)}px`;
+        el.style.height = `${lerp(s.h, e.h, t)}px`;
+        el.style.transform = `translate3d(${lerp(s.x, e.x, t)}px, ${lerp(s.y, e.y, t)}px, 0) rotate(${lerp(FAN[i].rotate, 0, t)}deg)`;
+        el.style.borderRadius = `${top}px ${top}px ${bottom}px ${bottom}px`;
+        el.style.boxShadow = `0 24px 48px -16px rgba(0,0,0,${0.28 * (1 - t)})`;
+      });
+    };
+
+    const tick = () => {
+      const diff = target - current;
+      current = Math.abs(diff) < 0.0005 ? target : current + diff * SMOOTHING;
+      render();
+      raf = current === target ? 0 : requestAnimationFrame(tick);
+    };
+
+    const measure = () => {
+      const heroEls = heroSlots.current;
+      const gridEls = gridSlots.current;
+      active =
+        getComputedStyle(overlay).display !== "none" &&
+        heroEls.length === PROJECTS.length &&
+        gridEls.length === PROJECTS.length &&
+        heroEls.every((el) => el && el.offsetWidth > 0) &&
+        gridEls.every((el) => el && el.offsetWidth > 0);
+
+      if (!active) {
+        setReady(false);
+        return;
+      }
+
+      starts = heroEls.map((el) => boxWithin(el!, main));
+      ends = gridEls.map((el) => boxWithin(el!, main));
+      const mainTop = main.getBoundingClientRect().top + window.scrollY;
+      const gridTop = mainTop + Math.min(...ends.map((b) => b.y));
+      endScroll = Math.max(1, gridTop - window.innerHeight * LAND_AT_VIEWPORT);
+      target = clamp01(window.scrollY / endScroll);
+      current = target;
+      render();
+      setReady(true);
+    };
+
+    const onScroll = () => {
+      if (!active) return;
+      target = clamp01(window.scrollY / endScroll);
+      if (!raf) raf = requestAnimationFrame(tick);
+    };
+
+    measure();
+    document.fonts?.ready.then(measure);
+    const resizeObserver = new ResizeObserver(measure);
+    resizeObserver.observe(main);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", measure);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", measure);
+      cancelAnimationFrame(raf);
+    };
   }, []);
 
-  return <ProjectDockContext.Provider value={{ docked, gridRef }}>{children}</ProjectDockContext.Provider>;
+  return (
+    <ProjectDockContext.Provider value={{ heroSlots, gridSlots, ready }}>
+      <div
+        ref={overlayRef}
+        aria-hidden
+        className={`pointer-events-none absolute inset-0 z-30 hidden lg:block ${ready ? "" : "invisible"}`}
+      >
+        {PROJECTS.map((project, i) => (
+          <div
+            key={project.slug}
+            ref={(el) => {
+              cards.current[i] = el;
+            }}
+            className="absolute left-0 top-0 flex items-center justify-center overflow-hidden will-change-transform"
+            style={{ backgroundColor: project.color }}
+          >
+            <span className="rounded-full bg-white/80 px-3 py-1 text-xs font-medium text-black">
+              {project.category}
+            </span>
+          </div>
+        ))}
+      </div>
+      {children}
+    </ProjectDockContext.Provider>
+  );
 }
 
 export function useProjectDock() {

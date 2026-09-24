@@ -4,7 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { HERO, SITE } from "@/data/site";
 import { PROJECTS } from "@/data/projects";
-import { useProjectDock } from "@/components/motion/ProjectDock";
+import { FAN, FAN_RADIUS, FAN_SHADOW, useProjectDock } from "@/components/motion/ProjectDock";
 
 const wordVariants = {
   hidden: { opacity: 0, y: 40 },
@@ -15,15 +15,8 @@ const wordVariants = {
   }),
 };
 
-const FAN = [
-  { top: 60, left: 0, rotate: -9 },
-  { top: 20, left: 100, rotate: -3 },
-  { top: 80, left: 190, rotate: 4 },
-  { top: 30, left: 280, rotate: 10 },
-];
-
 export function Hero() {
-  const { docked } = useProjectDock();
+  const { heroSlots, ready } = useProjectDock();
 
   return (
     <section className="container-max py-24 lg:flex lg:items-center lg:justify-between lg:gap-12">
@@ -111,26 +104,32 @@ export function Hero() {
       </motion.div>
       </div>
 
-      {!docked && (
-        <div className="relative hidden h-[280px] w-[420px] shrink-0 lg:block">
-          {PROJECTS.map((project, i) => (
-            <motion.div
-              key={project.slug}
-              layoutId={`project-thumb-${project.slug}`}
-              layout
-              initial={false}
-              animate={{ rotate: FAN[i].rotate }}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="absolute flex aspect-[4/3] w-[190px] items-center justify-center overflow-hidden rounded-[24px] shadow-xl"
-              style={{ backgroundColor: project.color, top: FAN[i].top, left: FAN[i].left, zIndex: i }}
+      <div className="relative hidden h-[280px] w-[420px] shrink-0 lg:block">
+        {PROJECTS.map((project, i) => (
+          <div
+            key={project.slug}
+            ref={(el) => {
+              heroSlots.current[i] = el;
+            }}
+            className={`absolute aspect-[4/3] w-[190px] ${ready ? "invisible" : ""}`}
+            style={{ top: FAN[i].top, left: FAN[i].left, zIndex: i }}
+          >
+            <div
+              className="flex h-full w-full items-center justify-center overflow-hidden"
+              style={{
+                backgroundColor: project.color,
+                borderRadius: FAN_RADIUS,
+                boxShadow: FAN_SHADOW,
+                transform: `rotate(${FAN[i].rotate}deg)`,
+              }}
             >
               <span className="rounded-full bg-white/80 px-3 py-1 text-xs font-medium text-black">
                 {project.category}
               </span>
-            </motion.div>
-          ))}
-        </div>
-      )}
+            </div>
+          </div>
+        ))}
+      </div>
     </section>
   );
 }

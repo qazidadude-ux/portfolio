@@ -16,7 +16,7 @@ export default function Home() {
   return (
     <>
       <Nav />
-      <main>
+      <main className="relative">
         <ProjectDockProvider>
           <Hero />
           <ProjectsGrid />
