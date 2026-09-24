@@ -22,7 +22,6 @@ function CyclingWord() {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const id = setInterval(() => setIndex((i) => (i + 1) % CYCLE_WORDS.length), CYCLE_MS);
     return () => clearInterval(id);
   }, []);

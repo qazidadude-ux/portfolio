@@ -30,8 +30,10 @@ const STAGGER = 0.1;
 const SMOOTHING_SECONDS = 0.45;
 // Cards finish landing when the grid's top edge reaches this fraction of the viewport height.
 const LAND_AT_VIEWPORT = 0.15;
-// Fraction of a card's own flight after which its grid frame and text are revealed.
+// Fraction of a card's own flight after which its grid frame fades in.
 const REVEAL_AT = 0.5;
+// The card's title row appears only once it has fully landed (tolerates float rounding).
+const LANDED_AT = 0.999;
 
 type Box = { x: number; y: number; w: number; h: number };
 
@@ -72,15 +74,16 @@ export function ProjectDockProvider({ children }: { children: ReactNode }) {
     let raf = 0;
     let lastFrame = 0;
     let active = false;
-    const dockedState: boolean[] = [];
+    const flags: Record<string, boolean> = {};
 
-    // Toggles the grid card's data-docked attribute; CSS reveals its frame and text from it.
-    const setDocked = (i: number, docked: boolean) => {
-      if (dockedState[i] === docked) return;
+    // Sets data-docked / data-landed on the grid card; CSS reveals its frame and text from them.
+    const setFlag = (i: number, name: "docked" | "landed", on: boolean) => {
+      const key = `${name}-${i}`;
+      if (flags[key] === on) return;
       const card = gridSlots.current[i]?.closest<HTMLElement>("[data-dock-card]");
       if (!card) return;
-      dockedState[i] = docked;
-      card.dataset.docked = String(docked);
+      flags[key] = on;
+      card.dataset[name] = String(on);
     };
 
     const render = () => {
@@ -89,7 +92,8 @@ export function ProjectDockProvider({ children }: { children: ReactNode }) {
         const e = ends[i];
         if (!el || !s || !e) return;
         const local = clamp01((current - i * STAGGER) / (1 - STAGGER * (PROJECTS.length - 1)));
-        setDocked(i, local >= REVEAL_AT);
+        setFlag(i, "docked", local >= REVEAL_AT);
+        setFlag(i, "landed", local >= LANDED_AT);
         const t = easeInOut(local);
         const top = lerp(FAN_RADIUS, GRID_RADIUS, t);
         const bottom = lerp(FAN_RADIUS, 0, t);
@@ -128,7 +132,10 @@ export function ProjectDockProvider({ children }: { children: ReactNode }) {
         gridEls.every((el) => el && el.offsetWidth > 0);
 
       if (!active) {
-        gridSlots.current.forEach((_, i) => setDocked(i, true));
+        gridSlots.current.forEach((_, i) => {
+          setFlag(i, "docked", true);
+          setFlag(i, "landed", true);
+        });
         setReady(false);
         return;
       }

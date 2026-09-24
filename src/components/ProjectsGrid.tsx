@@ -19,8 +19,8 @@ export function ProjectsGrid() {
       <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2">
         {PROJECTS.map((project, i) => (
           <div key={project.slug}>
-            {/* On desktop the card stays invisible until its hero card is halfway into place
-                (ProjectDock sets data-docked); on smaller screens it's always shown. */}
+            {/* On desktop the frame appears once its hero card is halfway in (data-docked) and the
+                text once it has landed (data-landed); on smaller screens both are always shown. */}
             <Link
               href={`/projects/${project.slug}`}
               data-dock-card
@@ -42,7 +42,7 @@ export function ProjectsGrid() {
                 </div>
               </div>
               <div className="overflow-hidden">
-                <div className="flex items-center justify-between p-6 transition-[transform,opacity] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] lg:translate-y-full lg:opacity-0 lg:group-data-[docked=true]:translate-y-0 lg:group-data-[docked=true]:opacity-100">
+                <div className="flex items-center justify-between p-6 transition-[transform,opacity] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] lg:translate-y-full lg:opacity-0 lg:group-data-[landed=true]:translate-y-0 lg:group-data-[landed=true]:opacity-100">
                   <div>
                     <h3 className="text-xl font-semibold">{project.name}</h3>
                     <p className="text-sm text-gray-500">{project.category}</p>
