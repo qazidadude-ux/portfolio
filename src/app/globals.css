@@ -24,8 +24,10 @@
 
   --container-max: 1200px;
   --radius-pill: 1000px;
-  --radius-card: 24px;
-  --radius-card-sm: 16px;
+  --radius-card: 15px;
+  --radius-card-sm: 8px;
+  --shadow-card: 0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 0 rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @theme inline {
@@ -48,6 +50,8 @@
   --radius-pill: var(--radius-pill);
   --radius-card: var(--radius-card);
   --radius-card-sm: var(--radius-card-sm);
+  --shadow-card: var(--shadow-card);
+  --ease-out-soft: var(--ease-out-soft);
 }
 
 body {

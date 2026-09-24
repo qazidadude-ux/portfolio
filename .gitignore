@@ -36,6 +36,10 @@ yarn-error.log*
 # vercel
 .vercel
 
+# local design reference (not part of the app)
+LaunchFolio Portfolio Framer Template.html
+LaunchFolio Portfolio Framer Template_files/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

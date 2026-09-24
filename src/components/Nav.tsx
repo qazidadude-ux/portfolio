@@ -15,7 +15,7 @@ export function Nav() {
   return (
     <header className="sticky top-4 z-50">
       <div className="container-max">
-        <div className="flex items-center justify-between gap-4 rounded-full border border-gray-150 bg-white/90 backdrop-blur-md shadow-sm px-3 py-2 md:px-4">
+        <div className="flex items-center justify-between gap-4 rounded-full border border-gray-150 bg-white/90 backdrop-blur-md shadow-card px-3 py-2 md:px-4">
           <Link href="/" className="flex items-center gap-2.5 shrink-0">
             <span className="flex h-8 w-8 items-center justify-center rounded-full bg-black text-xs font-semibold text-white">
               {SITE.name.charAt(0)}
