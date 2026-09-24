@@ -13,11 +13,12 @@ type ProjectDockContextValue = {
 
 const ProjectDockContext = createContext<ProjectDockContextValue | null>(null);
 
+// Positions are percentages of the fan container so the whole fan scales across breakpoints.
 export const FAN = [
-  { top: 60, left: 0, rotate: -9 },
-  { top: 20, left: 75, rotate: -3 },
-  { top: 80, left: 150, rotate: 4 },
-  { top: 30, left: 220, rotate: 10 },
+  { top: "26%", left: "0%", rotate: -9 },
+  { top: "9%", left: "17%", rotate: -3 },
+  { top: "35%", left: "34%", rotate: 4 },
+  { top: "13%", left: "52%", rotate: 10 },
 ];
 
 export const FAN_RADIUS = 20;

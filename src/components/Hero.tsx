@@ -104,14 +104,14 @@ export function Hero() {
       </motion.div>
       </div>
 
-      <div className="relative hidden h-[280px] w-[420px] shrink-0 lg:block">
+      <div className="relative hidden aspect-[554/320] w-[420px] shrink-0 lg:block xl:w-[554px]">
         {PROJECTS.map((project, i) => (
           <div
             key={project.slug}
             ref={(el) => {
               heroSlots.current[i] = el;
             }}
-            className={`absolute aspect-[4/3] w-[190px] ${ready ? "invisible" : ""}`}
+            className={`absolute aspect-[4/3] w-[48%] ${ready ? "invisible" : ""}`}
             style={{ top: FAN[i].top, left: FAN[i].left, zIndex: i }}
           >
             <div
