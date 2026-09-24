@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { HERO, SITE } from "@/data/site";
-import { Button } from "@/components/ui/Button";
 
 const wordVariants = {
   hidden: { opacity: 0, y: 40 },
@@ -20,9 +19,16 @@ export function Hero() {
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="mb-6 inline-flex items-center gap-2 rounded-full border border-gray-200 px-3 py-1.5 text-xs text-gray-600"
+        className="mb-6 inline-flex items-center gap-2 rounded-[24px] border border-gray-150 bg-white px-3 py-2 text-xs text-gray-600 shadow-card"
       >
-        <span className="h-2 w-2 rounded-full bg-accent" />
+        <span className="relative flex h-2 w-2 items-center justify-center">
+          <motion.span
+            className="absolute inline-flex h-full w-full rounded-full bg-accent"
+            animate={{ scale: [1, 2.4], opacity: [0.5, 0] }}
+            transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut" }}
+          />
+          <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
+        </span>
         {SITE.availability}
       </motion.div>
 
@@ -34,9 +40,10 @@ export function Hero() {
             initial="hidden"
             animate="visible"
             variants={wordVariants}
-            className="inline-block mr-4"
+            className={`inline-block mr-4 ${i < 2 ? "text-gray-500" : "text-black"}`}
           >
             {word}
+            {i === 1 && <br className="hidden md:block" />}
           </motion.span>
         ))}
       </h1>
@@ -47,7 +54,8 @@ export function Hero() {
         transition={{ duration: 0.6, delay: 0.55 }}
         className="mt-6 max-w-lg text-lg text-gray-600"
       >
-        {HERO.subhead}
+        <strong className="font-semibold text-black">{HERO.subhead.split(". ")[0]}.</strong>{" "}
+        {HERO.subhead.split(". ").slice(1).join(". ")}
       </motion.p>
 
       <motion.div
@@ -56,9 +64,22 @@ export function Hero() {
         transition={{ duration: 0.6, delay: 0.7 }}
         className="mt-8 flex items-center gap-4"
       >
-        <Button href={SITE.bookingUrl} external>
-          {HERO.ctaLabel}
-        </Button>
+        <a
+          href={SITE.bookingUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group inline-flex items-center rounded-[24px] bg-black py-1.5 pl-1.5 pr-5 text-sm font-medium text-white shadow-[inset_0_2px_4px_rgba(255,255,255,0.4),0_10px_25px_-5px_rgba(0,0,0,0.3)] transition-transform duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 active:scale-[0.97]"
+        >
+          <span className="relative flex items-center">
+            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-xs font-semibold text-black">
+              {SITE.name.charAt(0)}
+            </span>
+            <span className="-ml-3 flex h-9 w-9 items-center justify-center rounded-full border-2 border-black bg-gray-800 text-[10px] text-white transition-transform duration-200 group-hover:rotate-45">
+              You
+            </span>
+          </span>
+          <span className="ml-3">{HERO.ctaLabel}</span>
+        </a>
         <span className="text-sm text-gray-500">{SITE.happyClients} Happy clients</span>
       </motion.div>
     </section>
