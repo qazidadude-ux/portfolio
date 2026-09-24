@@ -60,13 +60,21 @@ export const WORK_HISTORY = [
   { company: "Axiom", role: "Designer", period: "2016–2020" },
 ] as const;
 
+// Each paragraph renders its `lead` in bold black, followed by `rest` in gray.
 export const ABOUT = {
-  stat: "1,214",
-  statLabel: "hours of focused design work this year",
   paragraphs: [
-    "I got into design chasing a simple hunch: the right interface can make a hard problem feel obvious. That hunch turned into a career, spent learning exactly where visual polish ends and real usability begins.",
-    "Every project starts with the same question — what is this supposed to do for the person using it? An interface that looks sharp but fights the user isn't finished. I keep iterating until it gets out of its own way.",
-    "I sweat details most people would skip — spacing, copy, the exact easing on a hover state — because that's usually where trust with a client is won or lost.",
+    {
+      lead: "I got into design chasing a simple hunch.",
+      rest: "The right interface can make a hard problem feel obvious, and that hunch turned into a career spent learning where visual polish ends and real usability begins.",
+    },
+    {
+      lead: "Every project starts with the same question:",
+      rest: "what is this supposed to do for the person using it? An interface that looks sharp but fights the user isn't finished, so I keep iterating until it gets out of its own way.",
+    },
+    {
+      lead: "I sweat the details most people skip,",
+      rest: "spacing, copy, the exact easing on a hover state, because that's usually where trust with a client is won or lost.",
+    },
   ],
 } as const;
 

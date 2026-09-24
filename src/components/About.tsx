@@ -2,111 +2,133 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
+import { CircleChevronDown } from "lucide-react";
+import { siDribbble, siInstagram, siX, type SimpleIcon } from "simple-icons";
 import { ABOUT, SITE, WORK_HISTORY } from "@/data/site";
 import { Reveal } from "@/components/motion/Reveal";
-import { Eyebrow, SectionHeading } from "@/components/ui/SectionHeading";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 
-export function About() {
-  const [showAllHistory, setShowAllHistory] = useState(false);
-  const visibleHistory = showAllHistory ? WORK_HISTORY : WORK_HISTORY.slice(0, 1);
+// Neither icon set ships a LinkedIn mark, so it falls back to a text badge.
+const SOCIAL_ICONS: Record<string, SimpleIcon> = {
+  "X / Twitter": siX,
+  Instagram: siInstagram,
+  Dribbble: siDribbble,
+};
+
+const CARD_SHADOW =
+  "shadow-[0_0.6px_0.6px_-0.94px_rgba(0,0,0,0.07),0_1.8px_1.8px_-1.88px_rgba(0,0,0,0.07),0_4.8px_4.8px_-2.8px_rgba(0,0,0,0.06),0_15px_15px_-3.75px_rgba(0,0,0,0.03)]";
+
+const PILL_SHADOW =
+  "shadow-[0_0.6px_0.6px_-1.25px_rgba(0,0,0,0.18),0_2.3px_2.3px_-2.5px_rgba(0,0,0,0.16),0_10px_10px_-3.75px_rgba(0,0,0,0.06)]";
+
+const EASE = [0.16, 1, 0.3, 1] as const;
+
+function WorkHistory() {
+  const [open, setOpen] = useState(false);
 
   return (
-    <section className="container-max py-24">
+    <div className="flex flex-col gap-4">
+      <p className="text-lg font-medium tracking-[-0.02em]">My work history</p>
+      <div className="flex flex-col items-center gap-8">
+        <div className={`relative flex w-full flex-col ${open ? "gap-3" : ""}`}>
+          {WORK_HISTORY.map((job, i) => (
+            <motion.div
+              key={job.company}
+              layout
+              initial={false}
+              animate={{ scale: open ? 1 : 1 - i * 0.05 }}
+              transition={{ duration: 0.5, ease: EASE }}
+              style={{ zIndex: WORK_HISTORY.length - i, top: open ? undefined : i * 8 }}
+              className={`w-full rounded-[16px] border border-[#dedede] bg-white p-[18px] ${CARD_SHADOW} ${
+                !open && i > 0 ? "absolute inset-x-0" : "relative"
+              }`}
+            >
+              <div className="flex items-end justify-between">
+                <div className="flex flex-col gap-1">
+                  <p className="font-medium tracking-[-0.02em]">{job.company}</p>
+                  <p className="text-xs font-semibold tracking-[-0.02em] text-gray-600">{job.role}</p>
+                </div>
+                <p className="text-xs font-semibold tracking-[-0.02em] text-gray-600">{job.period}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          aria-expanded={open}
+          className={`flex h-[30px] items-center gap-1 rounded-[24px] border border-gray-150 bg-white py-3 pl-4 pr-3 text-xs font-semibold tracking-[-0.02em] transition-transform duration-200 hover:-translate-y-0.5 active:scale-[0.97] ${PILL_SHADOW}`}
+        >
+          {open ? "Hide" : "Show all"}
+          <CircleChevronDown
+            className={`h-3 w-3 fill-black text-white transition-transform duration-300 ${open ? "rotate-180" : ""}`}
+          />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export function About() {
+  return (
+    <section className="container-max flex flex-col gap-16 py-24">
       <Reveal>
-        <Eyebrow>Designing experiences</Eyebrow>
-        <SectionHeading className="mt-4 max-w-2xl">
-          Designing experiences that solve real problems.
+        <SectionHeading>
+          <span className="block text-gray-500">Designing experiences</span>
+          <span className="block">that solve real problems.</span>
         </SectionHeading>
       </Reveal>
 
-      <div className="mt-12 grid grid-cols-1 gap-12 md:grid-cols-[1fr_1.5fr]">
-        <div className="flex flex-col gap-10">
-          <Reveal>
-            <div className="relative aspect-[3/4] w-full max-w-[280px] overflow-hidden rounded-[24px]">
-              <Image src="/avatar.png" alt={SITE.name} fill className="object-cover" />
+      <div className="flex flex-col gap-12 md:flex-row md:items-start md:gap-16">
+        <div className="flex flex-col gap-16 md:flex-1">
+          <Reveal className="flex flex-col gap-4">
+            <div className="relative aspect-[19/21] w-full overflow-hidden rounded-[16px] bg-gray-100">
+              <Image src="/avatar.png" alt={SITE.name} fill sizes="(min-width: 768px) 380px, 100vw" className="object-cover" />
               <div className="absolute bottom-3 right-3 flex gap-1.5">
-                {SITE.social.slice(0, 3).map((s) => (
-                  <a
-                    key={s.label}
-                    href={s.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={s.label}
-                    className="flex h-8 w-8 items-center justify-center rounded-full bg-black/50 text-[10px] font-medium text-white backdrop-blur-sm transition-colors hover:bg-black/70"
-                  >
-                    {s.label.charAt(0)}
-                  </a>
-                ))}
+                {SITE.social.map((s) => {
+                  const icon = SOCIAL_ICONS[s.label];
+                  return (
+                    <a
+                      key={s.label}
+                      href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={s.label}
+                      className="flex h-[30px] min-w-[30px] items-center justify-center rounded-[24px] bg-black/50 p-2 text-white backdrop-blur-[10px] transition-colors hover:bg-black/70"
+                    >
+                      {icon ? (
+                        <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-white" aria-hidden>
+                          <path d={icon.path} />
+                        </svg>
+                      ) : (
+                        <span className="text-[11px] font-bold leading-none">in</span>
+                      )}
+                    </a>
+                  );
+                })}
               </div>
             </div>
-            <p className="mt-4 font-semibold">{SITE.name}</p>
-            <p className="text-sm text-gray-500">{SITE.role}</p>
+            <div className="flex flex-col gap-1.5">
+              <p className="text-lg font-medium tracking-[-0.03em] md:text-[22px]">{SITE.name}</p>
+              <p className="text-sm font-semibold tracking-[-0.02em] text-gray-600">{SITE.role}</p>
+            </div>
           </Reveal>
 
           <Reveal delay={0.1}>
-            <p className="mb-3 text-sm font-medium text-gray-500">My work history</p>
-            <div className="relative">
-              <motion.div layout className="flex flex-col gap-3">
-                <AnimatePresence initial={false}>
-                  {visibleHistory.map((job, i) => (
-                    <motion.div
-                      key={job.company}
-                      layout
-                      initial={{ opacity: 0, y: -8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -8 }}
-                      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                      style={
-                        !showAllHistory && i === 0
-                          ? undefined
-                          : { transform: `scale(${1 - i * 0.04})` }
-                      }
-                      className="flex items-center justify-between rounded-[16px] border border-gray-200 bg-white p-5 shadow-card"
-                    >
-                      <div>
-                        <p className="font-semibold">{job.company}</p>
-                        <p className="text-sm text-gray-600">{job.role}</p>
-                      </div>
-                      <p className="font-mono text-xs text-gray-400">{job.period}</p>
-                    </motion.div>
-                  ))}
-                </AnimatePresence>
-              </motion.div>
-
-              {!showAllHistory && WORK_HISTORY.length > 1 && (
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute inset-x-3 top-2 -z-10 h-full rounded-[16px] border border-gray-200 bg-gray-50"
-                />
-              )}
-            </div>
-
-            {WORK_HISTORY.length > 1 && (
-              <button
-                onClick={() => setShowAllHistory((v) => !v)}
-                className="mt-3 inline-flex items-center gap-2 rounded-[24px] border border-gray-150 bg-white px-4 py-2 text-xs font-medium shadow-card transition-transform duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 active:scale-[0.97]"
-              >
-                {showAllHistory ? "Show less" : "Show all"}
-                <span
-                  className={`transition-transform duration-300 ${showAllHistory ? "rotate-180" : ""}`}
-                >
-                  ↓
-                </span>
-              </button>
-            )}
+            <WorkHistory />
           </Reveal>
         </div>
 
-        <Reveal delay={0.15} className="flex flex-col gap-4 text-gray-600">
-          {ABOUT.paragraphs.map((p, i) => (
-            <p key={p.slice(0, 24)}>
-              {i === 0 && (
-                <span className="mr-1.5 font-mono text-xs font-semibold text-black">
-                  {ABOUT.stat} {ABOUT.statLabel} —
-                </span>
-              )}
-              {p}
+        <Reveal
+          delay={0.15}
+          className="order-first flex flex-col gap-8 md:order-none md:flex-[1.5]"
+        >
+          {ABOUT.paragraphs.map((p) => (
+            <p key={p.lead} className="text-lg font-medium leading-[1.4] tracking-[-0.03em] lg:text-[22px]">
+              <strong className="font-semibold text-black">{p.lead}</strong>{" "}
+              <span className="text-gray-600">{p.rest}</span>
             </p>
           ))}
         </Reveal>
