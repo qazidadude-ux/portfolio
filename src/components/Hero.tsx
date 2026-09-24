@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { HERO, SITE } from "@/data/site";
 
@@ -33,19 +34,34 @@ export function Hero() {
       </motion.div>
 
       <h1 className="max-w-3xl text-[clamp(2.5rem,7vw,4.5rem)] font-semibold leading-[1.02]">
-        {HERO.headline.map((word, i) => (
-          <motion.span
-            key={word + i}
-            custom={i}
-            initial="hidden"
-            animate="visible"
-            variants={wordVariants}
-            className={`inline-block mr-4 ${i < 2 ? "text-gray-500" : "text-black"}`}
-          >
-            {word}
-            {i === 1 && <br className="hidden md:block" />}
-          </motion.span>
-        ))}
+        <span className="block whitespace-nowrap">
+          {HERO.headline.slice(0, 2).map((word, i) => (
+            <motion.span
+              key={word + i}
+              custom={i}
+              initial="hidden"
+              animate="visible"
+              variants={wordVariants}
+              className="inline-block mr-4 text-gray-500"
+            >
+              {word}
+            </motion.span>
+          ))}
+        </span>
+        <span className="block whitespace-nowrap">
+          {HERO.headline.slice(2).map((word, i) => (
+            <motion.span
+              key={word + i}
+              custom={i + 2}
+              initial="hidden"
+              animate="visible"
+              variants={wordVariants}
+              className="inline-block mr-4 text-black"
+            >
+              {word}
+            </motion.span>
+          ))}
+        </span>
       </h1>
 
       <motion.p
@@ -71,9 +87,13 @@ export function Hero() {
           className="group inline-flex items-center rounded-[24px] bg-black py-1.5 pl-1.5 pr-5 text-sm font-medium text-white shadow-[inset_0_2px_4px_rgba(255,255,255,0.4),0_10px_25px_-5px_rgba(0,0,0,0.3)] transition-transform duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 active:scale-[0.97]"
         >
           <span className="relative flex items-center">
-            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-xs font-semibold text-black">
-              {SITE.name.charAt(0)}
-            </span>
+            <Image
+              src="/avatar.png"
+              alt={SITE.name}
+              width={36}
+              height={36}
+              className="h-9 w-9 rounded-full object-cover"
+            />
             <span className="-ml-3 flex h-9 w-9 items-center justify-center rounded-full border-2 border-black bg-gray-800 text-[10px] text-white transition-transform duration-200 group-hover:rotate-45">
               You
             </span>

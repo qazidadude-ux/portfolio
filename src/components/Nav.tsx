@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { NAV_LINKS, SITE } from "@/data/site";
@@ -54,14 +55,18 @@ export function Nav() {
     <header className="sticky top-4 z-50">
       <div className="container-max flex justify-center">
         <div
-          className={`flex h-16 w-full shrink-0 items-center justify-between gap-4 rounded-[32px] border border-[#d9d9d9] px-2 md:px-2.5 transition-[width,background-color,backdrop-filter] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+          className={`flex h-12 w-full shrink-0 items-center justify-between gap-4 rounded-[32px] border border-[#d9d9d9] px-2 md:px-2.5 transition-[width,background-color,backdrop-filter] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
             expanded ? "md:w-[70%] bg-white/50 backdrop-blur-[5px]" : "md:w-[33%] bg-white/70 backdrop-blur-[14px]"
           }`}
         >
           <Link href="/" className="flex items-center gap-2.5 shrink-0">
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-black text-xs font-semibold text-white">
-              {SITE.name.charAt(0)}
-            </span>
+            <Image
+              src="/avatar.png"
+              alt={SITE.name}
+              width={32}
+              height={32}
+              className="h-8 w-8 rounded-full object-cover"
+            />
             <span className="text-sm font-semibold tracking-tight">{SITE.name}</span>
           </Link>
 
