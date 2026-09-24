@@ -64,9 +64,9 @@ export const ABOUT = {
   stat: "1,214",
   statLabel: "hours of focused design work this year",
   paragraphs: [
-    "I love turning ideas into something real through design. What started as a hobby turned into a career when I discovered how design can make things both look great and work better.",
-    "I focus on creating user interfaces that serve a real purpose – making sure they're not just pretty, but actually solve problems. Whether I'm working on a mobile app or a website, my goal is to make something that feels natural and easy to use.",
-    "I'm a bit of a perfectionist when it comes to the small stuff, but I think that's what makes good design great. This attention to detail helps me build strong relationships with clients, as they know I'll put the same care into their project.",
+    "I got into design chasing a simple hunch: the right interface can make a hard problem feel obvious. That hunch turned into a career, spent learning exactly where visual polish ends and real usability begins.",
+    "Every project starts with the same question — what is this supposed to do for the person using it? An interface that looks sharp but fights the user isn't finished. I keep iterating until it gets out of its own way.",
+    "I sweat details most people would skip — spacing, copy, the exact easing on a hover state — because that's usually where trust with a client is won or lost.",
   ],
 } as const;
 
