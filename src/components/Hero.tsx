@@ -42,7 +42,7 @@ export function Hero() {
         {SITE.availability}
       </motion.div>
 
-      <h1 className="max-w-3xl text-[clamp(2.5rem,7vw,4.5rem)] font-semibold leading-[1.02]">
+      <h1 className="max-w-3xl text-[clamp(2.5rem,7vw,4.5rem)] font-medium leading-[1.02]">
         <span className="block whitespace-nowrap">
           {HERO.headline.slice(0, 2).map((word, i) => (
             <motion.span
