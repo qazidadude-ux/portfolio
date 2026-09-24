@@ -4,17 +4,10 @@ import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { CircleChevronDown } from "lucide-react";
-import { siDribbble, siInstagram, siX, type SimpleIcon } from "simple-icons";
 import { ABOUT, SITE, WORK_HISTORY } from "@/data/site";
 import { Reveal } from "@/components/motion/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-
-// Neither icon set ships a LinkedIn mark, so it falls back to a text badge.
-const SOCIAL_ICONS: Record<string, SimpleIcon> = {
-  "X / Twitter": siX,
-  Instagram: siInstagram,
-  Dribbble: siDribbble,
-};
+import { SocialLinks } from "@/components/SocialLinks";
 
 const CARD_SHADOW =
   "shadow-[0_0.6px_0.6px_-0.94px_rgba(0,0,0,0.07),0_1.8px_1.8px_-1.88px_rgba(0,0,0,0.07),0_4.8px_4.8px_-2.8px_rgba(0,0,0,0.06),0_15px_15px_-3.75px_rgba(0,0,0,0.03)]";
@@ -86,28 +79,8 @@ export function About() {
           <Reveal className="flex flex-col gap-4">
             <div className="relative aspect-[19/21] w-full overflow-hidden rounded-[16px] bg-gray-100">
               <Image src="/avatar.png" alt={SITE.name} fill sizes="(min-width: 768px) 380px, 100vw" className="object-cover" />
-              <div className="absolute bottom-3 right-3 flex gap-1.5">
-                {SITE.social.map((s) => {
-                  const icon = SOCIAL_ICONS[s.label];
-                  return (
-                    <a
-                      key={s.label}
-                      href={s.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={s.label}
-                      className="flex h-[30px] min-w-[30px] items-center justify-center rounded-[24px] bg-black/50 p-2 text-white backdrop-blur-[10px] transition-colors hover:bg-black/70"
-                    >
-                      {icon ? (
-                        <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-white" aria-hidden>
-                          <path d={icon.path} />
-                        </svg>
-                      ) : (
-                        <span className="text-[11px] font-bold leading-none">in</span>
-                      )}
-                    </a>
-                  );
-                })}
+              <div className="absolute bottom-3 right-3">
+                <SocialLinks tone="dark" />
               </div>
             </div>
             <div className="flex flex-col gap-1.5">
