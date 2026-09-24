@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Space_Mono } from "next/font/google";
 import "./globals.css";
 import { SITE } from "@/data/site";
+import { GridLines } from "@/components/GridLines";
 
 const spaceMono = Space_Mono({
   variable: "--font-space-mono",
@@ -32,7 +33,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-full flex flex-col bg-white text-black">{children}</body>
+      <body className="relative min-h-full flex flex-col bg-white text-black">
+        {children}
+        <GridLines />
+      </body>
     </html>
   );
 }

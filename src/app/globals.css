@@ -83,6 +83,12 @@ h1, h2, h3, h4 {
   }
 }
 
+/* Horizontal divider between top-level sections, matching the vertical
+   container guides drawn by GridLines. */
+main > section + section {
+  border-top: 1px solid var(--color-gray-150);
+}
+
 /* Hide scrollbar for drag/scroll carousels while keeping native scroll snap */
 .no-scrollbar {
   scrollbar-width: none;

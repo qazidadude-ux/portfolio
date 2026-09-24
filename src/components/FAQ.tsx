@@ -11,7 +11,7 @@ export function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section className="border-t border-gray-150 bg-gray-50">
+    <section className="bg-gray-50">
       <div className="container-max py-20 md:py-28">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-[1fr_1.2fr]">
           <div>

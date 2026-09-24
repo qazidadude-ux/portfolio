@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 
 export function Pricing() {
   return (
-    <section id="pricing" className="border-t border-gray-150 bg-gray-50">
+    <section id="pricing" className="bg-gray-50">
       <div className="container-max py-20 md:py-28">
         <Reveal>
           <Eyebrow>Pricing</Eyebrow>
