@@ -8,10 +8,23 @@ import { Button } from "@/components/ui/Button";
 
 export function Nav() {
   const [open, setOpen] = useState(false);
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(true);
 
   useEffect(() => {
-    const onScroll = () => setExpanded(window.scrollY > 40);
+    let lastY = window.scrollY;
+
+    const onScroll = () => {
+      const y = window.scrollY;
+      if (y <= 40) {
+        setExpanded(true);
+      } else if (y < lastY) {
+        setExpanded(true);
+      } else if (y > lastY) {
+        setExpanded(false);
+      }
+      lastY = y;
+    };
+
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -23,7 +36,11 @@ export function Nav() {
   return (
     <header className="sticky top-4 z-50">
       <div className="container-max">
-        <div className="flex items-center justify-between gap-4 rounded-[32px] border border-[#d9d9d9] bg-white/50 backdrop-blur-[5px] px-3 py-2 md:px-4">
+        <div
+          className={`flex items-center justify-between gap-4 rounded-[32px] border border-[#d9d9d9] px-3 py-2 md:px-4 transition-[background-color,backdrop-filter] duration-300 ${
+            expanded ? "bg-white/50 backdrop-blur-[5px]" : "bg-white/70 backdrop-blur-[14px]"
+          }`}
+        >
           <Link href="/" className="flex items-center gap-2.5 shrink-0">
             <span className="flex h-8 w-8 items-center justify-center rounded-full bg-black text-xs font-semibold text-white">
               {SITE.name.charAt(0)}
