@@ -56,7 +56,7 @@ export function Nav() {
       <div className="container-max flex justify-center">
         <div
           className={`flex h-12 w-full shrink-0 items-center justify-between gap-4 rounded-[32px] border border-[#d9d9d9] px-2 md:px-2.5 transition-[width,background-color,backdrop-filter] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-            expanded ? "md:w-[70%] bg-white/50 backdrop-blur-[5px]" : "md:w-[33%] bg-white/70 backdrop-blur-[14px]"
+            expanded ? "md:w-[70%] bg-white/50 backdrop-blur-[5px]" : "md:w-fit bg-white/70 backdrop-blur-[14px]"
           }`}
         >
           <Link href="/" className="flex items-center gap-2.5 shrink-0">

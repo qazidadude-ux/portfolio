@@ -7,18 +7,18 @@ export const TESTIMONIALS = [
   },
   {
     quote:
-      "Working with Joseph felt like having a seasoned design partner who truly understood our vision for KYMA and brought it to life in ways we hadn't even imagined.",
+      "Working with Shakeel felt like having a seasoned design partner who truly understood our vision for KYMA and brought it to life in ways we hadn't even imagined.",
     name: "Thomas Weber",
     role: "Co-founder of KYMA",
   },
   {
-    quote: "Our website conversion rate improved significantly thanks to Joseph's expertise.",
+    quote: "Our website conversion rate improved significantly thanks to Shakeel's expertise.",
     name: "Ben Harper",
     role: "CTO of Nexus",
   },
   {
     quote:
-      "Joseph's design approach brought clarity to our complex data visualizations. Our users are thrilled!",
+      "Shakeel's design approach brought clarity to our complex data visualizations. Our users are thrilled!",
     name: "Michael Wong",
     role: "Data Scientist at DataSphere",
   },
@@ -39,7 +39,7 @@ export const TESTIMONIALS = [
 // Featured pull-quote shown right below the hero projects grid.
 export const FEATURED_TESTIMONIAL = {
   quote:
-    "Working with Joseph felt like having a seasoned design partner who truly understood our vision for KYMA and brought it to life in ways we hadn't even imagined.",
+    "Working with Shakeel felt like having a seasoned design partner who truly understood our vision for KYMA and brought it to life in ways we hadn't even imagined.",
   name: "Thomas Weber",
   role: "Co-founder of KYMA",
 } as const;

@@ -2,7 +2,7 @@
 // nothing else in the codebase needs to change.
 
 export const SITE = {
-  name: "Joseph Alexander",
+  name: "Shakeel Ur Rehman",
   role: "Full-stack Designer",
   tagline: "Strategic design that drives growth, not just looks good.",
   url: "https://example.com",

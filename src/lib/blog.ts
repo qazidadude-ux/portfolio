@@ -38,7 +38,7 @@ export function getPost(slug: string): Post | null {
     slug,
     title: data.title ?? slug,
     date: data.date ? new Date(data.date).toISOString() : new Date().toISOString(),
-    author: data.author ?? "Joseph Alexander",
+    author: data.author ?? "Shakeel Ur Rehman",
     excerpt: data.excerpt ?? "",
     readingTime: readingTime(content).text,
     content,
