@@ -25,10 +25,11 @@ export const FAN_RADIUS = 20;
 export const FAN_SHADOW = "0 24px 48px -16px rgba(0,0,0,0.28)";
 
 const GRID_RADIUS = 24;
-const STAGGER = 0.06;
-const SMOOTHING = 0.12;
+const STAGGER = 0.1;
+// Seconds for the cards to close ~63% of the gap to the scroll position; higher is softer.
+const SMOOTHING_SECONDS = 0.45;
 // Cards finish landing when the grid's top edge reaches this fraction of the viewport height.
-const LAND_AT_VIEWPORT = 0.35;
+const LAND_AT_VIEWPORT = 0.15;
 
 type Box = { x: number; y: number; w: number; h: number };
 
@@ -47,7 +48,7 @@ function boxWithin(el: HTMLElement, ancestor: HTMLElement): Box {
 
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+const easeInOut = (t: number) => -(Math.cos(Math.PI * t) - 1) / 2;
 
 export function ProjectDockProvider({ children }: { children: ReactNode }) {
   const heroSlots = useRef<(HTMLDivElement | null)[]>([]);
@@ -67,6 +68,7 @@ export function ProjectDockProvider({ children }: { children: ReactNode }) {
     let current = 0;
     let target = 0;
     let raf = 0;
+    let lastFrame = 0;
     let active = false;
 
     const render = () => {
@@ -86,11 +88,20 @@ export function ProjectDockProvider({ children }: { children: ReactNode }) {
       });
     };
 
-    const tick = () => {
+    const tick = (now: number) => {
+      // Cap dt so a backgrounded tab doesn't snap the cards on return.
+      const dt = lastFrame ? Math.min((now - lastFrame) / 1000, 0.05) : 1 / 60;
+      lastFrame = now;
       const diff = target - current;
-      current = Math.abs(diff) < 0.0005 ? target : current + diff * SMOOTHING;
+      const step = 1 - Math.exp(-dt / SMOOTHING_SECONDS);
+      current = Math.abs(diff) < 0.0005 ? target : current + diff * step;
       render();
-      raf = current === target ? 0 : requestAnimationFrame(tick);
+      if (current === target) {
+        raf = 0;
+        lastFrame = 0;
+      } else {
+        raf = requestAnimationFrame(tick);
+      }
     };
 
     const measure = () => {
