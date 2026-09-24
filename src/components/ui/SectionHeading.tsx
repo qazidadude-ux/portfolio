@@ -21,7 +21,7 @@ export function SectionHeading({
   return (
     <Tag
       className={clsx(
-        "text-[40px] font-semibold leading-[1.05] text-balance md:text-[52px] lg:text-[64px]",
+        "text-[40px] font-medium leading-[1.05] text-balance md:text-[52px] lg:text-[64px]",
         className
       )}
     >
