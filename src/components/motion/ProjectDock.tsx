@@ -32,8 +32,8 @@ const SMOOTHING_SECONDS = 0.45;
 const LAND_AT_VIEWPORT = 0.15;
 // Fraction of a card's own flight after which its grid frame fades in.
 const REVEAL_AT = 0.5;
-// The card's title row appears only once it has fully landed (tolerates float rounding).
-const LANDED_AT = 0.999;
+// Fraction of a card's own flight after which its title row slides up.
+const LANDED_AT = 0.75;
 
 type Box = { x: number; y: number; w: number; h: number };
 

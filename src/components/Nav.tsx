@@ -7,6 +7,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { NAV_LINKS, SITE } from "@/data/site";
 import { Button } from "@/components/ui/Button";
 
+const NAV_TRANSITION = { duration: 0.6, ease: [0.22, 1, 0.36, 1] } as const;
+
 export function Nav() {
   const [open, setOpen] = useState(false);
   const [expanded, setExpanded] = useState(true);
@@ -54,34 +56,40 @@ export function Nav() {
   return (
     <header className="sticky top-4 z-50">
       <div className="container-max flex justify-center">
+        {/* The bar's width change is a scale-based layout animation. Every direct child also
+            gets `layout` so Framer counter-scales it; otherwise the name text gets stretched. */}
         <motion.div
           layout
-          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className={`flex h-14 w-full shrink-0 items-center justify-between gap-4 rounded-[32px] border border-[#d9d9d9] px-2 md:px-2.5 transition-[background-color,backdrop-filter] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+          transition={NAV_TRANSITION}
+          style={{ borderRadius: 32 }}
+          className={`flex h-14 w-full shrink-0 items-center justify-between gap-4 overflow-hidden border border-[#d9d9d9] px-2 md:px-2.5 transition-[background-color,backdrop-filter] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
             expanded
               ? "lg:w-[85%] xl:w-[70%] bg-white/50 backdrop-blur-[5px]"
               : "lg:w-fit bg-white/70 backdrop-blur-[14px]"
           }`}
         >
-          <Link href="/" className="flex items-center gap-2.5 shrink-0">
-            <Image
-              src="/avatar.png"
-              alt={SITE.name}
-              width={32}
-              height={32}
-              className="h-8 w-8 rounded-full object-cover"
-            />
-            <span className="whitespace-nowrap text-sm font-semibold tracking-tight">{SITE.name}</span>
-          </Link>
+          <motion.div layout transition={NAV_TRANSITION} className="shrink-0">
+            <Link href="/" className="flex items-center gap-2.5">
+              <Image
+                src="/avatar.png"
+                alt={SITE.name}
+                width={32}
+                height={32}
+                className="h-8 w-8 rounded-full object-cover"
+              />
+              <span className="whitespace-nowrap text-sm font-semibold tracking-tight">{SITE.name}</span>
+            </Link>
+          </motion.div>
 
           <AnimatePresence mode="popLayout" initial={false}>
             {expanded ? (
               <motion.div
                 key="expanded"
-                initial={{ opacity: 0, scale: 0.96 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.96 }}
-                transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                layout
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1, transition: { duration: 0.35, delay: 0.15, ease: "easeOut" } }}
+                exit={{ opacity: 0, transition: { duration: 0.2, ease: "easeOut" } }}
+                transition={NAV_TRANSITION}
                 className="hidden md:flex flex-1 items-center gap-4"
               >
                 <nav className="flex flex-1 items-center justify-center gap-6 lg:gap-8">
