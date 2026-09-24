@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { NAV_LINKS, SITE } from "@/data/site";
@@ -8,6 +8,14 @@ import { Button } from "@/components/ui/Button";
 
 export function Nav() {
   const [open, setOpen] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setExpanded(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const contactLink = NAV_LINKS.find((link) => link.label === "Contact");
   const primaryLinks = NAV_LINKS.filter((link) => link.label !== "Contact");
@@ -23,28 +31,51 @@ export function Nav() {
             <span className="text-sm font-semibold tracking-tight">{SITE.name}</span>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-8">
-            {primaryLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-sm text-gray-600 hover:text-black transition-colors"
+          <AnimatePresence mode="wait" initial={false}>
+            {expanded ? (
+              <motion.div
+                key="expanded"
+                initial={{ opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.96 }}
+                transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                className="hidden md:flex items-center gap-8"
               >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-
-          <div className="hidden md:flex items-center">
-            {contactLink && (
-              <Link
-                href={contactLink.href}
-                className="rounded-[24px] border border-[#dedede] bg-gray-50 px-5 py-2.5 text-sm font-medium shadow-[0_0.6px_0.6px_rgba(0,0,0,0.07),0_1.8px_1.8px_rgba(0,0,0,0.07),0_4.8px_4.8px_rgba(0,0,0,0.06),0_15px_15px_-3.75px_rgba(0,0,0,0.03)] transition-transform duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 active:scale-[0.97]"
+                <nav className="flex items-center gap-8">
+                  {primaryLinks.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className="text-sm text-gray-600 hover:text-black transition-colors"
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </nav>
+                {contactLink && (
+                  <Link
+                    href={contactLink.href}
+                    className="rounded-[24px] border border-[#dedede] bg-gray-50 px-5 py-2.5 text-sm font-medium shadow-[0_0.6px_0.6px_rgba(0,0,0,0.07),0_1.8px_1.8px_rgba(0,0,0,0.07),0_4.8px_4.8px_rgba(0,0,0,0.06),0_15px_15px_-3.75px_rgba(0,0,0,0.03)] transition-transform duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 active:scale-[0.97]"
+                  >
+                    {contactLink.label}
+                  </Link>
+                )}
+              </motion.div>
+            ) : (
+              <motion.div
+                key="collapsed"
+                initial={{ opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.96 }}
+                transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                className="hidden md:flex h-6 w-6 items-center justify-center gap-1"
               >
-                {contactLink.label}
-              </Link>
+                {[0, 1, 2].map((i) => (
+                  <span key={i} className="h-1.5 w-1.5 rounded-full bg-gray-500" />
+                ))}
+              </motion.div>
             )}
-          </div>
+          </AnimatePresence>
 
           <button
             aria-label="Toggle menu"
