@@ -6,7 +6,7 @@ import { DragCarousel } from "@/components/DragCarousel";
 
 export function TestimonialsCarousel() {
   return (
-    <section className="py-20 md:py-28">
+    <section className="py-24">
       <div className="container-max">
         <Reveal>
           <Eyebrow>Trusted by many</Eyebrow>

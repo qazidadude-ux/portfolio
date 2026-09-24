@@ -5,17 +5,16 @@ import { motion } from "framer-motion";
 import { PROJECTS } from "@/data/projects";
 import { Reveal } from "@/components/motion/Reveal";
 import { useProjectDock } from "@/components/motion/ProjectDock";
-import { Eyebrow, SectionHeading } from "@/components/ui/SectionHeading";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
 
 export function ProjectsGrid() {
   const { docked, gridRef } = useProjectDock();
 
   return (
-    <section id="work" className="container-max py-20 md:py-28">
+    <section id="work" className="container-max py-24">
       <Reveal>
-        <Eyebrow>Latest</Eyebrow>
-        <SectionHeading className="mt-4">Projects</SectionHeading>
+        <SectionHeading>Latest Projects</SectionHeading>
       </Reveal>
 
       <div ref={gridRef} className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2">

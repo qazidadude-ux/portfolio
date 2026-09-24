@@ -69,19 +69,7 @@ h1, h2, h3, h4 {
 .container-max {
   max-width: var(--container-max);
   margin-inline: auto;
-  padding-inline: 1.25rem;
-}
-
-@media (min-width: 768px) {
-  .container-max {
-    padding-inline: 2rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .container-max {
-    padding-inline: 144px;
-  }
+  padding-inline: 44px;
 }
 
 /* Horizontal divider between top-level sections, matching the vertical

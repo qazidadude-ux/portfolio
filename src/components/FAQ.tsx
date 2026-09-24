@@ -12,7 +12,7 @@ export function FAQ() {
 
   return (
     <section className="bg-gray-50">
-      <div className="container-max py-20 md:py-28">
+      <div className="container-max py-24">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-[1fr_1.2fr]">
           <div>
             <Reveal>

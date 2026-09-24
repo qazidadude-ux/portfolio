@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 export function Services() {
   return (
     <section id="services" className="bg-gray-50">
-      <div className="container-max py-20 md:py-28">
+      <div className="container-max py-24">
         <Reveal>
           <Eyebrow>Services</Eyebrow>
           <SectionHeading className="mt-4">

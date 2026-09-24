@@ -29,7 +29,7 @@ export const NAV_LINKS = [
 export const HERO = {
   headline: ["Design", "that", "delivers", "results."],
   subhead:
-    "I create everything your brand needs to attract customers and turn them into sales.",
+    "Design should earn its keep, not just look good. I build the brand and product work you need to turn visitors into paying customers.",
   ctaLabel: "Book a call with me",
 } as const;
 

@@ -12,7 +12,7 @@ export function About() {
   const visibleHistory = showAllHistory ? WORK_HISTORY : WORK_HISTORY.slice(0, 1);
 
   return (
-    <section className="container-max py-20 md:py-28">
+    <section className="container-max py-24">
       <Reveal>
         <Eyebrow>Designing experiences</Eyebrow>
         <SectionHeading className="mt-4 max-w-2xl">

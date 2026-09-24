@@ -3,7 +3,7 @@ import { Reveal } from "@/components/motion/Reveal";
 
 export function FeaturedQuote() {
   return (
-    <section className="container-max py-16 md:py-20">
+    <section className="container-max py-24">
       <Reveal>
         <blockquote className="rounded-[24px] bg-gray-50 p-8 md:p-14">
           <p className="max-w-3xl text-[clamp(1.25rem,3vw,2rem)] font-medium leading-snug text-balance">

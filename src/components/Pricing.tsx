@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 export function Pricing() {
   return (
     <section id="pricing" className="bg-gray-50">
-      <div className="container-max py-20 md:py-28">
+      <div className="container-max py-24">
         <Reveal>
           <Eyebrow>Pricing</Eyebrow>
           <SectionHeading className="mt-4">Simple pricing. Standout designs.</SectionHeading>

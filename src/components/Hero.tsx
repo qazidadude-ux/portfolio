@@ -26,7 +26,7 @@ export function Hero() {
   const { docked } = useProjectDock();
 
   return (
-    <section className="container-max pt-14 pb-20 md:pt-20 md:pb-28 lg:flex lg:items-center lg:justify-between lg:gap-12">
+    <section className="container-max py-24 lg:flex lg:items-center lg:justify-between lg:gap-12">
       <div>
       <motion.div
         initial={{ opacity: 0, y: -10 }}
@@ -98,18 +98,13 @@ export function Hero() {
           rel="noopener noreferrer"
           className="group inline-flex items-center rounded-[24px] bg-black py-1.5 pl-1.5 pr-5 text-sm font-medium text-white shadow-[inset_0_2px_4px_rgba(255,255,255,0.4),0_10px_25px_-5px_rgba(0,0,0,0.3)] transition-transform duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 active:scale-[0.97]"
         >
-          <span className="relative flex items-center">
-            <Image
-              src="/avatar.png"
-              alt={SITE.name}
-              width={36}
-              height={36}
-              className="h-9 w-9 rounded-full object-cover"
-            />
-            <span className="-ml-3 flex h-9 w-9 items-center justify-center rounded-full border-2 border-black bg-gray-800 text-[10px] text-white transition-transform duration-200 group-hover:rotate-45">
-              You
-            </span>
-          </span>
+          <Image
+            src="/avatar.png"
+            alt={SITE.name}
+            width={36}
+            height={36}
+            className="h-9 w-9 rounded-full object-cover"
+          />
           <span className="ml-3">{HERO.ctaLabel}</span>
         </a>
         <span className="text-sm text-gray-500">{SITE.happyClients} Happy clients</span>

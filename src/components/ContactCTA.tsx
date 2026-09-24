@@ -4,11 +4,11 @@ import { Button } from "@/components/ui/Button";
 
 export function ContactCTA() {
   return (
-    <section id="contact" className="container-max py-20 md:py-28">
+    <section id="contact" className="container-max py-24">
       <Reveal className="rounded-[24px] bg-black px-8 py-16 text-center text-white md:px-16 md:py-24">
         <p className="text-sm text-gray-400">Speak to me</p>
         <h2 className="mx-auto mt-4 max-w-2xl text-[clamp(2rem,6vw,3.5rem)] font-semibold leading-[1.05]">
-          Let&rsquo;s design, build, create incredible work together.
+          Got a project in mind? Let&rsquo;s make it real.
         </h2>
 
         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">

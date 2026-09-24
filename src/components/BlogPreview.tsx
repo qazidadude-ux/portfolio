@@ -9,7 +9,7 @@ export function BlogPreview() {
   if (posts.length === 0) return null;
 
   return (
-    <section id="blog" className="container-max py-20 md:py-28">
+    <section id="blog" className="container-max py-24">
       <Reveal className="flex items-end justify-between gap-4">
         <div>
           <Eyebrow>From my blog</Eyebrow>
