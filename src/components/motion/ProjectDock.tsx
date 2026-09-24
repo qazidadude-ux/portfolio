@@ -30,6 +30,8 @@ const STAGGER = 0.1;
 const SMOOTHING_SECONDS = 0.45;
 // Cards finish landing when the grid's top edge reaches this fraction of the viewport height.
 const LAND_AT_VIEWPORT = 0.15;
+// Fraction of a card's own flight after which its grid frame and text are revealed.
+const REVEAL_AT = 0.5;
 
 type Box = { x: number; y: number; w: number; h: number };
 
@@ -70,6 +72,16 @@ export function ProjectDockProvider({ children }: { children: ReactNode }) {
     let raf = 0;
     let lastFrame = 0;
     let active = false;
+    const dockedState: boolean[] = [];
+
+    // Toggles the grid card's data-docked attribute; CSS reveals its frame and text from it.
+    const setDocked = (i: number, docked: boolean) => {
+      if (dockedState[i] === docked) return;
+      const card = gridSlots.current[i]?.closest<HTMLElement>("[data-dock-card]");
+      if (!card) return;
+      dockedState[i] = docked;
+      card.dataset.docked = String(docked);
+    };
 
     const render = () => {
       cards.current.forEach((el, i) => {
@@ -77,6 +89,7 @@ export function ProjectDockProvider({ children }: { children: ReactNode }) {
         const e = ends[i];
         if (!el || !s || !e) return;
         const local = clamp01((current - i * STAGGER) / (1 - STAGGER * (PROJECTS.length - 1)));
+        setDocked(i, local >= REVEAL_AT);
         const t = easeInOut(local);
         const top = lerp(FAN_RADIUS, GRID_RADIUS, t);
         const bottom = lerp(FAN_RADIUS, 0, t);
@@ -115,6 +128,7 @@ export function ProjectDockProvider({ children }: { children: ReactNode }) {
         gridEls.every((el) => el && el.offsetWidth > 0);
 
       if (!active) {
+        gridSlots.current.forEach((_, i) => setDocked(i, true));
         setReady(false);
         return;
       }
