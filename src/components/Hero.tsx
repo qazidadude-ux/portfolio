@@ -4,16 +4,20 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { HERO, SITE } from "@/data/site";
 import { PROJECTS } from "@/data/projects";
-import { FAN, FAN_RADIUS, FAN_SHADOW, useProjectDock } from "@/components/motion/ProjectDock";
+import { FAN, FAN_RADIUS, FAN_SHADOW, HERO_ENTRANCE, useProjectDock } from "@/components/motion/ProjectDock";
 
-const wordVariants = {
-  hidden: { opacity: 0, y: 40 },
+const riseVariants = (delay: (i: number) => number) => ({
+  hidden: { opacity: 0, y: HERO_ENTRANCE.rise },
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.7, delay: 0.1 + i * 0.08, ease: [0.22, 1, 0.36, 1] as const },
+    transition: { duration: HERO_ENTRANCE.duration, delay: delay(i), ease: HERO_ENTRANCE.ease },
   }),
-};
+});
+
+const wordVariants = riseVariants(HERO_ENTRANCE.wordDelay);
+// Only seen before the dock overlay takes over; the overlay cards play the same entrance.
+const cardVariants = riseVariants(HERO_ENTRANCE.cardDelay);
 
 export function Hero() {
   const { heroSlots, ready } = useProjectDock();
@@ -113,19 +117,21 @@ export function Hero() {
             className={`absolute aspect-[4/3] w-[48%] ${ready ? "invisible" : ""}`}
             style={{ top: FAN[i].top, left: FAN[i].left, zIndex: i }}
           >
-            <div
-              className="flex h-full w-full items-center justify-center overflow-hidden"
-              style={{
-                backgroundColor: project.color,
-                borderRadius: FAN_RADIUS,
-                boxShadow: FAN_SHADOW,
-                transform: `rotate(${FAN[i].rotate}deg)`,
-              }}
-            >
-              <span className="rounded-full bg-white/80 px-3 py-1 text-xs font-medium text-black">
-                {project.category}
-              </span>
-            </div>
+            <motion.div custom={i} initial="hidden" animate="visible" variants={cardVariants} className="h-full w-full">
+              <div
+                className="flex h-full w-full items-center justify-center overflow-hidden"
+                style={{
+                  backgroundColor: project.color,
+                  borderRadius: FAN_RADIUS,
+                  boxShadow: FAN_SHADOW,
+                  transform: `rotate(${FAN[i].rotate}deg)`,
+                }}
+              >
+                <span className="rounded-full bg-white/80 px-3 py-1 text-xs font-medium text-black">
+                  {project.category}
+                </span>
+              </div>
+            </motion.div>
           </div>
         ))}
       </div>

@@ -24,6 +24,15 @@ export const FAN = [
 export const FAN_RADIUS = 20;
 export const FAN_SHADOW = "0 24px 48px -16px rgba(0,0,0,0.28)";
 
+// Page-load entrance shared by the hero headline words and the hero cards: fade up, staggered.
+export const HERO_ENTRANCE = {
+  rise: 40,
+  duration: 0.7,
+  ease: [0.22, 1, 0.36, 1] as const,
+  wordDelay: (i: number) => 0.1 + i * 0.08,
+  cardDelay: (i: number) => 0.2 + i * 0.08,
+};
+
 const GRID_RADIUS = 24;
 const STAGGER = 0.1;
 // Seconds for the cards to close ~63% of the gap to the scroll position; higher is softer.
@@ -74,7 +83,28 @@ export function ProjectDockProvider({ children }: { children: ReactNode }) {
     let raf = 0;
     let lastFrame = 0;
     let active = false;
+    let entrancePlayed = false;
     const flags: Record<string, boolean> = {};
+
+    // Animates `translate` rather than `transform`, which render() owns, so the two compose.
+    const playEntrance = () => {
+      entrancePlayed = true;
+      const [x1, y1, x2, y2] = HERO_ENTRANCE.ease;
+      cards.current.forEach((el, i) => {
+        el?.animate(
+          [
+            { opacity: 0, translate: `0 ${HERO_ENTRANCE.rise}px` },
+            { opacity: 1, translate: "0 0" },
+          ],
+          {
+            duration: HERO_ENTRANCE.duration * 1000,
+            delay: HERO_ENTRANCE.cardDelay(i) * 1000,
+            easing: `cubic-bezier(${x1}, ${y1}, ${x2}, ${y2})`,
+            fill: "backwards",
+          },
+        );
+      });
+    };
 
     // Sets data-docked / data-landed on the grid card; CSS reveals its frame and text from them.
     const setFlag = (i: number, name: "docked" | "landed", on: boolean) => {
@@ -148,6 +178,7 @@ export function ProjectDockProvider({ children }: { children: ReactNode }) {
       target = clamp01(window.scrollY / endScroll);
       current = target;
       render();
+      if (!entrancePlayed) playEntrance();
       setReady(true);
     };
 
