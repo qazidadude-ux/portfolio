@@ -55,7 +55,7 @@ export function Nav() {
       <div className="container-max flex justify-center">
         <div
           className={`flex h-16 w-full shrink-0 items-center justify-between gap-4 rounded-[32px] border border-[#d9d9d9] px-3 md:px-4 transition-[width,background-color,backdrop-filter] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-            expanded ? "md:w-[70%] bg-white/50 backdrop-blur-[5px]" : "md:w-[25%] bg-white/70 backdrop-blur-[14px]"
+            expanded ? "md:w-[70%] bg-white/50 backdrop-blur-[5px]" : "md:w-[33%] bg-white/70 backdrop-blur-[14px]"
           }`}
         >
           <Link href="/" className="flex items-center gap-2.5 shrink-0">
@@ -95,20 +95,7 @@ export function Nav() {
                   </Link>
                 )}
               </motion.div>
-            ) : (
-              <motion.div
-                key="collapsed"
-                initial={{ opacity: 0, scale: 0.96 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.96 }}
-                transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                className="hidden md:flex h-6 w-6 items-center justify-center gap-1"
-              >
-                {[0, 1, 2].map((i) => (
-                  <span key={i} className="h-1.5 w-1.5 rounded-full bg-gray-500" />
-                ))}
-              </motion.div>
-            )}
+            ) : null}
           </AnimatePresence>
 
           <button
