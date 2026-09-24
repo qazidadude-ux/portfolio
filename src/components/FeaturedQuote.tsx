@@ -5,11 +5,11 @@ export function FeaturedQuote() {
   return (
     <section className="container-max py-24">
       <Reveal>
-        <blockquote className="rounded-[24px] bg-gray-50 p-8 md:p-14">
-          <p className="max-w-3xl text-[clamp(1.25rem,3vw,2rem)] font-medium leading-snug text-balance">
+        <blockquote className="mx-auto flex max-w-[780px] flex-col items-center text-center">
+          <p className="text-[22px] font-medium leading-[1.4] tracking-[-0.03em] text-black text-balance md:text-[28px] md:leading-[39px]">
             &ldquo;{FEATURED_TESTIMONIAL.quote}&rdquo;
           </p>
-          <footer className="mt-6 text-sm text-gray-500">
+          <footer className="mt-8 text-sm text-gray-500">
             <span className="font-medium text-black">{FEATURED_TESTIMONIAL.name}</span>
             {" — "}
             {FEATURED_TESTIMONIAL.role}
