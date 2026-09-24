@@ -3,6 +3,8 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { HERO, SITE } from "@/data/site";
+import { PROJECTS } from "@/data/projects";
+import { useProjectDock } from "@/components/motion/ProjectDock";
 
 const wordVariants = {
   hidden: { opacity: 0, y: 40 },
@@ -13,9 +15,19 @@ const wordVariants = {
   }),
 };
 
+const FAN = [
+  { top: 60, left: 0, rotate: -9 },
+  { top: 20, left: 100, rotate: -3 },
+  { top: 80, left: 190, rotate: 4 },
+  { top: 30, left: 280, rotate: 10 },
+];
+
 export function Hero() {
+  const { docked } = useProjectDock();
+
   return (
-    <section className="container-max pt-14 pb-20 md:pt-20 md:pb-28">
+    <section className="container-max pt-14 pb-20 md:pt-20 md:pb-28 lg:flex lg:items-center lg:justify-between lg:gap-12">
+      <div>
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -102,6 +114,28 @@ export function Hero() {
         </a>
         <span className="text-sm text-gray-500">{SITE.happyClients} Happy clients</span>
       </motion.div>
+      </div>
+
+      {!docked && (
+        <div className="relative hidden h-[280px] w-[420px] shrink-0 lg:block">
+          {PROJECTS.map((project, i) => (
+            <motion.div
+              key={project.slug}
+              layoutId={`project-thumb-${project.slug}`}
+              layout
+              initial={false}
+              animate={{ rotate: FAN[i].rotate }}
+              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              className="absolute flex aspect-[4/3] w-[190px] items-center justify-center overflow-hidden rounded-[24px] shadow-xl"
+              style={{ backgroundColor: project.color, top: FAN[i].top, left: FAN[i].left, zIndex: i }}
+            >
+              <span className="rounded-full bg-white/80 px-3 py-1 text-xs font-medium text-black">
+                {project.category}
+              </span>
+            </motion.div>
+          ))}
+        </div>
+      )}
     </section>
   );
 }
