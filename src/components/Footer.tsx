@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
-import { NAV_LINKS, SITE } from "@/data/site";
+import { SITE } from "@/data/site";
 import { SocialLinks } from "@/components/SocialLinks";
 import { GridLines } from "@/components/GridLines";
 
@@ -12,12 +11,6 @@ const CYCLE_MS = 2200;
 
 const HEADING = "text-[42px] font-medium leading-[0.95] tracking-[-0.03em] md:text-[48px] lg:text-[64px] xl:text-[72px]";
 const LINK = "text-white transition-colors duration-[400ms] ease-[cubic-bezier(0.44,0,0.56,1)] hover:text-gray-500";
-
-const MENU_LINKS = NAV_LINKS.filter((link) => link.label !== "Contact");
-const LEGAL_LINKS = [
-  { label: "Terms of service", href: "/legal/terms" },
-  { label: "Privacy Policy", href: "/legal/privacy" },
-];
 
 function CyclingWord() {
   const [index, setIndex] = useState(0);
@@ -116,38 +109,6 @@ export function Footer() {
               <SocialLinks tone="light" />
             </div>
           </div>
-        </div>
-
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          <div className="flex flex-wrap gap-6 md:col-span-2">
-            <div className="flex flex-1 flex-col gap-[18px]">
-              <p className="text-xs font-semibold tracking-[-0.02em] text-gray-500">Menu</p>
-              <ul className="grid w-max grid-cols-2 gap-x-6 gap-y-2.5 text-xs font-semibold tracking-[-0.02em]">
-                {MENU_LINKS.map((link) => (
-                  <li key={link.href}>
-                    <Link href={link.href} className={LINK}>
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="flex flex-1 flex-col gap-[18px]">
-              <p className="text-xs font-semibold tracking-[-0.02em] text-gray-500">Legal</p>
-              <ul className="flex flex-col gap-2.5 text-xs font-semibold tracking-[-0.02em]">
-                {LEGAL_LINKS.map((link) => (
-                  <li key={link.href}>
-                    <Link href={link.href} className={LINK}>
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-          <p className="self-end text-xs font-semibold text-gray-400 md:justify-self-end">
-            &copy; {new Date().getFullYear()} {SITE.name}
-          </p>
         </div>
       </div>
 
