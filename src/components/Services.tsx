@@ -5,20 +5,12 @@ import {
   LayoutDashboard,
   PaintBucket,
   PanelsTopLeft,
-  Sparkles,
+  PencilRuler,
+  Layers,
   WandSparkles,
   type LucideIcon,
 } from "lucide-react";
-import {
-  siBlender,
-  siClaude,
-  siFigma,
-  siFramer,
-  siRive,
-  siTrello,
-  siWebflow,
-  type SimpleIcon,
-} from "simple-icons";
+import { siClaude, siFigma, siFramer, type SimpleIcon } from "simple-icons";
 import { SERVICES, TECH_STACK } from "@/data/site";
 import { Reveal } from "@/components/motion/Reveal";
 import { Marquee } from "@/components/ui/Marquee";
@@ -27,15 +19,19 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 type Tool = (typeof TECH_STACK)[number];
 type Service = (typeof SERVICES)[number];
 
-// simple-icons has no OpenAI/ChatGPT mark, so ChatGPT falls back to a generic icon.
-const TOOL_ICONS: Partial<Record<Tool, SimpleIcon>> = {
-  Figma: siFigma,
-  Framer: siFramer,
-  Webflow: siWebflow,
-  Rive: siRive,
-  Blender: siBlender,
-  Trello: siTrello,
-  Claude: siClaude,
+type ToolMark = { brand: SimpleIcon } | { monogram: string } | { icon: LucideIcon };
+
+// simple-icons dropped Adobe's marks at Adobe's request and has none for Zeplin or Balsamiq,
+// so Adobe apps use their familiar two-letter abbreviations and the rest get line icons.
+const TOOL_MARKS: Record<Tool, ToolMark> = {
+  Figma: { brand: siFigma },
+  Framer: { brand: siFramer },
+  Claude: { brand: siClaude },
+  "Adobe Photoshop": { monogram: "Ps" },
+  "Adobe Illustrator": { monogram: "Ai" },
+  "Adobe After Effects": { monogram: "Ae" },
+  Zeplin: { icon: Layers },
+  Balsamiq: { icon: PencilRuler },
 };
 
 const SERVICE_ICONS: Record<Service, LucideIcon> = {
@@ -55,11 +51,21 @@ const BADGE_SHADOW =
   "shadow-[inset_0_2px_4px_rgba(255,255,255,0.4),0_0.74px_0.74px_-0.75px_rgba(0,0,0,0.33),0_2px_2px_-1.5px_rgba(0,0,0,0.32),0_4.4px_4.4px_-2.25px_rgba(0,0,0,0.3),0_9.8px_9.8px_-3px_rgba(0,0,0,0.25),0_25px_25px_-3.75px_rgba(0,0,0,0.11),0_0_0_1px_#828282]";
 
 function ToolIcon({ tool }: { tool: Tool }) {
-  const icon = TOOL_ICONS[tool];
-  if (!icon) return <Sparkles className="h-6 w-6" strokeWidth={1.75} />;
+  const mark = TOOL_MARKS[tool];
+  if ("monogram" in mark) {
+    return (
+      <span aria-hidden className="flex h-6 w-6 items-center justify-center text-[17px] font-semibold leading-none tracking-[-0.04em] text-black">
+        {mark.monogram}
+      </span>
+    );
+  }
+  if ("icon" in mark) {
+    const Icon = mark.icon;
+    return <Icon className="h-6 w-6 text-black" strokeWidth={1.75} aria-hidden />;
+  }
   return (
     <svg viewBox="0 0 24 24" className="h-6 w-6 fill-black" aria-hidden>
-      <path d={icon.path} />
+      <path d={mark.brand.path} />
     </svg>
   );
 }

@@ -35,12 +35,12 @@ export const HERO = {
 export const TECH_STACK = [
   "Figma",
   "Framer",
-  "Webflow",
-  "Rive",
-  "Blender",
-  "Trello",
-  "ChatGPT",
   "Claude",
+  "Adobe Photoshop",
+  "Adobe Illustrator",
+  "Adobe After Effects",
+  "Zeplin",
+  "Balsamiq",
 ] as const;
 
 export const SERVICES = [
