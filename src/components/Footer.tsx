@@ -76,8 +76,8 @@ export function Footer() {
   return (
     <footer id="contact" className="theme-light relative z-[41] overflow-hidden border-t border-[var(--footer-line)] bg-black text-white">
       <GridLines className="" lineClassName="bg-[var(--footer-line)]" />
-      <div className="container-max flex flex-col gap-8 pb-[76px] pt-8 md:gap-6 md:pb-[153px] md:pt-16 lg:pb-[211px]">
-        <div className="flex flex-col gap-12 border-b border-[var(--footer-line)] pb-6 md:gap-16 lg:gap-12">
+      <div className="container-max flex flex-col gap-8 pb-[76px] pt-24 md:gap-6 md:pb-[153px] lg:pb-[211px]">
+        <div className="flex flex-col gap-12 border-b border-[var(--footer-line)] pb-24 md:gap-16 lg:gap-12">
           <div className={HEADING}>
             <p className="flex flex-wrap items-baseline gap-x-2">
               <span>Let&rsquo;s</span>
