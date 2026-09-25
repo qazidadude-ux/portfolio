@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { NAV_LINKS, SITE } from "@/data/site";
 import { SocialLinks } from "@/components/SocialLinks";
+import { GridLines } from "@/components/GridLines";
 
 const CYCLE_WORDS = ["design", "build", "create"];
 const CYCLE_MS = 2200;
@@ -80,7 +81,8 @@ export function Footer() {
   const firstName = SITE.name.split(" ")[0].toUpperCase();
 
   return (
-    <footer id="contact" className="theme-light relative z-[41] overflow-hidden bg-black text-white">
+    <footer id="contact" className="theme-light relative z-[41] overflow-hidden border-t border-[var(--footer-line)] bg-black text-white">
+      <GridLines className="" lineClassName="bg-[var(--footer-line)]" />
       <div className="container-max flex flex-col gap-8 pb-[76px] pt-8 md:gap-6 md:pb-[153px] md:pt-16 lg:pb-[211px]">
         <div className="flex flex-col gap-12 border-b border-gray-500 pb-6 md:gap-16 lg:gap-12">
           <div className={HEADING}>

@@ -35,6 +35,9 @@
 
 :root {
   --color-accent: #21b30b;
+  /* Guide lines on the always-black footer; matches the dark theme's gray-150 so they read as
+     one continuous set of lines with the page's guides in dark mode. */
+  --footer-line: #1f1f1f;
 
   --background: var(--color-white);
   --foreground: var(--color-black);
