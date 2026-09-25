@@ -7,7 +7,7 @@ export const SITE = {
   tagline: "Strategic design that drives growth, not just looks good.",
   url: "https://example.com",
   email: "joseph@launchnow.design",
-  availability: "Available for August'25",
+  availability: "Available for new Gig",
   happyClients: "99+",
   bookingUrl: "https://cal.com/",
   social: [

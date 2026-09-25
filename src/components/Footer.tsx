@@ -8,6 +8,7 @@ import { GridLines } from "@/components/GridLines";
 
 const CYCLE_WORDS = ["design", "build", "create"];
 const CYCLE_MS = 2200;
+const ROLL_TRANSITION = { duration: 0.7, ease: [0.65, 0, 0.35, 1] } as const;
 
 const HEADING = "text-[42px] font-medium leading-[0.95] tracking-[-0.03em] md:text-[48px] lg:text-[64px] xl:text-[72px]";
 const LINK = "text-white transition-colors duration-[400ms] ease-[cubic-bezier(0.44,0,0.56,1)] hover:text-gray-500";
@@ -20,35 +21,47 @@ function CyclingWord() {
     return () => clearInterval(id);
   }, []);
 
+  // Slot-style roll: the current word slides up and out while the next slides up from below.
+  // The slot clips vertically only (so a longer outgoing word isn't cut off sideways); the
+  // words' vertical padding keeps descenders inside the clip, and the slot's negative margin
+  // cancels it so the line height is unchanged.
   return (
-    <motion.span layout className="relative inline-flex overflow-visible" transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}>
+    <span className="relative -my-[0.12em] inline-flex" style={{ overflowX: "visible", overflowY: "clip" }}>
       <AnimatePresence mode="popLayout" initial={false}>
         <motion.span
           key={CYCLE_WORDS[index]}
-          initial={{ opacity: 0, y: "60%", filter: "blur(5px)" }}
-          animate={{ opacity: 1, y: "0%", filter: "blur(0px)" }}
-          exit={{ opacity: 0, y: "-60%", filter: "blur(5px)" }}
-          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-          className="inline-block"
+          initial={{ y: "100%" }}
+          animate={{ y: "0%" }}
+          exit={{ y: "-100%" }}
+          transition={ROLL_TRANSITION}
+          className="inline-block whitespace-nowrap py-[0.12em]"
         >
           {CYCLE_WORDS[index]}
         </motion.span>
       </AnimatePresence>
-    </motion.span>
+    </span>
   );
 }
 
-// Scales the name so it spans the full footer width exactly, regardless of font metrics.
+const NAME_FONT = '500 200px "Switzer", sans-serif';
+// Share of the letters' height left visible; the rest runs off the bottom of the footer.
+const NAME_VISIBLE = 0.75;
+
+// Scales the name so it spans the full footer width exactly. The viewBox hugs the letters'
+// ink (not the font's line box), so spacing above the name is exactly what the layout sets.
 function FitName({ text }: { text: string }) {
   const textRef = useRef<SVGTextElement>(null);
-  const [box, setBox] = useState("0 0 1000 200");
+  const [box, setBox] = useState("0 -140 1000 105");
 
   useLayoutEffect(() => {
     const fit = () => {
       const el = textRef.current;
-      if (!el) return;
+      const ctx = document.createElement("canvas").getContext("2d");
+      if (!el || !ctx) return;
       const b = el.getBBox();
-      if (b.width > 0) setBox(`${b.x} ${b.y} ${b.width} ${b.height}`);
+      ctx.font = NAME_FONT;
+      const ascent = ctx.measureText(text).actualBoundingBoxAscent;
+      if (b.width > 0 && ascent > 0) setBox(`${b.x} ${-ascent} ${b.width} ${ascent * NAME_VISIBLE}`);
     };
     fit();
     document.fonts?.ready.then(fit);
@@ -56,14 +69,7 @@ function FitName({ text }: { text: string }) {
 
   return (
     <svg viewBox={box} className="block w-full" aria-hidden>
-      <text
-        ref={textRef}
-        x="0"
-        y="0"
-        dominantBaseline="text-before-edge"
-        className="fill-white"
-        style={{ font: '500 200px "Switzer", sans-serif', letterSpacing: "-0.03em" }}
-      >
+      <text ref={textRef} x="0" y="0" className="fill-white" style={{ font: NAME_FONT, letterSpacing: "-0.03em" }}>
         {text}
       </text>
     </svg>
@@ -76,8 +82,8 @@ export function Footer() {
   return (
     <footer id="contact" className="theme-light relative z-[41] overflow-hidden border-t border-[var(--footer-line)] bg-black text-white">
       <GridLines className="" lineClassName="bg-[var(--footer-line)]" />
-      <div className="container-max flex flex-col gap-8 pb-[76px] pt-24 md:gap-6 md:pb-[153px] lg:pb-[211px]">
-        <div className="flex flex-col gap-12 border-b border-[var(--footer-line)] pb-24 md:gap-16 lg:gap-12">
+      <div className="container-max pt-24">
+        <div className="flex flex-col gap-12 pb-24 md:gap-16 lg:gap-12">
           <div className={HEADING}>
             <p className="flex flex-wrap items-baseline gap-x-2">
               <span>Let&rsquo;s</span>
@@ -110,10 +116,10 @@ export function Footer() {
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="pointer-events-none absolute left-1/2 top-[98%] w-full max-w-[var(--container-max)] -translate-x-1/2 -translate-y-1/2 select-none px-[44px] md:top-[94%] lg:top-[92%]">
-        <FitName text={firstName} />
+        <div className="pointer-events-none select-none">
+          <FitName text={firstName} />
+        </div>
       </div>
     </footer>
   );
