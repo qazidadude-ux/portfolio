@@ -63,13 +63,19 @@ export function Nav() {
         <motion.div
           layout
           transition={NAV_TRANSITION}
-          style={{ borderRadius: 32 }}
-          className={`flex h-14 w-full shrink-0 items-center justify-between gap-4 overflow-hidden border border-gray-200 px-2 md:px-2.5 transition-[background-color,backdrop-filter] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+          style={{ borderRadius: 32, boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)" }}
+          className={`relative isolate flex h-14 w-full shrink-0 items-center justify-between gap-4 overflow-hidden border border-[var(--nav-glass-border)] px-2 md:px-2.5 transition-[background-color,backdrop-filter] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
             expanded
               ? "lg:w-[85%] xl:w-[70%] bg-white/50 backdrop-blur-[5px]"
               : "lg:w-fit bg-white/70 backdrop-blur-[14px]"
           }`}
         >
+          <motion.div layout aria-hidden transition={NAV_TRANSITION} style={{ borderRadius: 32 }} className="nav-glass">
+            <div className="nav-glass-box">
+              <div className="nav-glass-ring" />
+            </div>
+          </motion.div>
+
           <motion.div layout transition={NAV_TRANSITION} className="shrink-0">
             <Link href="/" className="flex items-center gap-2.5">
               <Image

@@ -125,6 +125,72 @@ main > section + section::before {
   animation-play-state: paused;
 }
 
+/* Glossy glass surface behind the nav pill. It sits in its own layer (behind the nav content)
+   so the contrast filter that sharpens its highlights never touches the avatar or text. */
+:root {
+  --nav-glass-tint: rgba(0, 0, 0, 0.02);
+  --nav-glass-border: rgba(51, 51, 51, 0.08);
+}
+:root[data-theme="dark"] {
+  --nav-glass-tint: rgba(255, 255, 255, 0.02);
+  --nav-glass-border: rgba(255, 255, 255, 0.1);
+}
+.nav-glass {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  filter: contrast(3);
+}
+.nav-glass-box {
+  --tr: 15%;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--nav-glass-tint);
+  box-shadow:
+    inset 2px -2px 1px -1px rgba(255, 255, 255, 0.9),
+    inset -2px 2px 1px -1px rgba(255, 255, 255, 0.9),
+    inset 6px -6px 1px -6px rgba(255, 255, 255, 0.55),
+    inset -6px 6px 1px -6px rgba(255, 255, 255, 0.55),
+    inset 0 0 2px rgba(0, 0, 0, 0.8);
+  filter: brightness(0.9);
+}
+/* Soft dark rim, pushed down so it reads as depth along the lower edge. */
+.nav-glass-box::before {
+  content: "";
+  position: absolute;
+  top: 35%;
+  left: 8px;
+  right: 8px;
+  height: calc(100% - 16px);
+  border-radius: inherit;
+  border: 1px solid rgba(0, 0, 0, 0.9);
+  filter: blur(8px);
+}
+/* Diagonal sheen on the two ends. */
+.nav-glass-box::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  filter: blur(7px);
+  background: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.8) 0%,
+    transparent var(--tr),
+    transparent calc(100% - var(--tr)),
+    rgba(255, 255, 255, 0.8) 100%
+  );
+}
+.nav-glass-ring {
+  position: absolute;
+  inset: 4.5px;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  filter: blur(1px);
+}
+
 /* Hide scrollbar for drag/scroll carousels while keeping native scroll snap */
 .no-scrollbar {
   scrollbar-width: none;
