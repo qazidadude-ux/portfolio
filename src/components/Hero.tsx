@@ -4,6 +4,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { HERO, SITE } from "@/data/site";
 import { PROJECTS } from "@/data/projects";
+import { GalaxyButton } from "@/components/ui/GalaxyButton";
 import { FAN, FAN_RADIUS, FAN_SHADOW, HERO_ENTRANCE, useProjectDock } from "@/components/motion/ProjectDock";
 
 const riseVariants = (delay: (i: number) => number) => ({
@@ -89,12 +90,7 @@ export function Hero() {
         transition={{ duration: 0.6, delay: 0.7 }}
         className="mt-8 flex items-center gap-4"
       >
-        <a
-          href={SITE.bookingUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group inline-flex items-center rounded-[24px] bg-black py-1.5 pl-1.5 pr-5 text-sm font-medium text-white shadow-[inset_0_2px_4px_rgba(255,255,255,0.4),0_10px_25px_-5px_rgba(0,0,0,0.3)] transition-transform duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-0.5 active:scale-[0.97]"
-        >
+        <GalaxyButton href={SITE.bookingUrl} external className="py-1.5 pl-1.5 pr-5">
           <Image
             src="/avatar.png"
             alt={SITE.name}
@@ -102,8 +98,8 @@ export function Hero() {
             height={36}
             className="h-9 w-9 rounded-full object-cover"
           />
-          <span className="ml-3">{HERO.ctaLabel}</span>
-        </a>
+          {HERO.ctaLabel}
+        </GalaxyButton>
       </motion.div>
       </div>
 
