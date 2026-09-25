@@ -1,5 +1,6 @@
 import { Circle, Infinity as InfinityIcon, Triangle, Waves, type LucideIcon } from "lucide-react";
 import { CLIENTS } from "@/data/site";
+import { Marquee } from "@/components/ui/Marquee";
 
 // Wordmark stand-ins; swap for real logo files when you have them.
 const CLIENT_MARKS: Record<(typeof CLIENTS)[number], LucideIcon> = {
@@ -9,12 +10,16 @@ const CLIENT_MARKS: Record<(typeof CLIENTS)[number], LucideIcon> = {
   Axiom: Triangle,
 };
 
-// Repeat the list inside each half so a half is always wider than the visible strip.
+// Repeat the list inside each copy so a copy is always wider than the visible strip.
 const HALF = [...CLIENTS, ...CLIENTS];
 
-function LogoRow({ hidden }: { hidden?: boolean }) {
+// Infinitely scrolling client strip, faded at both edges.
+export function LogoTicker() {
   return (
-    <ul aria-hidden={hidden} className="flex shrink-0 items-center gap-16 pr-16">
+    <Marquee
+      className="flex-1 opacity-70 [mask-image:linear-gradient(to_right,transparent,black_20%,black_80%,transparent)]"
+      rowClassName="gap-16 pr-16"
+    >
       {HALF.map((name, i) => {
         const Mark = CLIENT_MARKS[name];
         return (
@@ -24,18 +29,6 @@ function LogoRow({ hidden }: { hidden?: boolean }) {
           </li>
         );
       })}
-    </ul>
-  );
-}
-
-// Infinitely scrolling client strip, faded at both edges.
-export function LogoTicker() {
-  return (
-    <div className="relative min-w-0 flex-1 overflow-hidden opacity-70 [mask-image:linear-gradient(to_right,transparent,black_20%,black_80%,transparent)]">
-      <div className="flex w-max animate-marquee">
-        <LogoRow />
-        <LogoRow hidden />
-      </div>
-    </div>
+    </Marquee>
   );
 }
