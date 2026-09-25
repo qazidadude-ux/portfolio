@@ -64,9 +64,6 @@ function ToolIcon({ tool }: { tool: Tool }) {
   );
 }
 
-// The tool list is short, so repeat it until one copy of the strip outruns the container.
-const TOOL_STRIP = [...TECH_STACK, ...TECH_STACK, ...TECH_STACK];
-
 const STRIP_LABEL = "text-lg font-medium tracking-[-0.02em]";
 const EDGE_FADE = "[mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]";
 
@@ -74,22 +71,19 @@ export function Services() {
   return (
     <section id="services">
       <div className="container-max flex flex-col gap-16 py-24">
-        <Reveal>
-          <SectionHeading>
-            <span className="block text-gray-500">Services that</span>
-            <span className="block">supercharge your</span>
-            <span className="block">business.</span>
-          </SectionHeading>
-        </Reveal>
+        <div className="flex flex-col gap-10 md:flex-row md:items-center md:justify-between md:gap-12">
+          <Reveal>
+            <SectionHeading>
+              <span className="block text-gray-500">Services that</span>
+              <span className="block">supercharge your</span>
+              <span className="block">business.</span>
+            </SectionHeading>
+          </Reveal>
 
-        <div className="flex flex-col gap-12">
-          <Reveal className="flex flex-col gap-4">
-            <p className={STRIP_LABEL}>My tech stack</p>
-            {/* Extra top/bottom padding (cancelled by negative margin) keeps the hover
-                tooltips and tile shadows from being clipped by the strip. */}
-            <Marquee seconds={60} className={`-my-9 py-9 ${EDGE_FADE}`} rowClassName="gap-2 pr-2">
-              {TOOL_STRIP.map((tool, i) => (
-                <li key={`${tool}-${i}`} className="group relative">
+          <Reveal className="shrink-0">
+            <ul aria-label="My tech stack" className="grid w-max grid-cols-4 gap-3">
+              {TECH_STACK.map((tool) => (
+                <li key={tool} className="group relative">
                   <div
                     className={`flex items-center justify-center rounded-[12px] border border-gray-200 bg-white p-4 ${TILE_SHADOW}`}
                   >
@@ -100,30 +94,30 @@ export function Services() {
                   </span>
                 </li>
               ))}
-            </Marquee>
-          </Reveal>
-
-          <Reveal className="flex flex-col gap-4">
-            <p className={STRIP_LABEL}>My services</p>
-            <Marquee seconds={70} reverse className={`-my-8 py-8 ${EDGE_FADE}`} rowClassName="gap-12 pr-12">
-              {SERVICES.map((service) => {
-                const Icon = SERVICE_ICONS[service];
-                return (
-                  <li key={service} className="flex shrink-0 items-center gap-3">
-                    <span
-                      className={`flex shrink-0 items-center justify-center rounded-[24px] border border-black bg-black p-2 ${BADGE_SHADOW}`}
-                    >
-                      <Icon className="h-6 w-6 text-white" strokeWidth={1.5} />
-                    </span>
-                    <span className="whitespace-nowrap text-lg font-medium leading-[1.4] tracking-[-0.03em] md:text-[22px]">
-                      {service}
-                    </span>
-                  </li>
-                );
-              })}
-            </Marquee>
+            </ul>
           </Reveal>
         </div>
+
+        <Reveal className="flex flex-col gap-4">
+          <p className={STRIP_LABEL}>My services</p>
+          <Marquee seconds={70} reverse className={`-my-8 py-8 ${EDGE_FADE}`} rowClassName="gap-12 pr-12">
+            {SERVICES.map((service) => {
+              const Icon = SERVICE_ICONS[service];
+              return (
+                <li key={service} className="flex shrink-0 items-center gap-3">
+                  <span
+                    className={`flex shrink-0 items-center justify-center rounded-[24px] border border-black bg-black p-2 ${BADGE_SHADOW}`}
+                  >
+                    <Icon className="h-6 w-6 text-white" strokeWidth={1.5} />
+                  </span>
+                  <span className="whitespace-nowrap text-lg font-medium leading-[1.4] tracking-[-0.03em] md:text-[22px]">
+                    {service}
+                  </span>
+                </li>
+              );
+            })}
+          </Marquee>
+        </Reveal>
       </div>
     </section>
   );
