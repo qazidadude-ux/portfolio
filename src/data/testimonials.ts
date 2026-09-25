@@ -45,11 +45,3 @@ export const TESTIMONIALS: ReadonlyArray<{
     role: "CMO of TechVista",
   },
 ];
-
-// Featured pull-quote shown right below the hero projects grid.
-export const FEATURED_TESTIMONIAL = {
-  quote:
-    "Working with Shakeel was like adding a senior designer to the team overnight. He understood what KYMA needed and delivered more than we asked for.",
-  name: "Thomas Weber",
-  role: "Co-founder of KYMA",
-} as const;
