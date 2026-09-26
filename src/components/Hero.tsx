@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { HERO, SITE } from "@/data/site";
 import { PROJECTS } from "@/data/projects";
@@ -90,14 +89,7 @@ export function Hero() {
         transition={{ duration: 0.6, delay: 0.7 }}
         className="mt-8 flex items-center gap-4"
       >
-        <GalaxyButton href={SITE.bookingUrl} external className="py-1.5 pl-1.5 pr-5">
-          <Image
-            src="/avatar.png"
-            alt={SITE.name}
-            width={36}
-            height={36}
-            className="h-9 w-9 rounded-full object-cover"
-          />
+        <GalaxyButton href={SITE.bookingUrl} external className="h-12 px-6">
           {HERO.ctaLabel}
         </GalaxyButton>
       </motion.div>

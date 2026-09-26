@@ -34,7 +34,7 @@ function CyclingWord() {
           animate={{ y: "0%" }}
           exit={{ y: "-100%" }}
           transition={ROLL_TRANSITION}
-          className="inline-block whitespace-nowrap py-[0.12em]"
+          className="inline-block whitespace-nowrap py-[0.12em] text-secondary"
         >
           {CYCLE_WORDS[index]}
         </motion.span>
