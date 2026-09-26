@@ -3,7 +3,8 @@ import { Hero } from "@/components/Hero";
 import { SocialProof } from "@/components/SocialProof";
 import { ProjectsGrid } from "@/components/ProjectsGrid";
 import { ProjectDockProvider } from "@/components/motion/ProjectDock";
-import { FeaturedQuote } from "@/components/FeaturedQuote";
+import { Intro } from "@/components/Intro";
+import { SelectedVisuals } from "@/components/SelectedVisuals";
 import { Services } from "@/components/Services";
 import { About } from "@/components/About";
 import { ClientLogos } from "@/components/ClientLogos";
@@ -20,7 +21,8 @@ export default function Home() {
           <SocialProof />
           <ProjectsGrid />
         </ProjectDockProvider>
-        <FeaturedQuote />
+        <Intro />
+        <SelectedVisuals />
         <Services />
         <About />
         <ClientLogos />

@@ -24,7 +24,7 @@ export const NAV_LINKS = [
   { label: "Contact", href: "#contact" },
 ] as const;
 
-// Short first-person intro shown right below the projects grid.
+// First-person intro shown beside the work history, right below the projects grid.
 export const INTRO = [
   "I’ve spent the past 06 years working in product design, from the fast pace of design agencies to focused in-house roles.",
   "Currently, I am UX Designer remotely at Brandcave, ensuring we deliver the best experiences for clients.",

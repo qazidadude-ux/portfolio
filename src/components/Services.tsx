@@ -106,7 +106,7 @@ export function Services() {
 
         <Reveal className="flex flex-col gap-4">
           <p className={STRIP_LABEL}>My services</p>
-          <Marquee seconds={70} reverse className={`-my-8 py-8 ${EDGE_FADE}`} rowClassName="gap-12 pr-12">
+          <Marquee seconds={70} className={`-my-8 py-8 ${EDGE_FADE}`} rowClassName="gap-12 pr-12">
             {SERVICES.map((service) => {
               const Icon = SERVICE_ICONS[service];
               return (
