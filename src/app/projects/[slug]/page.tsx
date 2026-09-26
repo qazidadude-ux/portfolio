@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Footer } from "@/components/Footer";
-import { GlassButton } from "@/components/ui/GlassButton";
+import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/motion/Reveal";
 import { PROJECTS, getProject } from "@/data/projects";
 import { SITE } from "@/data/site";
@@ -86,10 +86,10 @@ export default async function ProjectPage({
               <p className="mt-1 text-2xl font-semibold">{next.name}</p>
             </div>
             <div className="flex gap-3">
-              <GlassButton href={`/projects/${next.slug}`}>View {next.name}</GlassButton>
-              <GlassButton href={SITE.bookingUrl} external>
+              <Button href={`/projects/${next.slug}`}>View {next.name}</Button>
+              <Button href={SITE.bookingUrl} external>
                 Book a call
-              </GlassButton>
+              </Button>
             </div>
           </div>
         </div>

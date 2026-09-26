@@ -1,5 +1,5 @@
 import { Footer } from "@/components/Footer";
-import { GlassButton } from "@/components/ui/GlassButton";
+import { Button } from "@/components/ui/Button";
 
 export default function NotFound() {
   return (
@@ -8,9 +8,9 @@ export default function NotFound() {
         <p className="font-mono text-sm text-gray-400">404</p>
         <h1 className="mt-3 text-3xl font-semibold">Page not found</h1>
         <p className="mt-2 text-gray-600">The page you&apos;re looking for doesn&apos;t exist.</p>
-        <GlassButton href="/" className="mt-8">
+        <Button href="/" className="mt-8">
           Back home
-        </GlassButton>
+        </Button>
       </main>
       <Footer />
     </>
