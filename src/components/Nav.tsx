@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { NAV_LINKS, SITE } from "@/data/site";
 import { Button } from "@/components/ui/Button";
 import { ThemeToggle, useThemeSync } from "@/components/ThemeToggle";
-import { PILL_BUTTON_SECONDARY } from "@/components/ui/pill";
+import { pill } from "@/components/ui/pill";
 import { Logo } from "@/components/ui/Logo";
 
 const NAV_TRANSITION = { duration: 0.6, ease: [0.22, 1, 0.36, 1] } as const;
@@ -111,7 +111,7 @@ export function Nav() {
                 {contactLink && (
                   <Link
                     href={contactLink.href}
-                    className={PILL_BUTTON_SECONDARY}
+                    className={pill("lime", "sm")}
                   >
                     {contactLink.label}
                   </Link>
@@ -165,7 +165,7 @@ export function Nav() {
                   {link.label}
                 </Link>
               ))}
-              <Button href={SITE.bookingUrl} external className="mt-2 w-full">
+              <Button href={SITE.bookingUrl} external size="sm" className="mt-2 w-full">
                 Book a call
               </Button>
             </nav>

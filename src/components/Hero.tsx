@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { HERO, SITE } from "@/data/site";
 import { PROJECTS } from "@/data/projects";
 import { GooeyButton } from "@/components/ui/GooeyButton";
-import { BUTTON_SIZE } from "@/components/ui/pill";
+import { BUTTON_SIZES } from "@/components/ui/pill";
 import { FAN, FAN_RADIUS, FAN_SHADOW, HERO_ENTRANCE, useProjectDock } from "@/components/motion/ProjectDock";
 
 const riseVariants = (delay: (i: number) => number) => ({
@@ -90,7 +90,7 @@ export function Hero() {
         transition={{ duration: 0.6, delay: 0.7 }}
         className="mt-8 flex flex-wrap items-center gap-4"
       >
-        <GooeyButton href="/projects" className={`border-transparent ${BUTTON_SIZE}`}>
+        <GooeyButton href="/projects" className={`border-transparent ${BUTTON_SIZES.md}`}>
           {HERO.ctaLabel}
         </GooeyButton>
       </motion.div>

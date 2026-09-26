@@ -5,7 +5,7 @@ import { PROJECTS } from "@/data/projects";
 import { Reveal } from "@/components/motion/Reveal";
 import { useProjectDock } from "@/components/motion/ProjectDock";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { PILL_BUTTON_SECONDARY } from "@/components/ui/pill";
+import { pill } from "@/components/ui/pill";
 
 export function ProjectsGrid() {
   const { gridSlots } = useProjectDock();
@@ -58,7 +58,7 @@ export function ProjectsGrid() {
       </div>
 
       <Reveal delay={0.2} className="mt-10 flex justify-center">
-        <Link href="/projects" className={PILL_BUTTON_SECONDARY}>
+        <Link href="/projects" className={pill("lime", "md")}>
           View all my projects
         </Link>
       </Reveal>
