@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { HERO, SITE } from "@/data/site";
 import { PROJECTS } from "@/data/projects";
 import { GalaxyButton } from "@/components/ui/GalaxyButton";
+import { BUTTON_SIZE } from "@/components/ui/pill";
 import { FAN, FAN_RADIUS, FAN_SHADOW, HERO_ENTRANCE, useProjectDock } from "@/components/motion/ProjectDock";
 
 const riseVariants = (delay: (i: number) => number) => ({
@@ -89,7 +90,7 @@ export function Hero() {
         transition={{ duration: 0.6, delay: 0.7 }}
         className="mt-8 flex items-center gap-4"
       >
-        <GalaxyButton href={SITE.bookingUrl} external className="h-12 px-6">
+        <GalaxyButton href={SITE.bookingUrl} external className={`border-transparent ${BUTTON_SIZE}`}>
           {HERO.ctaLabel}
         </GalaxyButton>
       </motion.div>

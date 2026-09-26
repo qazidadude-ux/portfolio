@@ -1,16 +1,16 @@
 import Link from "next/link";
 import { clsx } from "clsx";
 import type { ReactNode } from "react";
+import { BUTTON_SIZE } from "@/components/ui/pill";
 
 type Variant = "primary" | "secondary" | "ghost";
 
-const base =
-  "inline-flex items-center justify-center gap-2 rounded-[1000px] px-6 py-3 text-sm font-medium whitespace-nowrap transition-[background-color,border-color,transform,box-shadow] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.97]";
+const base = `inline-flex items-center justify-center gap-2 rounded-[1000px] ${BUTTON_SIZE} whitespace-nowrap transition-[background-color,border-color,transform,box-shadow] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.97]`;
 
 const variants: Record<Variant, string> = {
-  primary: "bg-black text-white hover:bg-gray-800 hover:-translate-y-0.5 shadow-card",
-  secondary: "bg-white text-black border border-gray-200 hover:border-black hover:-translate-y-0.5",
-  ghost: "bg-gray-100 text-black hover:bg-gray-150",
+  primary: "border-transparent bg-black text-white hover:bg-gray-800 hover:-translate-y-0.5 shadow-card",
+  secondary: "border-gray-200 bg-white text-black hover:border-black hover:-translate-y-0.5",
+  ghost: "border-transparent bg-gray-100 text-black hover:bg-gray-150",
 };
 
 export function Button({

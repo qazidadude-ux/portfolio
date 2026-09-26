@@ -228,7 +228,9 @@ main > section + section::before {
   overflow: hidden;
   border-radius: 2rem;
   background: var(--bg);
-  font-size: 15px;
+  /* Matches the standard button text (text-sm) so it lines up with every other button. */
+  font-size: 0.875rem;
+  line-height: 1.25rem;
   font-weight: 500;
   white-space: nowrap;
   cursor: pointer;
