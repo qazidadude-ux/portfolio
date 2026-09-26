@@ -90,11 +90,8 @@ export function Hero() {
         transition={{ duration: 0.6, delay: 0.7 }}
         className="mt-8 flex flex-wrap items-center gap-4"
       >
-        <GooeyButton href={SITE.bookingUrl} external className={`border-transparent ${BUTTON_SIZE}`}>
+        <GooeyButton href="/projects" className={`border-transparent ${BUTTON_SIZE}`}>
           {HERO.ctaLabel}
-        </GooeyButton>
-        <GooeyButton href="/projects" variant="secondary" className={`border-transparent ${BUTTON_SIZE}`}>
-          {HERO.secondaryCtaLabel}
         </GooeyButton>
       </motion.div>
       </div>
