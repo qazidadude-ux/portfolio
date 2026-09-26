@@ -39,7 +39,7 @@ export function Testimonials() {
             <motion.figure
               key={t.name}
               variants={revealItem}
-              className={`flex h-[280px] w-[85%] max-w-[315px] shrink-0 snap-start flex-col justify-between rounded-[16px] border border-gray-200 bg-white p-6 md:w-auto md:max-w-none ${CARD_SHADOW}`}
+              className={`flex h-[280px] w-[85%] max-w-[315px] shrink-0 snap-start flex-col justify-between rounded-[12px] border border-gray-200 bg-white p-6 md:w-auto md:max-w-none ${CARD_SHADOW}`}
             >
               <div className="flex flex-col gap-1">
                 <Quote className="h-6 w-6 fill-black text-black" strokeWidth={0} aria-hidden />

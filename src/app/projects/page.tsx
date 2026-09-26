@@ -20,7 +20,7 @@ export default function ProjectsPage() {
             <Reveal key={project.slug} delay={i * 0.06}>
               <Link
                 href={`/projects/${project.slug}`}
-                className="group block overflow-hidden rounded-[8px] border border-gray-150 bg-gray-50 transition-shadow hover:shadow-xl"
+                className="group block overflow-hidden rounded-[12px] border border-gray-150 bg-gray-50 transition-shadow hover:shadow-xl"
               >
                 <div
                   className="relative flex aspect-[4/3] items-center justify-center transition-transform duration-500 group-hover:scale-[1.03]"

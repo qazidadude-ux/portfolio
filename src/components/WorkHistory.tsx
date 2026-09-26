@@ -28,7 +28,7 @@ export function WorkHistory() {
               animate={{ scale: open ? 1 : 1 - i * 0.05 }}
               transition={{ duration: 0.5, ease: EASE }}
               style={{ zIndex: WORK_HISTORY.length - i, top: open ? undefined : i * 8 }}
-              className={`w-full rounded-[16px] border border-gray-200 bg-white p-[18px] ${CARD_SHADOW} ${
+              className={`w-full rounded-[12px] border border-gray-200 bg-white p-[18px] ${CARD_SHADOW} ${
                 !open && i > 0 ? "absolute inset-x-0" : "relative"
               }`}
             >

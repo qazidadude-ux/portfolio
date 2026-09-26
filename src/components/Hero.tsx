@@ -96,7 +96,7 @@ export function Hero() {
       </motion.div>
       </div>
 
-      <div className="relative hidden aspect-[554/320] w-[420px] shrink-0 lg:block xl:w-[554px]">
+      <div className="relative hidden aspect-[554/320] w-[336px] shrink-0 lg:block xl:w-[443px]">
         {PROJECTS.map((project, i) => (
           <div
             key={project.slug}

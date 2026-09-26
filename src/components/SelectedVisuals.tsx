@@ -160,7 +160,7 @@ export function SelectedVisuals() {
                 key={i}
                 data-slide={i}
                 aria-hidden={offset !== 0}
-                className="relative flex h-full shrink-0 items-center justify-center overflow-hidden rounded-[20px]"
+                className="relative flex h-full shrink-0 items-center justify-center overflow-hidden rounded-[12px]"
                 style={{
                   width: SLIDE_W,
                   backgroundColor: visual.color,

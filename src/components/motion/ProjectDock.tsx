@@ -22,7 +22,7 @@ export const FAN = [
   { top: "13%", left: "52%", rotate: 10 },
 ];
 
-export const FAN_RADIUS = 8;
+export const FAN_RADIUS = 12;
 export const FAN_SHADOW = "0 24px 48px -16px rgba(0,0,0,0.28)";
 
 // Page-load entrance shared by the hero headline words and the hero cards: fade up, staggered.
@@ -34,7 +34,7 @@ export const HERO_ENTRANCE = {
   cardDelay: (i: number) => 0.2 + i * 0.08,
 };
 
-const GRID_RADIUS = 8;
+const GRID_RADIUS = 12;
 const STAGGER = 0.1;
 // Seconds for the cards to close ~63% of the gap to the scroll position; higher is softer.
 const SMOOTHING_SECONDS = 0.45;
