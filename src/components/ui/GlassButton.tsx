@@ -15,8 +15,9 @@ type LinkProps = Common & { href: string; external?: boolean };
 type ActionProps = Common & { onClick: () => void; "aria-expanded"?: boolean };
 
 // Frosted "glass" pill used for every button on the site: translucent fill with inner highlights,
-// a conic outline that rotates on hover, a sweeping sheen, and a soft offset shadow. Pressing tilts
-// the whole button back. Styles: .glass-* in globals.css.
+// a conic outline that rotates on hover, a sweeping sheen, a soft offset shadow, and a wiggly hover
+// (springy grow + gooey blob that follows the pointer; see GooFilter). Pressing tilts the whole
+// button back. Styles: .glass-* in globals.css.
 export function GlassButton(props: LinkProps | ActionProps) {
   const { children, size = "md", tone = "clear", className = "" } = props;
   const buttonClass = `glass-button glass-button--${tone}`;
@@ -43,7 +44,9 @@ export function GlassButton(props: LinkProps | ActionProps) {
   }
 
   return (
-    <span className={`glass-wrap ${className}`}>
+    <span className={`glass-wrap glass-wrap--${tone} ${className}`}>
+      {/* Wiggly hover: a tone-colored goo body + pointer-following blob behind the glass. */}
+      <span aria-hidden className="glass-goo" />
       {control}
       <span aria-hidden className="glass-shadow" />
     </span>

@@ -7,6 +7,7 @@ import { ProgressiveBlur } from "@/components/ProgressiveBlur";
 import { THEME_SCRIPT } from "@/components/ThemeToggle";
 import { Nav } from "@/components/Nav";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
+import { GooFilter } from "@/components/ui/Goo";
 
 const spaceMono = Space_Mono({
   variable: "--font-space-mono",
@@ -48,6 +49,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <GridLines />
         </SmoothScroll>
         <ProgressiveBlur />
+        <GooFilter />
       </body>
     </html>
   );

@@ -272,7 +272,6 @@ main > section + section::before {
   transition: all var(--glass-time) var(--glass-ease);
 }
 .glass-button:hover {
-  transform: scale(0.975);
   backdrop-filter: blur(0.01em);
   -webkit-backdrop-filter: blur(0.01em);
   box-shadow:
@@ -309,6 +308,60 @@ main > section + section::before {
 }
 .glass-button--secondary .glass-label {
   color: #000;
+}
+
+/* Wiggly hover (the earlier gooey effect, now behind the glass). .glass-goo holds a tone-colored
+   body (content box = the button) plus a pointer-following blob (border box, --goo-reach wider),
+   both faded in by --goo-a. Blur + the #goo SVG filter re-threshold the alpha so the blob melts
+   out of the pill; the wrap grows with a spring. Pointer position comes from GooFilter. */
+@property --goo-a {
+  syntax: "<percentage>";
+  initial-value: 0%;
+  inherits: true;
+}
+.glass-wrap {
+  --goo-a: 0%;
+  --goo-x: 50;
+  --goo-y: 50;
+  --goo-reach: 20px;
+  --goo-color: var(--color-gray-200);
+  --goo-spring: linear(
+    0, 0.002, 0.01 0.9%, 0.038 1.8%, 0.156, 0.312 5.8%, 0.789 11.1%, 1.015 14.2%,
+    1.096, 1.157, 1.199, 1.224 20.3%, 1.231, 1.231, 1.226, 1.214 24.6%,
+    1.176 26.9%, 1.057 32.6%, 1.007 35.5%, 0.984, 0.968, 0.956, 0.949 42%,
+    0.946 44.1%, 0.95 46.5%, 0.998 57.2%, 1.007, 1.011 63.3%, 1.012 68.3%,
+    0.998 84%, 1
+  );
+  transition:
+    all var(--glass-time) var(--glass-ease),
+    --goo-a 0.5s ease-in-out,
+    scale 1.66s var(--goo-spring);
+}
+.glass-wrap:has(.glass-button:hover),
+.glass-wrap:has(.glass-button:focus-visible) {
+  --goo-a: 100%;
+  scale: 1.06;
+  transition-duration: var(--glass-time), 0.5s, 1s;
+}
+.glass-wrap--primary {
+  --goo-color: hsl(229 100% 72%);
+}
+.glass-wrap--secondary {
+  --goo-color: hsl(87 100% 60%);
+}
+.glass-goo {
+  --goo-fill: color-mix(in srgb, var(--goo-color) var(--goo-a), transparent);
+  position: absolute;
+  inset: calc(var(--goo-reach) * -1);
+  z-index: 1;
+  padding: var(--goo-reach);
+  border-radius: 9999px;
+  pointer-events: none;
+  background-image:
+    linear-gradient(var(--goo-fill), var(--goo-fill)),
+    radial-gradient(40% 70% at calc(var(--goo-x) * 1%) calc(var(--goo-y) * 1%), var(--goo-fill) 0%, transparent 90%);
+  background-clip: content-box, border-box;
+  filter: blur(6px) url(#goo);
 }
 
 /* Label. No text shadow at rest; a faint one appears on hover and press. */
