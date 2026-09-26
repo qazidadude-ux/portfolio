@@ -15,16 +15,12 @@ export function About() {
       </Reveal>
 
       <div className="flex flex-col gap-12 md:flex-row md:items-start md:gap-16">
-        <Reveal className="flex flex-col gap-4 md:flex-1">
+        <Reveal className="md:flex-1">
           <div className="relative aspect-[19/21] w-full overflow-hidden rounded-[16px] bg-gray-100">
             <Image src="/avatar.png" alt={SITE.name} fill sizes="(min-width: 768px) 380px, 100vw" className="object-cover" />
             <div className="absolute bottom-3 right-3">
               <SocialLinks tone="dark" />
             </div>
-          </div>
-          <div className="flex flex-col gap-1.5">
-            <p className="text-lg font-medium tracking-[-0.03em] md:text-[22px]">{SITE.name}</p>
-            <p className="text-sm font-semibold tracking-[-0.02em] text-gray-600">{SITE.role}</p>
           </div>
         </Reveal>
 
