@@ -5,7 +5,7 @@ import { SITE } from "@/data/site";
 import { GridLines } from "@/components/GridLines";
 import { ProgressiveBlur } from "@/components/ProgressiveBlur";
 import { THEME_SCRIPT } from "@/components/ThemeToggle";
-import { GooFilter } from "@/components/ui/GooeyButton";
+import { GooFilter } from "@/components/ui/Goo";
 
 const spaceMono = Space_Mono({
   variable: "--font-space-mono",
