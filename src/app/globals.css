@@ -499,6 +499,122 @@ main > section + section::before {
   text-shadow: 0.025em 0.25em 0.05em rgb(0 0 0 / 0.12);
 }
 
+/* Arrow button (ArrowButton). A lime track with a chevron sits on the left of a dark pill; on
+   hover/focus the track stretches across, trailing chevrons fade in, and a shine flies through
+   them twice as fast. --active flips to 1 on hover/focus, --pressed while held. */
+.arrow-btn {
+  --arrow-block: 58px;
+  --arrow-radius: 8px;
+  --arrow-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 5 7 7-7 7'/%3E%3C/svg%3E");
+  --arrow-spread: 24px;
+  --arrow-size: 28px;
+  position: relative;
+  display: inline-grid;
+  height: 46px;
+  padding: 0;
+  border: 2px solid var(--color-black);
+  border-radius: var(--arrow-radius);
+  background: var(--color-black);
+  color: var(--color-white);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.25px;
+  white-space: nowrap;
+  cursor: pointer;
+  outline-color: var(--color-secondary);
+  outline-offset: 0.25rem;
+}
+.arrow-btn--sm {
+  --arrow-block: 46px;
+  --arrow-spread: 20px;
+  --arrow-size: 22px;
+  height: 38px;
+}
+.arrow-btn:is(:hover, :focus-visible) {
+  --active: 1;
+}
+.arrow-btn:active {
+  --pressed: 1;
+}
+
+.arrow-btn__fill {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--arrow-radius);
+  scale: calc(1 - (var(--pressed, 0) * 0.05));
+  transition: scale 0.1s;
+}
+
+.arrow-btn__track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--arrow-block);
+  height: 100%;
+  border-radius: calc(var(--arrow-radius) - 2px);
+  background: var(--color-secondary);
+  box-shadow: 0 10px 10px -5px rgb(0 0 0 / 0.5);
+  container-type: inline-size;
+  transition: width 0.25s;
+}
+.arrow-btn:is(:hover, :focus-visible) .arrow-btn__track {
+  width: 100%;
+}
+
+.arrow-btn__chevron,
+.arrow-btn__trail {
+  position: absolute;
+  inset: 0;
+  background: rgb(0 0 0 / 0.15);
+  container-type: inline-size;
+}
+.arrow-btn__chevron {
+  z-index: 2;
+  mask: var(--arrow-chevron) 50% 50% / var(--arrow-size) var(--arrow-size) no-repeat;
+}
+.arrow-btn__trail {
+  opacity: var(--active, 0);
+  transition: opacity 0.25s;
+  mask:
+    var(--arrow-chevron) calc(50% - var(--arrow-spread) * 1) 50% / var(--arrow-size) var(--arrow-size) no-repeat,
+    var(--arrow-chevron) calc(50% - var(--arrow-spread) * 2) 50% / var(--arrow-size) var(--arrow-size) no-repeat,
+    var(--arrow-chevron) calc(50% - var(--arrow-spread) * 3) 50% / var(--arrow-size) var(--arrow-size) no-repeat,
+    var(--arrow-chevron) calc(50% + var(--arrow-spread) * 1) 50% / var(--arrow-size) var(--arrow-size) no-repeat,
+    var(--arrow-chevron) calc(50% + var(--arrow-spread) * 2) 50% / var(--arrow-size) var(--arrow-size) no-repeat,
+    var(--arrow-chevron) calc(50% + var(--arrow-spread) * 3) 50% / var(--arrow-size) var(--arrow-size) no-repeat;
+}
+/* The shine: a dark radial glow that flies left to right through the chevron masks. */
+:where(.arrow-btn__chevron, .arrow-btn__trail)::after {
+  --distance: calc(100cqi + 100%);
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: calc(var(--arrow-size) * 4);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  background: radial-gradient(rgb(0 0 0), transparent);
+  animation: arrow-fly-by calc((2 - var(--active, 0)) * 1s) infinite linear;
+}
+@keyframes arrow-fly-by {
+  0% {
+    translate: -100% -50%;
+  }
+  100% {
+    translate: var(--distance) -50%;
+  }
+}
+
+.arrow-btn__label {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  padding: 0 20px 0 calc(var(--arrow-block) + 20px);
+}
+.arrow-btn--sm .arrow-btn__label {
+  padding: 0 14px 0 calc(var(--arrow-block) + 14px);
+}
+
 /* Hide scrollbar for drag/scroll carousels while keeping native scroll snap */
 .no-scrollbar {
   scrollbar-width: none;
