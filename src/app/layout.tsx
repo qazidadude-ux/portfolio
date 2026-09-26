@@ -8,6 +8,8 @@ import { THEME_SCRIPT } from "@/components/ThemeToggle";
 import { Nav } from "@/components/Nav";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { GooFilter } from "@/components/ui/Goo";
+import { ThumbnailsProvider } from "@/components/ThumbnailsProvider";
+import { findProjectThumbnails } from "@/lib/thumbnails";
 
 const spaceMono = Space_Mono({
   variable: "--font-space-mono",
@@ -40,16 +42,18 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         />
       </head>
       <body className="relative min-h-full flex flex-col bg-white text-black">
-        {/* Pinned to the viewport, so outside the smoothed content. */}
-        <Nav />
-        <SmoothScroll>
-          {/* Holds the space the nav used to take in the flow (56px). */}
-          <div aria-hidden className="h-14" />
-          {children}
-          <GridLines />
-        </SmoothScroll>
-        <ProgressiveBlur />
-        <GooFilter />
+        <ThumbnailsProvider thumbnails={findProjectThumbnails()}>
+          {/* Pinned to the viewport, so outside the smoothed content. */}
+          <Nav />
+          <SmoothScroll>
+            {/* Holds the space the nav used to take in the flow (56px). */}
+            <div aria-hidden className="h-14" />
+            {children}
+            <GridLines />
+          </SmoothScroll>
+          <ProgressiveBlur />
+          <GooFilter />
+        </ThumbnailsProvider>
       </body>
     </html>
   );
