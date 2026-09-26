@@ -78,11 +78,11 @@ export function Nav() {
           </motion.div>
 
           <motion.div layout transition={NAV_TRANSITION} className="shrink-0">
-            <Link href="/" className="flex items-center gap-2.5">
+            <Link href="/" className="flex items-center gap-1">
               <span className="flex h-8 w-8 items-center justify-center text-black">
                 <Logo className="h-6 w-6" />
               </span>
-              <span className="whitespace-nowrap text-sm">{SITE.name.split(" ")[0]}</span>
+              <span className="whitespace-nowrap text-base font-semibold">{SITE.name.split(" ")[0]}</span>
             </Link>
           </motion.div>
 
