@@ -15,6 +15,8 @@ const EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
 const DURATION = "0.8s";
 // Slides further than this from the center are hidden; they'd only be faint slivers anyway.
 const VISIBLE_RANGE = 3;
+// Side slides fade from the center slide's edges to nothing at the container's guide lines.
+const EDGE_FADE = `linear-gradient(to right, transparent, #000 calc(50% - ${SLIDE_W} / 2), #000 calc(50% + ${SLIDE_W} / 2), transparent)`;
 
 const COUNT = VISUALS.length;
 // Three copies so there is always a slide on both sides; after moving into the first or last
@@ -127,8 +129,13 @@ export function SelectedVisuals() {
 
       <div
         ref={viewportRef}
-        className="relative mt-12 cursor-grab touch-pan-y select-none active:cursor-grabbing"
-        style={{ height: `calc(${SLIDE_W} / ${SLIDE_RATIO})`, perspective: "1800px", overflowX: "clip" }}
+        className="relative mx-auto mt-12 max-w-[var(--container-max)] cursor-grab touch-pan-y select-none overflow-hidden active:cursor-grabbing"
+        style={{
+          height: `calc(${SLIDE_W} / ${SLIDE_RATIO})`,
+          perspective: "1800px",
+          maskImage: EDGE_FADE,
+          WebkitMaskImage: EDGE_FADE,
+        }}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
