@@ -29,7 +29,7 @@ export const PROJECTS: Project[] = [
     role: "Brand & Web Design",
     client: "Kora Consulting",
     tools: ["Figma", "Framer"],
-    color: "#222222",
+    color: "#f4f5f9",
     overview:
       "Kora needed a site that felt as considered as the advice they give. We rebuilt their information architecture around outcomes, not services, and paired it with a restrained, editorial visual system.",
   },
@@ -55,7 +55,7 @@ export const PROJECTS: Project[] = [
     role: "Staff Product Designer",
     client: "Mugen Studio",
     tools: ["Figma", "Framer", "Blender"],
-    color: "#f4f5f9",
+    color: "#222222",
     overview:
       "Mugen's work speaks for itself — the challenge was building a case-study template flexible enough to showcase branding, motion, and product work without ever feeling generic.",
   },
