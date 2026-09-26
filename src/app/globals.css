@@ -35,6 +35,9 @@
 
 :root {
   --color-accent: #21b30b;
+  /* Brand colors (same in light and dark themes). */
+  --color-primary: #0027dc;
+  --color-secondary: #c7ff84;
   /* Guide lines on the always-black footer; matches the dark theme's gray-150 so they read as
      one continuous set of lines with the page's guides in dark mode. */
   --footer-line: #1f1f1f;
@@ -68,6 +71,8 @@
   --color-gray-800: var(--color-gray-800);
   --color-black: var(--color-black);
   --color-accent: var(--color-accent);
+  --color-primary: var(--color-primary);
+  --color-secondary: var(--color-secondary);
   --font-sans: var(--font-body);
   --font-display: var(--font-display);
   --font-mono: var(--font-mono);
