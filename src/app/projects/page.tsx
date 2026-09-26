@@ -11,7 +11,7 @@ export default function ProjectsPage() {
   return (
     <>
       <Nav />
-      <main className="container-max py-16 md:py-24">
+      <main className="container-max w-full py-24">
         <Reveal>
           <h1 className="text-[clamp(2rem,5vw,3.25rem)] font-semibold">All projects</h1>
         </Reveal>
