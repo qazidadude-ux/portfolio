@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { PROJECTS } from "@/data/projects";
+import { ProjectThumb } from "@/components/ProjectThumb";
 import { Reveal } from "@/components/motion/Reveal";
 import { useProjectDock } from "@/components/motion/ProjectDock";
 import { SectionHeading } from "@/components/ui/SectionHeading";
@@ -33,12 +34,10 @@ export function ProjectsGrid() {
                 className="aspect-[4/3] bg-gray-100 lg:bg-transparent"
               >
                 <div
-                  className="flex h-full w-full items-center justify-center transition-transform duration-500 group-hover:scale-[1.03] lg:invisible"
+                  className="relative flex h-full w-full items-center justify-center transition-transform duration-500 group-hover:scale-[1.03] lg:invisible"
                   style={{ backgroundColor: project.color }}
                 >
-                  <span className="rounded-full bg-white/80 px-3 py-1 text-xs font-medium text-black">
-                    {project.category}
-                  </span>
+                  <ProjectThumb project={project} sizes="(min-width: 640px) 50vw, 100vw" />
                 </div>
               </div>
               <div className="overflow-hidden">

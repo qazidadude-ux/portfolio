@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { HERO, SITE } from "@/data/site";
 import { PROJECTS } from "@/data/projects";
+import { ProjectThumb } from "@/components/ProjectThumb";
 import { Button } from "@/components/ui/Button";
 import { FAN, FAN_RADIUS, FAN_SHADOW, HERO_ENTRANCE, useProjectDock } from "@/components/motion/ProjectDock";
 
@@ -107,7 +108,7 @@ export function Hero() {
           >
             <motion.div custom={i} initial="hidden" animate="visible" variants={cardVariants} className="h-full w-full">
               <div
-                className="flex h-full w-full items-center justify-center overflow-hidden"
+                className="relative flex h-full w-full items-center justify-center overflow-hidden"
                 style={{
                   backgroundColor: project.color,
                   borderRadius: FAN_RADIUS,
@@ -115,9 +116,7 @@ export function Hero() {
                   transform: `rotate(${FAN[i].rotate}deg)`,
                 }}
               >
-                <span className="rounded-full bg-white/80 px-3 py-1 text-xs font-medium text-black">
-                  {project.category}
-                </span>
+                <ProjectThumb project={project} sizes="280px" />
               </div>
             </motion.div>
           </div>

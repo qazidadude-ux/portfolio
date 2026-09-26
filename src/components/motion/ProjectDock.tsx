@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode, type RefObject } from "react";
 import { PROJECTS } from "@/data/projects";
+import { ProjectThumb } from "@/components/ProjectThumb";
 
 type SlotRefs = RefObject<(HTMLDivElement | null)[]>;
 
@@ -219,9 +220,7 @@ export function ProjectDockProvider({ children }: { children: ReactNode }) {
             className="absolute left-0 top-0 flex items-center justify-center overflow-hidden will-change-transform"
             style={{ backgroundColor: project.color }}
           >
-            <span className="rounded-full bg-white/80 px-3 py-1 text-xs font-medium text-black">
-              {project.category}
-            </span>
+            <ProjectThumb project={project} sizes="(min-width: 1024px) 560px, 100vw" />
           </div>
         ))}
       </div>

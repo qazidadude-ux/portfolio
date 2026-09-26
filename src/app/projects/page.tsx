@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Footer } from "@/components/Footer";
 import { PROJECTS } from "@/data/projects";
+import { ProjectThumb } from "@/components/ProjectThumb";
 import { Reveal } from "@/components/motion/Reveal";
 
 export const metadata: Metadata = { title: "Projects" };
@@ -22,12 +23,10 @@ export default function ProjectsPage() {
                 className="group block overflow-hidden rounded-[24px] border border-gray-150 bg-gray-50 transition-shadow hover:shadow-xl"
               >
                 <div
-                  className="flex aspect-[4/3] items-center justify-center transition-transform duration-500 group-hover:scale-[1.03]"
+                  className="relative flex aspect-[4/3] items-center justify-center transition-transform duration-500 group-hover:scale-[1.03]"
                   style={{ backgroundColor: project.color }}
                 >
-                  <span className="rounded-full bg-white/80 px-3 py-1 text-xs font-medium text-black">
-                    {project.category}
-                  </span>
+                  <ProjectThumb project={project} sizes="(min-width: 640px) 50vw, 100vw" />
                 </div>
                 <div className="flex items-center justify-between p-6">
                   <div>

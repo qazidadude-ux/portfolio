@@ -5,6 +5,7 @@ import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/motion/Reveal";
 import { PROJECTS, getProject } from "@/data/projects";
+import { ProjectThumb } from "@/components/ProjectThumb";
 import { SITE } from "@/data/site";
 
 export function generateStaticParams() {
@@ -67,9 +68,11 @@ export default async function ProjectPage({
 
         <Reveal>
           <div
-            className="container-max aspect-[16/9] rounded-[24px]"
+            className="container-max relative aspect-[16/9] overflow-hidden rounded-[24px]"
             style={{ backgroundColor: project.color }}
-          />
+          >
+            <ProjectThumb project={project} sizes="(min-width: 1200px) 1200px, 100vw" label={false} />
+          </div>
         </Reveal>
 
         <div className="container-max py-16">

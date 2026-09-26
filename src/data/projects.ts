@@ -8,6 +8,12 @@ export type Project = {
   client: string;
   tools: string[];
   color: string; // fallback background if no image is supplied
+  /**
+   * Thumbnail used on every project card, the hero fan and the project page banner. Put the file in
+   * public/projects/ and reference it from the site root, e.g. "/projects/kora.jpg". A 4:3 image
+   * about 1600×1200 works best. Leave it out to show the color + category label instead.
+   */
+  thumbnail?: string;
   overview: string;
   gallery?: string[];
 };
