@@ -287,6 +287,30 @@ main > section + section::before {
   outline-offset: 3px;
 }
 
+/* Tinted glass: the brand color shows through the same translucent layering (edges slightly
+   clearer, a lighter band through the middle). Label colors are fixed for contrast in both themes. */
+.glass-button--primary,
+.glass-button--secondary {
+  background: linear-gradient(
+    -75deg,
+    color-mix(in srgb, var(--glass-tint) 85%, transparent),
+    color-mix(in srgb, var(--glass-tint) 80%, white),
+    color-mix(in srgb, var(--glass-tint) 85%, transparent)
+  );
+}
+.glass-button--primary {
+  --glass-tint: var(--color-primary);
+}
+.glass-button--primary .glass-label {
+  color: #fff;
+}
+.glass-button--secondary {
+  --glass-tint: var(--color-secondary);
+}
+.glass-button--secondary .glass-label {
+  color: #000;
+}
+
 /* Label. No text shadow at rest; a faint one appears on hover and press. */
 .glass-label {
   position: relative;

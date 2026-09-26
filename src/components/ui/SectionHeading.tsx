@@ -1,5 +1,5 @@
-import { clsx } from "clsx";
 import type { ReactNode } from "react";
+import { Parallax } from "@/components/motion/Parallax";
 
 export function Eyebrow({ children }: { children: ReactNode }) {
   return (
@@ -18,14 +18,13 @@ export function SectionHeading({
   className?: string;
   as?: "h2" | "h1";
 }) {
+  // Titles float up slightly faster than the page. `className` is for layout, so it goes on the
+  // parallax wrapper (the element the parent actually lays out).
   return (
-    <Tag
-      className={clsx(
-        "text-[40px] font-medium leading-[1.05] text-balance md:text-[52px] lg:text-[64px]",
-        className
-      )}
-    >
-      {children}
-    </Tag>
+    <Parallax distance={24} className={className}>
+      <Tag className="text-[40px] font-medium leading-[1.05] text-balance md:text-[52px] lg:text-[64px]">
+        {children}
+      </Tag>
+    </Parallax>
   );
 }

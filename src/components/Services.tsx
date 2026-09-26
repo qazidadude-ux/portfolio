@@ -13,6 +13,7 @@ import {
 import { siClaude, siFigma, siFramer, type SimpleIcon } from "simple-icons";
 import { SERVICES, TECH_STACK } from "@/data/site";
 import { Reveal } from "@/components/motion/Reveal";
+import { Parallax } from "@/components/motion/Parallax";
 import { Marquee } from "@/components/ui/Marquee";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
@@ -86,22 +87,24 @@ export function Services() {
             </SectionHeading>
           </Reveal>
 
-          <Reveal className="shrink-0">
-            <ul aria-label="My tech stack" className="grid w-max grid-cols-4 gap-3">
-              {TECH_STACK.map((tool) => (
-                <li key={tool} className="group relative">
-                  <div
-                    className={`flex items-center justify-center rounded-[12px] border border-gray-200 bg-white p-4 ${TILE_SHADOW}`}
-                  >
-                    <ToolIcon tool={tool} />
-                  </div>
-                  <span className="pointer-events-none absolute -top-8 left-1/2 z-10 -translate-x-1/2 translate-y-1 whitespace-nowrap rounded-full bg-black px-2 py-1 text-xs font-semibold tracking-[-0.02em] text-white opacity-0 transition duration-200 group-hover:translate-y-0 group-hover:opacity-100">
-                    {tool}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </Reveal>
+          <Parallax distance={40} className="shrink-0">
+            <Reveal>
+              <ul aria-label="My tech stack" className="grid w-max grid-cols-4 gap-3">
+                {TECH_STACK.map((tool) => (
+                  <li key={tool} className="group relative">
+                    <div
+                      className={`flex items-center justify-center rounded-[12px] border border-gray-200 bg-white p-4 ${TILE_SHADOW}`}
+                    >
+                      <ToolIcon tool={tool} />
+                    </div>
+                    <span className="pointer-events-none absolute -top-8 left-1/2 z-10 -translate-x-1/2 translate-y-1 whitespace-nowrap rounded-full bg-black px-2 py-1 text-xs font-semibold tracking-[-0.02em] text-white opacity-0 transition duration-200 group-hover:translate-y-0 group-hover:opacity-100">
+                      {tool}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+          </Parallax>
         </div>
 
         <Reveal className="flex flex-col gap-4">

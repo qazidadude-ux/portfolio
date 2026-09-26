@@ -108,7 +108,7 @@ export function Nav() {
                   ))}
                 </nav>
                 {contactLink && (
-                  <GlassButton href={contactLink.href} size="sm" className="shrink-0">
+                  <GlassButton href={contactLink.href} size="sm" tone="secondary" className="shrink-0">
                     {contactLink.label}
                   </GlassButton>
                 )}
