@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { HERO, SITE } from "@/data/site";
 import { PROJECTS } from "@/data/projects";
-import { GalaxyButton } from "@/components/ui/GalaxyButton";
+import { GooeyButton } from "@/components/ui/GooeyButton";
 import { BUTTON_SIZE } from "@/components/ui/pill";
 import { FAN, FAN_RADIUS, FAN_SHADOW, HERO_ENTRANCE, useProjectDock } from "@/components/motion/ProjectDock";
 
@@ -88,11 +88,14 @@ export function Hero() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, delay: 0.7 }}
-        className="mt-8 flex items-center gap-4"
+        className="mt-8 flex flex-wrap items-center gap-4"
       >
-        <GalaxyButton href={SITE.bookingUrl} external className={`border-transparent ${BUTTON_SIZE}`}>
+        <GooeyButton href={SITE.bookingUrl} external className={`border-transparent ${BUTTON_SIZE}`}>
           {HERO.ctaLabel}
-        </GalaxyButton>
+        </GooeyButton>
+        <GooeyButton href="/projects" variant="secondary" className={`border-transparent ${BUTTON_SIZE}`}>
+          {HERO.secondaryCtaLabel}
+        </GooeyButton>
       </motion.div>
       </div>
 

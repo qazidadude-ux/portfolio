@@ -199,178 +199,71 @@ main > section + section::before {
   filter: blur(1px);
 }
 
-/* Galaxy CTA (GalaxyButton). Everything is sized in em, so font-size scales the whole button.
-   --active flips to 1 on hover/focus and drives the glow, starfield and colors. */
-.gx-button {
-  /* Primary brand blue #0027DC = hsl(229 100% 43%); every tint below derives from it. */
-  --gx-hue: 229;
-  --gx-transition: 0.25s;
-  --gx-spark: 1.8s;
-  --cut: 0.1em;
-  --active: 0;
-  --bg:
-    radial-gradient(
-        120% 120% at 126% 126%,
-        hsl(var(--gx-hue) 100% 98% / calc(var(--active) * 0.9)) 40%,
-        transparent 50%
-      )
-      calc(100px - (var(--active) * 100px)) 0 / 100% 100% no-repeat,
-    radial-gradient(
-        120% 120% at 120% 120%,
-        hsl(var(--gx-hue) 100% 70% / calc(var(--active) * 1)) 30%,
-        transparent 70%
-      )
-      calc(100px - (var(--active) * 100px)) 0 / 100% 100% no-repeat,
-    hsl(var(--gx-hue) 100% calc(43% - (var(--active) * 15%)));
+/* Gooey CTA (GooeyButton). The ::before holds the fill: a solid primary layer (content box, i.e. the
+   button itself) over a pointer-following radial blob (border box, --goo-reach wider). Blur + the
+   #goo SVG filter re-threshold the alpha, so the blob melts out of the pill on hover. */
+@property --goo-a {
+  syntax: "<percentage>";
+  initial-value: 0%;
+  inherits: true;
+}
+.goo-button {
+  --goo-a: 0%;
+  --goo-x: 50;
+  --goo-y: 50;
+  --goo-reach: 20px;
+  --goo-fill: var(--color-primary);
+  --goo-blob: hsl(229 100% 72%);
+  --goo-shadow: hsl(229 100% 20% / 0.45);
+  --goo-spring: linear(
+    0, 0.002, 0.01 0.9%, 0.038 1.8%, 0.156, 0.312 5.8%, 0.789 11.1%, 1.015 14.2%,
+    1.096, 1.157, 1.199, 1.224 20.3%, 1.231, 1.231, 1.226, 1.214 24.6%,
+    1.176 26.9%, 1.057 32.6%, 1.007 35.5%, 0.984, 0.968, 0.956, 0.949 42%,
+    0.946 44.1%, 0.95 46.5%, 0.998 57.2%, 1.007, 1.011 63.3%, 1.012 68.3%,
+    0.998 84%, 1
+  );
   position: relative;
+  isolation: isolate;
   display: inline-flex;
   align-items: center;
-  overflow: hidden;
-  border-radius: 2rem;
-  background: var(--bg);
-  /* Matches the standard button text (text-sm) so it lines up with every other button. */
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  font-weight: 500;
+  justify-content: center;
   white-space: nowrap;
-  cursor: pointer;
-  box-shadow:
-    0 0 calc(var(--active) * 6em) calc(var(--active) * 3em) hsl(var(--gx-hue) 100% 50% / 0.5),
-    0 0.05em 0 0 hsl(var(--gx-hue) 100% calc(65% + (var(--active) * 15%))) inset,
-    0 -0.05em 0 0 hsl(var(--gx-hue) 100% calc(25% - (var(--active) * 15%))) inset;
-  scale: calc(1 + (var(--active) * 0.1));
-  transform-style: preserve-3d;
-  perspective: 100vmin;
+  color: #fff;
   transition:
-    box-shadow var(--gx-transition),
-    scale var(--gx-transition),
-    background var(--gx-transition);
+    --goo-a 0.5s ease-in-out,
+    scale 1.66s var(--goo-spring);
 }
-.gx-button:is(:hover, :focus-visible) {
-  --active: 1;
+.goo-button:is(:hover, :focus-visible) {
+  --goo-a: 100%;
+  scale: 1.06;
+  transition-duration: 0.5s, 1s;
 }
-.gx-button:active {
-  scale: 1;
+/* Lime variant: secondary fill (#C7FF84 = hsl(87 100% 76%)), deeper lime goo, dark text. */
+.goo-button--secondary {
+  --goo-fill: var(--color-secondary);
+  --goo-blob: hsl(87 100% 60%);
+  --goo-shadow: hsl(87 60% 20% / 0.35);
+  color: #000;
 }
-
-.gx-content {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75em;
-  letter-spacing: 0.01ch;
-  color: hsl(0 0% calc(92% + (var(--active) * 8%)));
-  transition: color var(--gx-transition);
+.goo-button:active {
+  scale: 0.97;
 }
-
-.gx-star {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  height: calc(var(--size) * 1px);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: white;
-  opacity: var(--alpha);
-  transform: translate(-50%, -50%) rotate(10deg) rotate(0deg) translateY(calc(var(--distance) * 1px));
-  animation: gx-orbit calc(var(--duration) * 1s) calc(var(--delay) * -1s) infinite linear;
-}
-@keyframes gx-orbit {
-  to {
-    transform: translate(-50%, -50%) rotate(10deg) rotate(360deg) translateY(calc(var(--distance) * 1px));
-  }
-}
-
-.gx-galaxy {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 100%;
-  aspect-ratio: 1;
-  translate: -50% -50%;
-  overflow: hidden;
-  opacity: var(--active);
-  transition: opacity var(--gx-transition);
-}
-.gx-ring {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 200%;
-  height: 200%;
-  border-radius: 50%;
-  transform: translate(-28%, -40%) rotateX(-24deg) rotateY(-30deg) rotateX(90deg);
-  transform-style: preserve-3d;
-}
-
-.gx-starfield {
-  position: absolute;
-  inset: 0;
-  opacity: var(--active);
-  transition: opacity var(--gx-transition);
-  mask: radial-gradient(white, transparent);
-}
-.gx-star--static {
-  top: 50%;
-  left: 50%;
-  max-height: 4px;
-  transform: translate(0, 0);
-  filter: brightness(4);
-  opacity: 0.9;
-  animation:
-    gx-move-x calc(var(--duration) * 0.1s) calc(var(--delay) * -0.1s) infinite linear,
-    gx-move-y calc(var(--duration) * 0.2s) calc(var(--delay) * -0.2s) infinite linear;
-}
-.gx-button:hover .gx-star--static {
-  animation-play-state: paused;
-}
-@keyframes gx-move-x {
-  0% { translate: -100px 0; }
-  100% { translate: 100px 0; }
-}
-@keyframes gx-move-y {
-  0% { transform: translate(0, -50px); }
-  100% { transform: translate(0, 50px); }
-}
-
-/* Spark: a bright arc that sweeps around the border. */
-.gx-spark {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  border-radius: 2rem;
-  rotate: 0deg;
-  mask: linear-gradient(white, transparent 50%);
-  animation: gx-flip calc(var(--gx-spark) * 2) infinite steps(2, end);
-}
-.gx-spark::before {
+.goo-button::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 50%;
+  inset: calc(var(--goo-reach) * -1);
   z-index: -1;
-  width: 200%;
-  aspect-ratio: 1;
-  translate: -50% -15%;
-  transform: rotate(-90deg);
-  opacity: calc(var(--active) + 0.4);
-  background: conic-gradient(from 0deg, transparent 0 340deg, white 360deg);
-  transition: opacity var(--gx-transition);
-  animation: gx-rotate var(--gx-spark) linear infinite both;
-}
-@keyframes gx-flip {
-  to { rotate: 360deg; }
-}
-@keyframes gx-rotate {
-  to { transform: rotate(90deg); }
-}
-
-.gx-backdrop {
-  position: absolute;
-  inset: var(--cut);
-  border-radius: 2rem;
-  background: var(--bg);
-  transition: background var(--gx-transition);
+  padding: var(--goo-reach);
+  border-radius: 9999px;
+  background-image:
+    linear-gradient(var(--goo-fill), var(--goo-fill)),
+    radial-gradient(
+      40% 70% at calc(var(--goo-x) * 1%) calc(var(--goo-y) * 1%),
+      color-mix(in srgb, var(--goo-blob) var(--goo-a), transparent) 0%,
+      transparent 90%
+    );
+  background-clip: content-box, border-box;
+  filter: blur(6px) url(#goo) drop-shadow(0 0.25em 0.5em var(--goo-shadow));
 }
 
 /* Hide scrollbar for drag/scroll carousels while keeping native scroll snap */

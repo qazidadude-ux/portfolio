@@ -35,6 +35,7 @@ export const HERO = {
   subhead:
     "Design should earn its keep, not just look good. I build the brand and product work you need to turn visitors into paying customers.",
   ctaLabel: "Book a call with me",
+  secondaryCtaLabel: "View Case Studies",
 } as const;
 
 export const TECH_STACK = [
