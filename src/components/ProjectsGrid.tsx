@@ -25,7 +25,7 @@ export function ProjectsGrid() {
             <Link
               href={`/projects/${project.slug}`}
               data-dock-card
-              className="group block overflow-hidden rounded-[24px] border border-gray-150 bg-gray-50 transition-[box-shadow,background-color,border-color] duration-500 hover:shadow-xl lg:pointer-events-none lg:border-transparent lg:bg-transparent lg:data-[docked=true]:pointer-events-auto lg:data-[docked=true]:border-gray-150 lg:data-[docked=true]:bg-gray-50"
+              className="group block overflow-hidden rounded-[8px] border border-gray-150 bg-gray-50 transition-[box-shadow,background-color,border-color] duration-500 hover:shadow-xl lg:pointer-events-none lg:border-transparent lg:bg-transparent lg:data-[docked=true]:pointer-events-auto lg:data-[docked=true]:border-gray-150 lg:data-[docked=true]:bg-gray-50"
             >
               <div
                 ref={(el) => {

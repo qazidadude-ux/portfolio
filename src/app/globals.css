@@ -210,6 +210,7 @@ main > section + section::before {
 }
 .goo-button {
   --goo-a: 0%;
+  --goo-radius: 8px;
   --goo-x: 50;
   --goo-y: 50;
   --goo-reach: 20px;
@@ -223,6 +224,7 @@ main > section + section::before {
     0.998 84%, 1
   );
   position: relative;
+  border-radius: var(--goo-radius);
   isolation: isolate;
   display: inline-flex;
   align-items: center;
@@ -254,7 +256,8 @@ main > section + section::before {
   inset: calc(var(--goo-reach) * -1);
   z-index: -1;
   padding: var(--goo-reach);
-  border-radius: 9999px;
+  /* Outer radius = reach + button radius, so the content box (the visible button) gets --goo-radius. */
+  border-radius: calc(var(--goo-reach) + var(--goo-radius));
   background-image:
     linear-gradient(var(--goo-fill), var(--goo-fill)),
     radial-gradient(

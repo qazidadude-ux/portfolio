@@ -46,7 +46,7 @@ export default async function ProjectPage({
             <p className="mt-3 max-w-xl text-lg text-gray-600">{project.summary}</p>
           </Reveal>
 
-          <Reveal delay={0.1} className="mt-10 grid grid-cols-2 gap-6 rounded-[16px] border border-gray-150 p-6 sm:grid-cols-4">
+          <Reveal delay={0.1} className="mt-10 grid grid-cols-2 gap-6 rounded-[8px] border border-gray-150 p-6 sm:grid-cols-4">
             <div>
               <p className="text-xs uppercase tracking-widest text-gray-400">Client</p>
               <p className="mt-1 font-medium">{project.client}</p>
@@ -68,7 +68,7 @@ export default async function ProjectPage({
 
         <Reveal>
           <div
-            className="container-max relative aspect-[16/9] overflow-hidden rounded-[24px]"
+            className="container-max relative aspect-[16/9] overflow-hidden rounded-[8px]"
             style={{ backgroundColor: project.color }}
           >
             <ProjectThumb project={project} sizes="(min-width: 1200px) 1200px, 100vw" label={false} />
