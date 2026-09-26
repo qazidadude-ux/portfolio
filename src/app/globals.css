@@ -202,7 +202,8 @@ main > section + section::before {
 /* Galaxy CTA (GalaxyButton). Everything is sized in em, so font-size scales the whole button.
    --active flips to 1 on hover/focus and drives the glow, starfield and colors. */
 .gx-button {
-  --gx-hue: 245;
+  /* Primary brand blue #0027DC = hsl(229 100% 43%); every tint below derives from it. */
+  --gx-hue: 229;
   --gx-transition: 0.25s;
   --gx-spark: 1.8s;
   --cut: 0.1em;
@@ -210,17 +211,17 @@ main > section + section::before {
   --bg:
     radial-gradient(
         120% 120% at 126% 126%,
-        hsl(var(--gx-hue) calc(var(--active) * 97%) 98% / calc(var(--active) * 0.9)) 40%,
+        hsl(var(--gx-hue) 100% 98% / calc(var(--active) * 0.9)) 40%,
         transparent 50%
       )
       calc(100px - (var(--active) * 100px)) 0 / 100% 100% no-repeat,
     radial-gradient(
         120% 120% at 120% 120%,
-        hsl(var(--gx-hue) calc(var(--active) * 97%) 70% / calc(var(--active) * 1)) 30%,
+        hsl(var(--gx-hue) 100% 70% / calc(var(--active) * 1)) 30%,
         transparent 70%
       )
       calc(100px - (var(--active) * 100px)) 0 / 100% 100% no-repeat,
-    hsl(var(--gx-hue) calc(var(--active) * 100%) calc(12% - (var(--active) * 8%)));
+    hsl(var(--gx-hue) 100% calc(43% - (var(--active) * 15%)));
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -232,9 +233,9 @@ main > section + section::before {
   white-space: nowrap;
   cursor: pointer;
   box-shadow:
-    0 0 calc(var(--active) * 6em) calc(var(--active) * 3em) hsl(var(--gx-hue) 97% 61% / 0.5),
-    0 0.05em 0 0 hsl(var(--gx-hue) calc(var(--active) * 97%) calc((var(--active) * 50%) + 30%)) inset,
-    0 -0.05em 0 0 hsl(var(--gx-hue) calc(var(--active) * 97%) calc(var(--active) * 10%)) inset;
+    0 0 calc(var(--active) * 6em) calc(var(--active) * 3em) hsl(var(--gx-hue) 100% 50% / 0.5),
+    0 0.05em 0 0 hsl(var(--gx-hue) 100% calc(65% + (var(--active) * 15%))) inset,
+    0 -0.05em 0 0 hsl(var(--gx-hue) 100% calc(25% - (var(--active) * 15%))) inset;
   scale: calc(1 + (var(--active) * 0.1));
   transform-style: preserve-3d;
   perspective: 100vmin;
@@ -256,7 +257,7 @@ main > section + section::before {
   align-items: center;
   gap: 0.75em;
   letter-spacing: 0.01ch;
-  color: hsl(0 0% calc(60% + (var(--active) * 26%)));
+  color: hsl(0 0% calc(92% + (var(--active) * 8%)));
   transition: color var(--gx-transition);
 }
 
