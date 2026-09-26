@@ -16,8 +16,8 @@ export function About() {
 
       <div className="flex flex-col gap-12 md:flex-row md:items-start md:gap-16">
         <Reveal className="md:flex-1">
-          <div className="relative aspect-[19/21] w-full overflow-hidden rounded-[16px] bg-gray-100">
-            <Image src="/avatar.png" alt={SITE.name} fill sizes="(min-width: 768px) 380px, 100vw" className="object-cover" />
+          <div className="relative aspect-square w-full overflow-hidden rounded-[16px] bg-gray-100">
+            <Image src="/about.png" alt={SITE.name} fill sizes="(min-width: 768px) 440px, 100vw" className="object-cover" />
             <div className="absolute bottom-3 right-3">
               <SocialLinks tone="dark" />
             </div>
