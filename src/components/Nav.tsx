@@ -82,7 +82,7 @@ export function Nav() {
               <span className="flex h-8 w-8 items-center justify-center text-black">
                 <Logo className="h-6 w-6" />
               </span>
-              <span className="whitespace-nowrap text-sm font-semibold tracking-tight">{SITE.name.split(" ")[0]}</span>
+              <span className="whitespace-nowrap text-sm">{SITE.name.split(" ")[0]}</span>
             </Link>
           </motion.div>
 
