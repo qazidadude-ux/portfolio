@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { GlassButton } from "@/components/ui/GlassButton";
 import { Reveal } from "@/components/motion/Reveal";
@@ -36,7 +35,6 @@ export default async function ProjectPage({
 
   return (
     <>
-      <Nav />
       <main>
         <div className="container-max py-12 md:py-16">
           <Reveal>

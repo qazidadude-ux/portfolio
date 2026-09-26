@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = { title: "Privacy Policy" };
@@ -7,7 +6,6 @@ export const metadata: Metadata = { title: "Privacy Policy" };
 export default function PrivacyPage() {
   return (
     <>
-      <Nav />
       <main className="container-max py-16 md:py-24">
         <div className="mx-auto max-w-2xl">
           <h1 className="text-3xl font-semibold">Privacy Policy</h1>

@@ -5,6 +5,8 @@ import { SITE } from "@/data/site";
 import { GridLines } from "@/components/GridLines";
 import { ProgressiveBlur } from "@/components/ProgressiveBlur";
 import { THEME_SCRIPT } from "@/components/ThemeToggle";
+import { Nav } from "@/components/Nav";
+import { SmoothScroll } from "@/components/motion/SmoothScroll";
 
 const spaceMono = Space_Mono({
   variable: "--font-space-mono",
@@ -37,8 +39,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         />
       </head>
       <body className="relative min-h-full flex flex-col bg-white text-black">
-        {children}
-        <GridLines />
+        {/* Pinned to the viewport, so outside the smoothed content. */}
+        <Nav />
+        <SmoothScroll>
+          {/* Holds the space the nav used to take in the flow (56px). */}
+          <div aria-hidden className="h-14" />
+          {children}
+          <GridLines />
+        </SmoothScroll>
         <ProgressiveBlur />
       </body>
     </html>

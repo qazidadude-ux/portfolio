@@ -56,7 +56,7 @@ export function Nav() {
   const primaryLinks = NAV_LINKS.filter((link) => link.label !== "Contact");
 
   return (
-    <header className="sticky top-4 z-50">
+    <header className="fixed inset-x-0 top-4 z-50">
       <div className="container-max flex justify-center">
         {/* The bar's width change is a scale-based layout animation. Every direct child also
             gets `layout` so Framer counter-scales it; otherwise the name text gets stretched. */}

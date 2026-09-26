@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { getAllPosts, formatDate } from "@/lib/blog";
 import { Reveal } from "@/components/motion/Reveal";
@@ -12,7 +11,6 @@ export default function BlogIndexPage() {
 
   return (
     <>
-      <Nav />
       <main className="container-max py-16 md:py-24">
         <Reveal>
           <h1 className="text-[clamp(2rem,5vw,3.25rem)] font-semibold">Blog</h1>

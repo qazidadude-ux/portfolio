@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { Reveal } from "@/components/motion/Reveal";
 import { getAllPosts, getPost, formatDate } from "@/lib/blog";
@@ -33,7 +32,6 @@ export default async function BlogPostPage({
 
   return (
     <>
-      <Nav />
       <main className="container-max py-16 md:py-24">
         <Reveal className="mx-auto max-w-2xl">
           <Link href="/blog" className="text-sm text-gray-500 hover:text-black">

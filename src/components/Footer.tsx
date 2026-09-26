@@ -5,7 +5,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { SITE } from "@/data/site";
 import { SocialLinks } from "@/components/SocialLinks";
 import { GridLines } from "@/components/GridLines";
-import { Parallax } from "@/components/motion/Parallax";
 
 const CYCLE_WORDS = ["design", "build", "create"];
 const CYCLE_MS = 2200;
@@ -118,10 +117,9 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Rises into place as the footer scrolls in, settling exactly where the layout puts it. */}
-        <Parallax mode="enter" distance={80} className="pointer-events-none select-none">
+        <div className="pointer-events-none select-none">
           <FitName text={firstName} />
-        </Parallax>
+        </div>
       </div>
     </footer>
   );

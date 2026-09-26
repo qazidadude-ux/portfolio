@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { PROJECTS } from "@/data/projects";
 import { Reveal } from "@/components/motion/Reveal";
@@ -10,7 +9,6 @@ export const metadata: Metadata = { title: "Projects" };
 export default function ProjectsPage() {
   return (
     <>
-      <Nav />
       <main className="container-max w-full py-24">
         <Reveal>
           <h1 className="text-[clamp(2rem,5vw,3.25rem)] font-semibold">All projects</h1>

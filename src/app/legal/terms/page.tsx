@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = { title: "Terms of Service" };
@@ -7,7 +6,6 @@ export const metadata: Metadata = { title: "Terms of Service" };
 export default function TermsPage() {
   return (
     <>
-      <Nav />
       <main className="container-max py-16 md:py-24">
         <div className="mx-auto max-w-2xl">
           <h1 className="text-3xl font-semibold">Terms of Service</h1>

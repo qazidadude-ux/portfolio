@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 import { HERO, SITE } from "@/data/site";
 import { PROJECTS } from "@/data/projects";
 import { GlassButton } from "@/components/ui/GlassButton";
-import { Parallax } from "@/components/motion/Parallax";
 import { FAN, FAN_RADIUS, FAN_SHADOW, HERO_ENTRANCE, useProjectDock } from "@/components/motion/ProjectDock";
 
 const riseVariants = (delay: (i: number) => number) => ({
@@ -25,9 +24,7 @@ export function Hero() {
 
   return (
     <section className="container-max py-24 lg:flex lg:items-center lg:justify-between lg:gap-12">
-      {/* Text lags behind the page as it scrolls away. The card fan is left alone: the dock
-          measures those slots and flies cards from them. */}
-      <Parallax mode="top" distance={80}>
+      <div>
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -96,7 +93,7 @@ export function Hero() {
           {HERO.ctaLabel}
         </GlassButton>
       </motion.div>
-      </Parallax>
+      </div>
 
       <div className="relative hidden aspect-[554/320] w-[420px] shrink-0 lg:block xl:w-[554px]">
         {PROJECTS.map((project, i) => (

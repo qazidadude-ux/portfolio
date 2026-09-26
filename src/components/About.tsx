@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { ABOUT, SITE } from "@/data/site";
 import { Reveal } from "@/components/motion/Reveal";
-import { Parallax, ParallaxImage } from "@/components/motion/Parallax";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SocialLinks } from "@/components/SocialLinks";
 
@@ -18,26 +17,24 @@ export function About() {
       <div className="flex flex-col gap-12 md:flex-row md:items-start md:gap-16">
         <Reveal className="md:flex-1">
           <div className="relative aspect-square w-full overflow-hidden rounded-[16px] bg-gray-100">
-            {/* The photo slides inside its frame as you scroll, like looking through a window. */}
-            <ParallaxImage>
-              <Image src="/about.png" alt={SITE.name} fill sizes="(min-width: 768px) 440px, 100vw" className="object-cover" />
-            </ParallaxImage>
+            <Image src="/about.png" alt={SITE.name} fill sizes="(min-width: 768px) 440px, 100vw" className="object-cover" />
             <div className="absolute bottom-3 right-3">
               <SocialLinks tone="dark" />
             </div>
           </div>
         </Reveal>
 
-        <Parallax distance={30} className="order-first md:order-none md:flex-[1.5]">
-          <Reveal delay={0.15} className="flex flex-col gap-8">
-            {ABOUT.paragraphs.map((p) => (
-              <p key={p.lead} className="text-lg font-medium leading-[1.4] tracking-[-0.03em] lg:text-[22px]">
-                <strong className="font-semibold text-black">{p.lead}</strong>{" "}
-                <span className="text-gray-600">{p.rest}</span>
-              </p>
-            ))}
-          </Reveal>
-        </Parallax>
+        <Reveal
+          delay={0.15}
+          className="order-first flex flex-col gap-8 md:order-none md:flex-[1.5]"
+        >
+          {ABOUT.paragraphs.map((p) => (
+            <p key={p.lead} className="text-lg font-medium leading-[1.4] tracking-[-0.03em] lg:text-[22px]">
+              <strong className="font-semibold text-black">{p.lead}</strong>{" "}
+              <span className="text-gray-600">{p.rest}</span>
+            </p>
+          ))}
+        </Reveal>
       </div>
     </section>
   );
