@@ -5,7 +5,6 @@ import { SITE } from "@/data/site";
 import { GridLines } from "@/components/GridLines";
 import { ProgressiveBlur } from "@/components/ProgressiveBlur";
 import { THEME_SCRIPT } from "@/components/ThemeToggle";
-import { GooFilter } from "@/components/ui/Goo";
 
 const spaceMono = Space_Mono({
   variable: "--font-space-mono",
@@ -41,7 +40,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {children}
         <GridLines />
         <ProgressiveBlur />
-        <GooFilter />
       </body>
     </html>
   );

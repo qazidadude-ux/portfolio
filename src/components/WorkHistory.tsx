@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { CircleChevronDown } from "lucide-react";
 import { WORK_HISTORY } from "@/data/site";
-import { button } from "@/components/ui/pill";
+import { GlassButton } from "@/components/ui/GlassButton";
 
 const CARD_SHADOW =
   "shadow-[0_0.6px_0.6px_-0.94px_rgba(0,0,0,0.07),0_1.8px_1.8px_-1.88px_rgba(0,0,0,0.07),0_4.8px_4.8px_-2.8px_rgba(0,0,0,0.06),0_15px_15px_-3.75px_rgba(0,0,0,0.03)]";
@@ -43,17 +43,12 @@ export function WorkHistory() {
           ))}
         </div>
 
-        <button
-          type="button"
-          onClick={() => setOpen((v) => !v)}
-          aria-expanded={open}
-          className={`gap-1.5 ${button("gray", "sm")}`}
-        >
+        <GlassButton size="sm" onClick={() => setOpen((v) => !v)} aria-expanded={open}>
           {open ? "Hide" : "Show all"}
           <CircleChevronDown
-            className={`h-3.5 w-3.5 fill-black text-gray-150 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
+            className={`h-3.5 w-3.5 fill-black text-white transition-transform duration-300 ${open ? "rotate-180" : ""}`}
           />
-        </button>
+        </GlassButton>
       </div>
     </div>
   );

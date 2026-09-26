@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
-import { Button } from "@/components/ui/Button";
+import { GlassButton } from "@/components/ui/GlassButton";
 import { Reveal } from "@/components/motion/Reveal";
 import { PROJECTS, getProject } from "@/data/projects";
 import { SITE } from "@/data/site";
@@ -88,12 +88,10 @@ export default async function ProjectPage({
               <p className="mt-1 text-2xl font-semibold">{next.name}</p>
             </div>
             <div className="flex gap-3">
-              <Button href={`/projects/${next.slug}`} variant="secondary">
-                View {next.name}
-              </Button>
-              <Button href={SITE.bookingUrl} external>
+              <GlassButton href={`/projects/${next.slug}`}>View {next.name}</GlassButton>
+              <GlassButton href={SITE.bookingUrl} external>
                 Book a call
-              </Button>
+              </GlassButton>
             </div>
           </div>
         </div>

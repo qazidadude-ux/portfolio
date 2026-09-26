@@ -4,9 +4,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { NAV_LINKS, SITE } from "@/data/site";
-import { Button } from "@/components/ui/Button";
 import { ThemeToggle, useThemeSync } from "@/components/ThemeToggle";
-import { button } from "@/components/ui/pill";
+import { GlassButton } from "@/components/ui/GlassButton";
 import { Logo } from "@/components/ui/Logo";
 
 const NAV_TRANSITION = { duration: 0.6, ease: [0.22, 1, 0.36, 1] } as const;
@@ -109,12 +108,9 @@ export function Nav() {
                   ))}
                 </nav>
                 {contactLink && (
-                  <Link
-                    href={contactLink.href}
-                    className={button("lime", "sm")}
-                  >
+                  <GlassButton href={contactLink.href} size="sm" className="shrink-0">
                     {contactLink.label}
-                  </Link>
+                  </GlassButton>
                 )}
               </motion.div>
             ) : (
@@ -165,9 +161,9 @@ export function Nav() {
                   {link.label}
                 </Link>
               ))}
-              <Button href={SITE.bookingUrl} external size="sm" className="mt-2 w-full">
+              <GlassButton href={SITE.bookingUrl} external size="sm" className="mt-2 w-full">
                 Book a call
-              </Button>
+              </GlassButton>
             </nav>
           </motion.div>
         )}
