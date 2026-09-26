@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { NAV_LINKS, SITE } from "@/data/site";
 import { Button } from "@/components/ui/Button";
 import { ThemeToggle, useThemeSync } from "@/components/ThemeToggle";
 import { PILL_BUTTON } from "@/components/ui/pill";
+import { Logo } from "@/components/ui/Logo";
 
 const NAV_TRANSITION = { duration: 0.6, ease: [0.22, 1, 0.36, 1] } as const;
 
@@ -79,14 +79,10 @@ export function Nav() {
 
           <motion.div layout transition={NAV_TRANSITION} className="shrink-0">
             <Link href="/" className="flex items-center gap-2.5">
-              <Image
-                src="/avatar.png"
-                alt={SITE.name}
-                width={32}
-                height={32}
-                className="h-8 w-8 rounded-full object-cover"
-              />
-              <span className="whitespace-nowrap text-sm font-semibold tracking-tight">{SITE.name}</span>
+              <span className="flex h-8 w-8 items-center justify-center text-black">
+                <Logo className="h-6 w-6" />
+              </span>
+              <span className="whitespace-nowrap text-sm font-semibold tracking-tight">{SITE.name.split(" ")[0]}</span>
             </Link>
           </motion.div>
 
