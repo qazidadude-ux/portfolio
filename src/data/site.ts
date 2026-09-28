@@ -34,9 +34,12 @@ export const INTRO = [
 ] as const;
 
 export const HERO = {
-  headline: ["Design", "that", "delivers", "results."],
-  subhead:
-    "Design should earn its keep, not just look good. I build the brand and product work you need to turn visitors into paying customers.",
+  // One entry per line on desktop (smaller screens wrap freely). The first line is set in gray.
+  headline: [
+    "Digital designer with years of experience",
+    "in creating memorable brands, websites,",
+    "and user interfaces.",
+  ],
   ctaLabel: "View Case Studies",
 } as const;
 

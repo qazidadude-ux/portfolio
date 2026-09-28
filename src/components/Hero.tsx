@@ -1,5 +1,6 @@
 "use client";
 
+import { Fragment } from "react";
 import { motion } from "framer-motion";
 import { HERO, SITE } from "@/data/site";
 import { PROJECTS } from "@/data/projects";
@@ -43,51 +44,30 @@ export function Hero() {
         {SITE.availability}
       </motion.div>
 
-      <h1 className="max-w-3xl text-[clamp(2.5rem,7vw,4.5rem)] font-medium leading-[1.02]">
-        <span className="block whitespace-nowrap">
-          {HERO.headline.slice(0, 2).map((word, i) => (
-            <motion.span
-              key={word + i}
-              custom={i}
-              initial="hidden"
-              animate="visible"
-              variants={wordVariants}
-              className="inline-block mr-4 text-gray-500"
-            >
-              {word}
-            </motion.span>
-          ))}
-        </span>
-        <span className="block whitespace-nowrap">
-          {HERO.headline.slice(2).map((word, i) => (
-            <motion.span
-              key={word + i}
-              custom={i + 2}
-              initial="hidden"
-              animate="visible"
-              variants={wordVariants}
-              className="inline-block mr-4 text-black"
-            >
-              {word}
-            </motion.span>
-          ))}
-        </span>
+      {/* Each headline line stays on one row from lg up (sized to fit beside the card fan);
+          smaller screens wrap freely. Words rise in one after another across all lines. */}
+      <h1 className="text-[28px] font-medium leading-[1.2] tracking-[-0.02em] sm:text-[34px] lg:text-[27px] xl:text-[30px]">
+        {HERO.headline.map((line, lineIndex) => {
+          const before = HERO.headline.slice(0, lineIndex).join(" ").split(" ").filter(Boolean).length;
+          return (
+            <span key={line} className={`lg:block lg:whitespace-nowrap ${lineIndex === 0 ? "text-gray-500" : "text-black"}`}>
+              {/* Real spaces between words (not just margins) so the heading reads and copies correctly. */}
+              {line.split(" ").map((word, i) => (
+                <Fragment key={word + i}>
+                  <motion.span custom={before + i} initial="hidden" animate="visible" variants={wordVariants} className="inline-block">
+                    {word}
+                  </motion.span>{" "}
+                </Fragment>
+              ))}
+            </span>
+          );
+        })}
       </h1>
-
-      <motion.p
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.55 }}
-        className="mt-6 max-w-lg text-lg text-gray-600"
-      >
-        <strong className="font-semibold text-black">{HERO.subhead.split(". ")[0]}.</strong>{" "}
-        {HERO.subhead.split(". ").slice(1).join(". ")}
-      </motion.p>
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.7 }}
+        transition={{ duration: 0.6, delay: 0.9 }}
         className="mt-8 flex flex-wrap items-center gap-4"
       >
         <KeyButton href="/projects">

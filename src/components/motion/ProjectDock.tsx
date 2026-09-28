@@ -30,7 +30,7 @@ export const HERO_ENTRANCE = {
   rise: 40,
   duration: 0.7,
   ease: [0.22, 1, 0.36, 1] as const,
-  wordDelay: (i: number) => 0.1 + i * 0.08,
+  wordDelay: (i: number) => 0.1 + i * 0.04,
   cardDelay: (i: number) => 0.2 + i * 0.08,
 };
 
