@@ -8,6 +8,9 @@ export const SITE = {
   url: "https://example.com",
   email: "joseph@launchnow.design",
   availability: "Available for new Gig",
+  // Shown as a live clock in the footer.
+  timeZone: "Asia/Karachi",
+  basedIn: "Pakistan",
   happyClients: "99+",
   bookingUrl: "https://cal.com/",
   social: [

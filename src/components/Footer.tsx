@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { SITE } from "@/data/site";
 import { SocialLinks } from "@/components/SocialLinks";
@@ -40,6 +40,31 @@ function CyclingWord() {
         </motion.span>
       </AnimatePresence>
     </span>
+  );
+}
+
+const TIME_FORMAT = new Intl.DateTimeFormat("en-US", {
+  timeZone: SITE.timeZone,
+  hour: "numeric",
+  minute: "2-digit",
+  second: "2-digit",
+  hour12: true,
+});
+
+// Re-render once a second. The server snapshot is empty because its clock (and time zone) would
+// differ from the visitor's; the time fills in on the client right after hydration.
+const subscribeToSeconds = (onTick: () => void) => {
+  const id = setInterval(onTick, 1000);
+  return () => clearInterval(id);
+};
+
+// Live local time where Shakeel is based, e.g. "11:59:22 PM".
+function LocalTime() {
+  const time = useSyncExternalStore(subscribeToSeconds, () => TIME_FORMAT.format(new Date()), () => "");
+  return (
+    <p className="min-h-5 text-sm font-semibold tracking-[-0.02em] text-gray-500 tabular-nums" aria-label={`Local time in ${SITE.basedIn}`}>
+      {time}
+    </p>
   );
 }
 
@@ -92,7 +117,7 @@ export function Footer() {
             <p className="text-gray-500">something great together.</p>
           </div>
 
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
             <div className="flex flex-col gap-2">
               <p className="text-sm font-semibold tracking-[-0.02em] text-gray-500">Email</p>
               <a href={`mailto:${SITE.email}`} className={`text-base font-medium tracking-[-0.02em] md:text-lg ${LINK}`}>
@@ -113,6 +138,10 @@ export function Footer() {
             <div className="flex flex-col gap-4">
               <p className="text-sm font-semibold tracking-[-0.02em] text-gray-500">Social</p>
               <SocialLinks tone="light" />
+            </div>
+            <div className="flex flex-col gap-2">
+              <LocalTime />
+              <p className="text-base font-medium tracking-[-0.02em] md:text-lg">Remote from {SITE.basedIn}</p>
             </div>
           </div>
         </div>
