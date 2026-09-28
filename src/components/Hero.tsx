@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { HERO, SITE } from "@/data/site";
 import { PROJECTS } from "@/data/projects";
 import { ProjectThumb } from "@/components/ProjectThumb";
-import { Button } from "@/components/ui/Button";
+import { KeyButton } from "@/components/ui/KeyButton";
 import { FAN, FAN_RADIUS, FAN_SHADOW, HERO_ENTRANCE, useProjectDock } from "@/components/motion/ProjectDock";
 
 const riseVariants = (delay: (i: number) => number) => ({
@@ -90,9 +90,9 @@ export function Hero() {
         transition={{ duration: 0.6, delay: 0.7 }}
         className="mt-8 flex flex-wrap items-center gap-4"
       >
-        <Button href="/projects">
+        <KeyButton href="/projects">
           {HERO.ctaLabel}
-        </Button>
+        </KeyButton>
       </motion.div>
       </div>
 

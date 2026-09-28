@@ -385,6 +385,75 @@ main > section + section::before {
   padding: 0 14px 0 calc(var(--arrow-block) + 14px);
 }
 
+/* Keycap button (KeyButton). The cap is the key's base (darker, with inner shading and a dark
+   rim); ::before is the raised face, inset more on the right/bottom to show the key's sides. On
+   press the face drops flush into the base and the label moves down with it. Charcoal colors as
+   in the source design. */
+.key-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-decoration: none;
+  user-select: none;
+  outline: none;
+}
+.key-btn:focus-visible .key-btn__cap {
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 4px;
+}
+.key-btn__cap {
+  position: relative;
+  display: inline-block;
+  /* Right/bottom padding cover the key's visible sides so the label centers on the face. */
+  padding: 12px 28px 22px 20px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #282828, #202020);
+  box-shadow:
+    inset -8px 0 8px rgb(0 0 0 / 0.15),
+    inset 0 -8px 8px rgb(0 0 0 / 0.25),
+    0 0 0 2px rgb(0 0 0 / 0.75),
+    10px 20px 25px rgb(0 0 0 / 0.4);
+}
+.key-btn__cap::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 4px;
+  bottom: 14px;
+  right: 12px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #232323, #4a4a4a);
+  box-shadow:
+    -10px -10px 10px rgb(255 255 255 / 0.25),
+    10px 5px 10px rgb(0 0 0 / 0.15);
+  border-left: 1px solid rgb(0 0 0 / 0.27);
+  border-bottom: 1px solid rgb(0 0 0 / 0.27);
+  border-top: 1px solid rgb(0 0 0 / 0.6);
+}
+.key-btn__label {
+  position: relative;
+  top: 0;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  white-space: nowrap;
+  color: #fff;
+}
+.key-btn:active .key-btn__cap::before {
+  top: 2px;
+  left: 2px;
+  bottom: 0;
+  right: 0;
+}
+.key-btn:active .key-btn__label {
+  top: 8px;
+}
+
 /* Hide scrollbar for drag/scroll carousels while keeping native scroll snap */
 .no-scrollbar {
   scrollbar-width: none;
