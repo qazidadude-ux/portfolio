@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { HERO } from "@/data/site";
 import { PROJECTS } from "@/data/projects";
 import { ProjectThumb } from "@/components/ProjectThumb";
+import { YetiMark } from "@/components/YetiMark";
 import { FAN, FAN_RADIUS, FAN_SHADOW, HERO_ENTRANCE, useProjectDock } from "@/components/motion/ProjectDock";
 
 const riseVariants = (delay: (i: number) => number) => ({
@@ -47,9 +48,9 @@ export function Hero() {
         </motion.span>
       </motion.p>
 
-      {/* 60px title on desktop (just fits "Product & UX Designer @ [yeti] Brandcave" on one line; 48px on tablets), one
+      {/* 64px title on desktop (48px on tablets, where 64px would wrap "Product & UX Designer"), one
           headline entry per line with the first in gray; words rise in one after another. */}
-      <h1 className="text-[36px] font-medium leading-[1.1] tracking-[-0.02em] md:text-[48px] lg:text-[60px]">
+      <h1 className="text-[36px] font-medium leading-[1.1] tracking-[-0.02em] md:text-[48px] lg:text-[64px]">
         {HERO.headline.map((line, lineIndex) => {
           const before = HERO.headline.slice(0, lineIndex).join(" ").split(" ").filter(Boolean).length;
           return (
@@ -59,17 +60,7 @@ export function Hero() {
                 <Fragment key={word + i}>
                   <motion.span custom={before + i} initial="hidden" animate="visible" variants={wordVariants} className="inline-block">
                     {/* Brandcave's yeti (top half) leads the company name, sized to the cap height. */}
-                    {word === "Brandcave" && (
-                      // eslint-disable-next-line @next/next/no-img-element -- small static SVG
-                      <img
-                        src="/brandcave-yeti.svg"
-                        alt=""
-                        aria-hidden
-                        width={644}
-                        height={405}
-                        className="mr-[0.12em] inline-block h-[0.95em] w-auto align-[-0.1em]"
-                      />
-                    )}
+                    {word === "Brandcave" && <YetiMark className="mr-[0.12em] h-[0.95em] align-[-0.1em]" />}
                     {word}
                   </motion.span>{" "}
                 </Fragment>
@@ -114,7 +105,8 @@ export function Hero() {
               heroSlots.current[i] = el;
             }}
             className={`absolute aspect-[4/3] w-[48%] ${ready ? "invisible" : ""}`}
-            style={{ top: FAN[i].top, left: FAN[i].left, zIndex: i }}
+            // First project on top of the stack, the rest tucked behind in order.
+            style={{ top: FAN[i].top, left: FAN[i].left, zIndex: PROJECTS.length - i }}
           >
             <motion.div custom={i} initial="hidden" animate="visible" variants={cardVariants} className="h-full w-full">
               <div

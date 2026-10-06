@@ -225,7 +225,8 @@ export function ProjectDockProvider({ children }: { children: ReactNode }) {
               cards.current[i] = el;
             }}
             className="absolute left-0 top-0 flex items-center justify-center overflow-hidden will-change-transform"
-            style={{ backgroundColor: project.color }}
+            // Same stacking as the hero fan: first project on top.
+            style={{ backgroundColor: project.color, zIndex: PROJECTS.length - i }}
           >
             <ProjectThumb project={project} sizes="(min-width: 1024px) 560px, 100vw" />
           </div>

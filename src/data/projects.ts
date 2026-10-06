@@ -24,6 +24,20 @@ export type Project = {
 
 export const PROJECTS: Project[] = [
   {
+    slug: "synkedup",
+    name: "SynkedUp",
+    category: "Field Service Management",
+    impact: "3x faster time tracking",
+    summary: "Replacing per-employee Google Sheets with a guided time-tracking flow for field and office crews.",
+    year: "2025",
+    role: "Lead Designer",
+    client: "SynkedUP",
+    tools: ["Figma"],
+    color: "#222222",
+    overview:
+      "The company’s field and office teams were tracking work hours using Google Sheets. Each employee maintained their own sheet — manually recording hours, jobs, and breaks. This method created major inconsistencies in reporting and inefficiencies in payroll processing.",
+  },
+  {
     slug: "chowmill",
     name: "Chowmill",
     category: "Food Marketplace",
@@ -50,20 +64,6 @@ export const PROJECTS: Project[] = [
     color: "#202020",
     overview:
       "Gym owners face daily challenges juggling operations, sales, retention, and reporting, often relying on clunky and fragmented tech solutions. GYMOWNERS was born from these frustrations—a powerful, easy-to-use platform built by gym owners for gym owners. It provides real-time KPIs, predictive analytics, and actionable coaching tips, enabling owners to grow their business without drowning in complexity.",
-  },
-  {
-    slug: "synkedup",
-    name: "SynkedUp",
-    category: "Field Service Management",
-    impact: "3x faster time tracking",
-    summary: "Replacing per-employee Google Sheets with a guided time-tracking flow for field and office crews.",
-    year: "2025",
-    role: "Lead Designer",
-    client: "SynkedUP",
-    tools: ["Figma"],
-    color: "#222222",
-    overview:
-      "The company’s field and office teams were tracking work hours using Google Sheets. Each employee maintained their own sheet — manually recording hours, jobs, and breaks. This method created major inconsistencies in reporting and inefficiencies in payroll processing.",
   },
   {
     slug: "zakaat",
