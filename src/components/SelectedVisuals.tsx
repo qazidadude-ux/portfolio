@@ -6,13 +6,19 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { VISUALS } from "@/data/visuals";
 import { Reveal } from "@/components/motion/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { buttonVariants } from "@/components/ui/Button";
 
-const SLIDE_W = "min(600px, 78vw)";
+// The center slide takes 80% of the carousel's width (cqw: the wrapper below is a size
+// container). Rounded to an even number of px so the slide, and half of it (used to center the
+// track), always land on whole pixels; a slide on a half pixel is resampled and looks blurry.
+const SLIDE_W = "round(down, 80cqw, 2px)";
 const SLIDE_RATIO = 3000 / 2063;
 const GAP = 10;
-const AUTOPLAY_MS = 3500;
+// How long each slide holds at the center once it has landed, before the next one comes in.
+const HOLD_MS = 2000;
 const EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
-const DURATION = "0.8s";
+const DURATION_MS = 800;
+const DURATION = `${DURATION_MS}ms`;
 // Slides further than this from the center are hidden; they'd only be faint slivers anyway.
 const VISIBLE_RANGE = 3;
 // Side slides fade from the center slide's edges to nothing at the container's guide lines.
@@ -24,7 +30,8 @@ const COUNT = VISUALS.length;
 const SLIDES = [...VISUALS, ...VISUALS, ...VISUALS];
 const toMiddleCopy = (i: number) => (((i - COUNT) % COUNT) + COUNT) % COUNT + COUNT;
 
-// Cover-flow carousel: the centered slide sits flat; neighbours fold back 40° and fade.
+// Flat carousel: the centered slide at full size; neighbours slightly smaller and faded. It is
+// deliberately 2D and pixel-snapped (no perspective or 3D tilt), which keeps the images crisp.
 export function SelectedVisuals() {
   const [index, setIndex] = useState(COUNT);
   const [animate, setAnimate] = useState(true);
@@ -33,6 +40,9 @@ export function SelectedVisuals() {
   const drag = useRef<{ startX: number; step: number; moved: boolean } | null>(null);
   const paused = useRef(false);
   const inView = useRef(false);
+  // Set when the index jumps back to the middle copy: that happens as a slide lands, so there is
+  // no slide-in left to wait for.
+  const jumped = useRef(false);
   const viewportRef = useRef<HTMLDivElement>(null);
 
   const go = useCallback((next: number | ((i: number) => number)) => {
@@ -45,14 +55,22 @@ export function SelectedVisuals() {
     if (!el) return;
     const observer = new IntersectionObserver(([entry]) => (inView.current = entry.isIntersecting));
     observer.observe(el);
-    const id = setInterval(() => {
+    return () => observer.disconnect();
+  }, []);
+
+  // Autoplay: each slide slides in, holds at the center for HOLD_MS, then the next one comes in.
+  // The timer restarts on every index change, so chevrons, drags and taps get the same hold. While
+  // hovered, dragged or off screen it waits, checking again shortly.
+  useEffect(() => {
+    let id: ReturnType<typeof setTimeout>;
+    const advance = () => {
       if (inView.current && !paused.current && !drag.current) go((i) => i + 1);
-    }, AUTOPLAY_MS);
-    return () => {
-      observer.disconnect();
-      clearInterval(id);
+      else id = setTimeout(advance, 300);
     };
-  }, [go]);
+    id = setTimeout(advance, (jumped.current ? 0 : DURATION_MS) + HOLD_MS);
+    jumped.current = false;
+    return () => clearTimeout(id);
+  }, [index, go]);
 
   // Re-enable transitions one frame after an instant jump back to the middle copy.
   useEffect(() => {
@@ -64,6 +82,7 @@ export function SelectedVisuals() {
   const onTrackTransitionEnd = (e: TransitionEvent<HTMLDivElement>) => {
     if (e.target !== e.currentTarget || e.propertyName !== "transform") return;
     if (index < COUNT || index >= COUNT * 2) {
+      jumped.current = true;
       setAnimate(false);
       setIndex(toMiddleCopy(index));
     }
@@ -100,8 +119,8 @@ export function SelectedVisuals() {
       if (steps) go((i) => i + steps);
       return;
     }
-    // A tap on a side slide brings it to the center. Side slides are tilted behind the track's
-    // plane, so hit-test their projected boxes rather than trusting elementFromPoint.
+    // A tap on a side slide brings it to the center (hit-tested against each slide's box, since
+    // the pointer is captured by the viewport).
     const slides = viewportRef.current?.querySelectorAll<HTMLElement>("[data-slide]") ?? [];
     for (const slide of slides) {
       if (slide.style.visibility === "hidden") continue;
@@ -117,7 +136,7 @@ export function SelectedVisuals() {
   const slideTransition = animate ? `transform ${DURATION} ${EASE}, opacity ${DURATION} ${EASE}` : "none";
 
   return (
-    <section id="visuals" className="py-24" aria-roledescription="carousel" aria-label="Selected visuals">
+    <section id="visuals" className="py-16 md:py-24" aria-roledescription="carousel" aria-label="Selected visuals">
       <div className="container-max">
         <Reveal>
           <SectionHeading>
@@ -127,12 +146,13 @@ export function SelectedVisuals() {
         </Reveal>
       </div>
 
+      {/* Size container for the slide width (80cqw); the viewport inside can't measure itself. */}
+      <div className="mx-auto mt-6 md:mt-12 max-w-[var(--container-max)] @container">
       <div
         ref={viewportRef}
-        className="relative mx-auto mt-12 max-w-[var(--container-max)] cursor-grab touch-pan-y select-none overflow-hidden active:cursor-grabbing"
+        className="relative cursor-grab touch-pan-y select-none overflow-hidden active:cursor-grabbing"
         style={{
-          height: `calc(${SLIDE_W} / ${SLIDE_RATIO})`,
-          perspective: "1800px",
+          height: `round(calc(${SLIDE_W} / ${SLIDE_RATIO}), 1px)`,
           maskImage: EDGE_FADE,
           WebkitMaskImage: EDGE_FADE,
         }}
@@ -144,11 +164,12 @@ export function SelectedVisuals() {
         onPointerLeave={() => (paused.current = false)}
       >
         <div
-          className="absolute left-1/2 top-0 flex h-full"
+          className="absolute top-0 flex h-full"
           style={{
+            // Snapped to whole pixels (an odd-width viewport would otherwise center on a half pixel).
+            left: "round(down, 50%, 1px)",
             gap: GAP,
-            transformStyle: "preserve-3d",
-            transform: `translate3d(calc(${-index} * (${SLIDE_W} + ${GAP}px) - ${SLIDE_W} / 2 + ${dragX}px), 0, 0)`,
+            transform: `translateX(round(calc(${-index} * (${SLIDE_W} + ${GAP}px) - ${SLIDE_W} / 2 + ${dragX}px), 1px))`,
             transition: trackTransition,
           }}
           onTransitionEnd={onTrackTransitionEnd}
@@ -164,15 +185,25 @@ export function SelectedVisuals() {
                 style={{
                   width: SLIDE_W,
                   backgroundColor: visual.color,
-                  opacity: offset === 0 ? 1 : 0.2,
+                  opacity: offset === 0 ? 1 : 0.3,
                   visibility: Math.abs(offset) > VISIBLE_RANGE ? "hidden" : "visible",
+                  // Side slides shrink toward the center slide; the center one is untransformed.
                   transformOrigin: offset < 0 ? "100% 50%" : "0% 50%",
-                  transform: offset < 0 ? "rotateY(-40deg)" : offset > 0 ? "rotateY(40deg)" : "none",
+                  transform: offset === 0 ? "none" : "scale(0.9)",
                   transition: slideTransition,
                 }}
               >
                 {visual.image ? (
-                  <Image src={visual.image} alt={visual.title} fill sizes="600px" draggable={false} className="object-cover" />
+                  // Quality 100 (allowed in next.config.ts): resized to the slide, not recompressed.
+                  <Image
+                    src={visual.image}
+                    alt={visual.title}
+                    fill
+                    sizes="(min-width: 1200px) 960px, 80vw"
+                    quality={100}
+                    draggable={false}
+                    className="object-cover"
+                  />
                 ) : (
                   <span className="rounded-full bg-white/80 px-3 py-1 text-xs font-medium text-black">{visual.title}</span>
                 )}
@@ -180,6 +211,7 @@ export function SelectedVisuals() {
             );
           })}
         </div>
+      </div>
       </div>
 
       <div className="container-max mt-8 flex justify-center gap-3">
@@ -192,9 +224,9 @@ export function SelectedVisuals() {
             type="button"
             aria-label={label}
             onClick={() => go((i) => i + step)}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-gray-50 text-black transition-[transform,background-color] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-gray-150 active:scale-[0.94]"
+            className={buttonVariants({ variant: "outline", size: "icon" })}
           >
-            <Icon className="h-5 w-5" strokeWidth={1.75} />
+            <Icon className="size-4" strokeWidth={1.75} />
           </button>
         ))}
       </div>

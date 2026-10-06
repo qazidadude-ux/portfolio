@@ -2,7 +2,8 @@
 @plugin "@tailwindcss/typography";
 
 /* Grayscale ramp, sampled from the LaunchFolio template's design tokens.
-   `.theme-light` pins the light ramp on elements that must stay as designed in either theme. */
+   `.theme-light` pins the light ramp on elements that must stay as designed in either theme;
+   `.theme-dark` pins the dark one (the nav wears it while it sits over a black section). */
 :root,
 .theme-light {
   --color-white: #ffffff;
@@ -19,7 +20,8 @@
 }
 
 /* Dark theme: the ramp is inverted, so "white" surfaces go dark and "black" text goes light. */
-:root[data-theme="dark"] {
+:root[data-theme="dark"],
+.theme-dark {
   --color-white: #0a0a0a;
   --color-gray-50: #111111;
   --color-gray-100: #151515;
@@ -83,11 +85,17 @@
   --ease-out-soft: var(--ease-out-soft);
 }
 
+/* clip (not hidden) on both: phones otherwise widen the layout viewport to fit anything that pokes
+   past the edge, which shrinks the page and lets it drift sideways. */
+html,
+body {
+  overflow-x: clip;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-body), Arial, Helvetica, sans-serif;
-  overflow-x: hidden;
 }
 
 h1, h2, h3, h4 {
@@ -98,7 +106,13 @@ h1, h2, h3, h4 {
 .container-max {
   max-width: var(--container-max);
   margin-inline: auto;
-  padding-inline: 44px;
+  /* 24px sides on phones, 48px from tablet up. */
+  padding-inline: 24px;
+}
+@media (min-width: 768px) {
+  .container-max {
+    padding-inline: 48px;
+  }
 }
 
 /* Horizontal divider between top-level sections, matching the vertical
@@ -117,6 +131,60 @@ main > section + section::before {
   border-top: 1px solid var(--color-gray-150);
 }
 
+/* Travelling streaks on the guide lines: a short glowing segment that slides along a divider
+   (::after on each section) or down a vertical guide line (.grid-streak-y, see GridStreaks).
+   Speeds and negative delays vary so they look random and never move in step. */
+:root {
+  --streak-glow: rgba(255, 255, 255, 0.55);
+}
+main > section + section::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: calc(50% - 50vw);
+  width: 90px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--streak-glow), transparent);
+  pointer-events: none;
+  animation: streak-x 11s linear infinite;
+}
+main > section:nth-child(3n) + section::after {
+  animation-duration: 8s;
+  animation-delay: -5s;
+}
+main > section:nth-child(3n + 1) + section::after {
+  animation-duration: 14s;
+  animation-delay: -9s;
+}
+main > section:nth-child(4n + 2) + section::after {
+  animation-direction: reverse;
+  animation-delay: -3s;
+}
+@keyframes streak-x {
+  from {
+    transform: translateX(-100px);
+  }
+  to {
+    transform: translateX(calc(100vw + 100px));
+  }
+}
+.grid-streak-y {
+  position: absolute;
+  top: 0;
+  width: 1px;
+  height: 70px;
+  background: linear-gradient(to bottom, transparent, var(--streak-glow), transparent);
+  animation: streak-y 9s linear infinite;
+}
+@keyframes streak-y {
+  from {
+    transform: translateY(-80px);
+  }
+  to {
+    transform: translateY(calc(100vh + 80px));
+  }
+}
+
 /* Infinite logo ticker: the track holds two identical halves, so -50% loops seamlessly. */
 @keyframes marquee {
   from {
@@ -133,13 +201,36 @@ main > section + section::before {
   animation-play-state: paused;
 }
 
+/* Typewriter caret: hangs off the right of the last typed letter without taking up space, so the
+   line never reflows while typing. */
+.type-caret {
+  position: relative;
+}
+.type-caret::after {
+  content: "";
+  position: absolute;
+  left: 100%;
+  top: 0.12em;
+  bottom: 0.08em;
+  width: 2px;
+  margin-left: 1px;
+  background: currentColor;
+  animation: caret-blink 0.8s steps(1) infinite;
+}
+@keyframes caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
 /* Glossy glass surface behind the nav pill. It sits in its own layer (behind the nav content)
    so the contrast filter that sharpens its highlights never touches the avatar or text. */
 :root {
   --nav-glass-tint: rgba(0, 0, 0, 0.02);
   --nav-glass-border: rgba(51, 51, 51, 0.08);
 }
-:root[data-theme="dark"] {
+:root[data-theme="dark"],
+.theme-dark {
   --nav-glass-tint: rgba(255, 255, 255, 0.02);
   --nav-glass-border: rgba(255, 255, 255, 0.1);
 }
@@ -151,16 +242,15 @@ main > section + section::before {
   filter: contrast(3);
 }
 .nav-glass-box {
-  --tr: 15%;
   position: absolute;
   inset: 0;
   border-radius: inherit;
   background: var(--nav-glass-tint);
+  /* Even #ffffff rim at 64% opacity all the way round (no diagonal lighting, so no corner fades out), a softer
+     inner glow, and a thin dark line inside for depth. */
   box-shadow:
-    inset 2px -2px 1px -1px rgba(255, 255, 255, 0.9),
-    inset -2px 2px 1px -1px rgba(255, 255, 255, 0.9),
-    inset 6px -6px 1px -6px rgba(255, 255, 255, 0.55),
-    inset -6px 6px 1px -6px rgba(255, 255, 255, 0.55),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.64),
+    inset 0 0 4px 1px rgba(255, 255, 255, 0.25),
     inset 0 0 2px rgba(0, 0, 0, 0.8);
   filter: brightness(0.9);
 }
@@ -175,214 +265,6 @@ main > section + section::before {
   border-radius: inherit;
   border: 1px solid rgba(0, 0, 0, 0.9);
   filter: blur(8px);
-}
-/* Diagonal sheen on the two ends. */
-.nav-glass-box::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  filter: blur(7px);
-  background: linear-gradient(
-    45deg,
-    rgba(255, 255, 255, 0.8) 0%,
-    transparent var(--tr),
-    transparent calc(100% - var(--tr)),
-    rgba(255, 255, 255, 0.8) 100%
-  );
-}
-.nav-glass-ring {
-  position: absolute;
-  inset: 4.5px;
-  border-radius: inherit;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  filter: blur(1px);
-}
-
-/* Gooey button (Button component; every button on the site). The ::before holds the fill: a
-   solid layer (content box, i.e. the button itself) over a pointer-following radial blob (border
-   box, --goo-reach wider). Blur + the #goo SVG filter re-threshold the alpha, so the blob melts
-   out of the pill on hover. Pointer position comes from GooFilter. */
-@property --goo-a {
-  syntax: "<percentage>";
-  initial-value: 0%;
-  inherits: true;
-}
-.goo-button {
-  --goo-a: 0%;
-  --goo-radius: 12px;
-  --goo-x: 50;
-  --goo-y: 50;
-  --goo-reach: 20px;
-  --goo-fill: var(--color-primary);
-  --goo-blob: hsl(229 100% 72%);
-  --goo-spring: linear(
-    0, 0.002, 0.01 0.9%, 0.038 1.8%, 0.156, 0.312 5.8%, 0.789 11.1%, 1.015 14.2%,
-    1.096, 1.157, 1.199, 1.224 20.3%, 1.231, 1.231, 1.226, 1.214 24.6%,
-    1.176 26.9%, 1.057 32.6%, 1.007 35.5%, 0.984, 0.968, 0.956, 0.949 42%,
-    0.946 44.1%, 0.95 46.5%, 0.998 57.2%, 1.007, 1.011 63.3%, 1.012 68.3%,
-    0.998 84%, 1
-  );
-  position: relative;
-  border-radius: var(--goo-radius);
-  isolation: isolate;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  white-space: nowrap;
-  color: #fff;
-  transition:
-    --goo-a 0.5s ease-in-out,
-    scale 1.66s var(--goo-spring);
-}
-.goo-button:is(:hover, :focus-visible) {
-  --goo-a: 100%;
-  scale: 1.06;
-  transition-duration: 0.5s, 1s;
-}
-/* Tones. Primary (blue, white text) is the default above (#0027DC = hsl(229 100% 43%)). */
-/* Secondary: lime fill (#C7FF84 = hsl(87 100% 76%)), deeper lime goo, fixed dark text. */
-.goo-button--secondary {
-  --goo-fill: var(--color-secondary);
-  --goo-blob: hsl(87 100% 60%);
-  color: #000;
-}
-.goo-button:active {
-  scale: 0.97;
-}
-.goo-button::before {
-  content: "";
-  position: absolute;
-  inset: calc(var(--goo-reach) * -1);
-  z-index: -1;
-  padding: var(--goo-reach);
-  /* Outer radius = reach + button radius, so the content box (the visible button) gets --goo-radius. */
-  border-radius: calc(var(--goo-reach) + var(--goo-radius));
-  background-image:
-    linear-gradient(var(--goo-fill), var(--goo-fill)),
-    radial-gradient(
-      40% 70% at calc(var(--goo-x) * 1%) calc(var(--goo-y) * 1%),
-      color-mix(in srgb, var(--goo-blob) var(--goo-a), transparent) 0%,
-      transparent 90%
-    );
-  background-clip: content-box, border-box;
-  filter: blur(6px) url(#goo);
-}
-
-/* Arrow button (ArrowButton). A lime track with a chevron sits on the left of a dark pill; on
-   hover/focus the track stretches across, trailing chevrons fade in, and a shine flies through
-   them twice as fast. --active flips to 1 on hover/focus, --pressed while held. */
-.arrow-btn {
-  --arrow-block: 58px;
-  --arrow-radius: 12px;
-  --arrow-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 5 7 7-7 7'/%3E%3C/svg%3E");
-  --arrow-spread: 24px;
-  --arrow-size: 28px;
-  position: relative;
-  display: inline-grid;
-  height: 46px;
-  padding: 0;
-  border: 2px solid var(--color-black);
-  border-radius: var(--arrow-radius);
-  background: var(--color-black);
-  color: var(--color-white);
-  font-size: 0.875rem;
-  font-weight: 500;
-  letter-spacing: 0.25px;
-  white-space: nowrap;
-  cursor: pointer;
-  outline-color: var(--color-secondary);
-  outline-offset: 0.25rem;
-}
-.arrow-btn--sm {
-  --arrow-block: 46px;
-  --arrow-spread: 20px;
-  --arrow-size: 22px;
-  height: 38px;
-}
-.arrow-btn:is(:hover, :focus-visible) {
-  --active: 1;
-}
-.arrow-btn:active {
-  --pressed: 1;
-}
-
-.arrow-btn__fill {
-  position: absolute;
-  inset: 0;
-  border-radius: var(--arrow-radius);
-  scale: calc(1 - (var(--pressed, 0) * 0.05));
-  transition: scale 0.1s;
-}
-
-.arrow-btn__track {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: var(--arrow-block);
-  height: 100%;
-  border-radius: calc(var(--arrow-radius) - 2px);
-  background: var(--color-secondary);
-  box-shadow: 0 10px 10px -5px rgb(0 0 0 / 0.5);
-  container-type: inline-size;
-  transition: width 0.25s;
-}
-.arrow-btn:is(:hover, :focus-visible) .arrow-btn__track {
-  width: 100%;
-}
-
-.arrow-btn__chevron,
-.arrow-btn__trail {
-  position: absolute;
-  inset: 0;
-  background: rgb(0 0 0 / 0.15);
-  container-type: inline-size;
-}
-.arrow-btn__chevron {
-  z-index: 2;
-  mask: var(--arrow-chevron) 50% 50% / var(--arrow-size) var(--arrow-size) no-repeat;
-}
-.arrow-btn__trail {
-  opacity: var(--active, 0);
-  transition: opacity 0.25s;
-  mask:
-    var(--arrow-chevron) calc(50% - var(--arrow-spread) * 1) 50% / var(--arrow-size) var(--arrow-size) no-repeat,
-    var(--arrow-chevron) calc(50% - var(--arrow-spread) * 2) 50% / var(--arrow-size) var(--arrow-size) no-repeat,
-    var(--arrow-chevron) calc(50% - var(--arrow-spread) * 3) 50% / var(--arrow-size) var(--arrow-size) no-repeat,
-    var(--arrow-chevron) calc(50% + var(--arrow-spread) * 1) 50% / var(--arrow-size) var(--arrow-size) no-repeat,
-    var(--arrow-chevron) calc(50% + var(--arrow-spread) * 2) 50% / var(--arrow-size) var(--arrow-size) no-repeat,
-    var(--arrow-chevron) calc(50% + var(--arrow-spread) * 3) 50% / var(--arrow-size) var(--arrow-size) no-repeat;
-}
-/* The shine: a dark radial glow that flies left to right through the chevron masks. */
-:where(.arrow-btn__chevron, .arrow-btn__trail)::after {
-  --distance: calc(100cqi + 100%);
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0;
-  height: calc(var(--arrow-size) * 4);
-  aspect-ratio: 1;
-  translate: -50% -50%;
-  background: radial-gradient(rgb(0 0 0), transparent);
-  animation: arrow-fly-by calc((2 - var(--active, 0)) * 1s) infinite linear;
-}
-@keyframes arrow-fly-by {
-  0% {
-    translate: -100% -50%;
-  }
-  100% {
-    translate: var(--distance) -50%;
-  }
-}
-
-.arrow-btn__label {
-  display: grid;
-  place-items: center;
-  height: 100%;
-  padding: 0 20px 0 calc(var(--arrow-block) + 20px);
-}
-.arrow-btn--sm .arrow-btn__label {
-  padding: 0 14px 0 calc(var(--arrow-block) + 14px);
 }
 
 /* Keycap button (KeyButton). The cap is the key's base (darker, with inner shading and a dark
@@ -461,4 +343,12 @@ main > section + section::before {
 }
 .no-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+
+/* NeonCursor draws a white dot in place of the system cursor; hide the real one everywhere while
+   it runs (the class is only set on mouse devices). */
+.neon-cursor,
+.neon-cursor * {
+  cursor: none !important;
 }

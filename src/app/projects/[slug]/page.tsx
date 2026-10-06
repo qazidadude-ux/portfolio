@@ -7,6 +7,8 @@ import { Reveal } from "@/components/motion/Reveal";
 import { PROJECTS, getProject } from "@/data/projects";
 import { ProjectThumb } from "@/components/ProjectThumb";
 import { SITE } from "@/data/site";
+import { CASE_STUDIES } from "@/data/case-studies";
+import { CaseStudy } from "@/components/CaseStudy";
 
 export function generateStaticParams() {
   return PROJECTS.map((p) => ({ slug: p.slug }));
@@ -31,6 +33,18 @@ export default async function ProjectPage({
   const { slug } = await params;
   const project = getProject(slug);
   if (!project) notFound();
+
+  const study = CASE_STUDIES[project.slug];
+  if (study) {
+    return (
+      <>
+        <main className="relative">
+          <CaseStudy project={project} study={study} />
+        </main>
+        <Footer />
+      </>
+    );
+  }
 
   const next = PROJECTS[(PROJECTS.indexOf(project) + 1) % PROJECTS.length];
 

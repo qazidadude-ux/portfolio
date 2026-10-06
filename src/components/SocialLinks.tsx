@@ -1,11 +1,16 @@
-import { siDribbble, siInstagram, siX, type SimpleIcon } from "simple-icons";
+import { siBehance, siDribbble, siInstagram, siX } from "simple-icons";
 import { SITE } from "@/data/site";
 
-// Neither icon set ships a LinkedIn mark, so it falls back to a text badge.
-const SOCIAL_ICONS: Record<string, SimpleIcon> = {
-  "X / Twitter": siX,
-  Instagram: siInstagram,
-  Dribbble: siDribbble,
+// simple-icons no longer ships a LinkedIn mark, so its path (24×24) is inlined here.
+const LINKEDIN_PATH =
+  "M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z";
+
+const SOCIAL_ICON_PATHS: Record<(typeof SITE.social)[number]["label"], string> = {
+  "X / Twitter": siX.path,
+  LinkedIn: LINKEDIN_PATH,
+  Instagram: siInstagram.path,
+  Dribbble: siDribbble.path,
+  Behance: siBehance.path,
 };
 
 const TONES = {
@@ -13,12 +18,13 @@ const TONES = {
   light: "bg-white text-black hover:bg-gray-200",
 };
 
-export function SocialLinks({ tone }: { tone: keyof typeof TONES }) {
+// Round icon links for the given `labels` (entries of SITE.social), in SITE.social's order.
+export function SocialLinks({ tone, labels }: { tone: keyof typeof TONES; labels: readonly string[] }) {
   return (
     <div className="flex gap-1.5">
-      {SITE.social.map((s) => {
-        const icon = SOCIAL_ICONS[s.label];
-        return (
+      {SITE.social
+        .filter((s) => labels.includes(s.label))
+        .map((s) => (
           <a
             key={s.label}
             href={s.href}
@@ -27,16 +33,11 @@ export function SocialLinks({ tone }: { tone: keyof typeof TONES }) {
             aria-label={s.label}
             className={`flex h-[30px] min-w-[30px] items-center justify-center rounded-[24px] p-2 transition-colors ${TONES[tone]}`}
           >
-            {icon ? (
-              <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-current" aria-hidden>
-                <path d={icon.path} />
-              </svg>
-            ) : (
-              <span className="text-[11px] font-bold leading-none">in</span>
-            )}
+            <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 fill-current" aria-hidden>
+              <path d={SOCIAL_ICON_PATHS[s.label]} />
+            </svg>
           </a>
-        );
-      })}
+        ))}
     </div>
   );
 }

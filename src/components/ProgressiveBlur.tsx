@@ -1,4 +1,4 @@
-// Fixed, transparent strip along the bottom of the viewport that blurs whatever scrolls
+// Fixed, transparent strip (16px tall on phones, 80px from tablet up) along the bottom of the viewport that blurs whatever scrolls
 // beneath it. Stacked layers with offset gradient masks make the blur ramp up toward the edge.
 const LAYERS = [
   { blur: 0.5, from: 0, to: 37.5 },
@@ -10,7 +10,7 @@ const LAYERS = [
 
 export function ProgressiveBlur() {
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-x-0 bottom-0 z-[45] h-20">
+    <div aria-hidden className="pointer-events-none fixed inset-x-0 bottom-0 z-[45] h-4 md:h-20">
       {LAYERS.map(({ blur, from, to }) => {
         const mask = `linear-gradient(to bottom, transparent ${from}%, black ${(from + to) / 2}%, black ${to}%)`;
         return (

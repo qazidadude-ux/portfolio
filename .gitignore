@@ -43,3 +43,6 @@ LaunchFolio Portfolio Framer Template_files/
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+.vercel
+.env*

@@ -2,18 +2,58 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { NAV_LINKS, SITE } from "@/data/site";
-import { ThemeToggle, useThemeSync } from "@/components/ThemeToggle";
-import { Button } from "@/components/ui/Button";
+import { Button, buttonVariants } from "@/components/ui/Button";
 import { Logo } from "@/components/ui/Logo";
 
 const NAV_TRANSITION = { duration: 0.6, ease: [0.22, 1, 0.36, 1] } as const;
 
+// Distance from the viewport top to the middle of the bar (top-4 + half of h-14).
+const NAV_CENTER_Y = 44;
+
+// True while the bar's middle sits over an element marked data-nav-theme="dark" (e.g. the
+// black Spotlight section), so the nav can switch to its dark look there.
+function useOverDarkSection() {
+  const [overDark, setOverDark] = useState(false);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const sections = document.querySelectorAll<HTMLElement>('[data-nav-theme="dark"]');
+      setOverDark(
+        Array.from(sections).some((el) => {
+          const { top, bottom } = el.getBoundingClientRect();
+          return top <= NAV_CENTER_Y && bottom >= NAV_CENTER_Y;
+        }),
+      );
+    };
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    };
+
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [pathname]);
+
+  return overDark;
+}
+
 export function Nav() {
   const [open, setOpen] = useState(false);
   const [expanded, setExpanded] = useState(true);
-  useThemeSync();
+  const overDark = useOverDarkSection();
 
   useEffect(() => {
     let lastY = window.scrollY;
@@ -56,24 +96,24 @@ export function Nav() {
   const primaryLinks = NAV_LINKS.filter((link) => link.label !== "Contact");
 
   return (
-    <header className="fixed inset-x-0 top-4 z-50">
+    // text-black re-resolves the inherited text color inside the dark scope.
+    <header className={`fixed inset-x-0 top-4 z-50 text-black ${overDark ? "theme-dark" : ""}`}>
       <div className="container-max flex justify-center">
         {/* The bar's width change is a scale-based layout animation. Every direct child also
             gets `layout` so Framer counter-scales it; otherwise the name text gets stretched. */}
         <motion.div
           layout
           transition={NAV_TRANSITION}
-          style={{ borderRadius: 32, boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)" }}
+          style={{ borderRadius: 12, boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)" }}
           className={`relative isolate flex h-14 w-full shrink-0 items-center justify-between gap-4 overflow-hidden border border-[var(--nav-glass-border)] px-2 md:px-2.5 transition-[background-color,backdrop-filter] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
             expanded
               ? "lg:w-[85%] xl:w-[70%] bg-white/50 backdrop-blur-[5px]"
-              : "lg:w-fit bg-white/70 backdrop-blur-[14px]"
+              : // Collapsed: the logo glides to the middle (its `layout` animates the move).
+                "lg:w-fit lg:min-w-[240px] lg:justify-center bg-white/70 backdrop-blur-[14px]"
           }`}
         >
-          <motion.div layout aria-hidden transition={NAV_TRANSITION} style={{ borderRadius: 32 }} className="nav-glass">
-            <div className="nav-glass-box">
-              <div className="nav-glass-ring" />
-            </div>
+          <motion.div layout aria-hidden transition={NAV_TRANSITION} style={{ borderRadius: 12 }} className="nav-glass">
+            <div className="nav-glass-box" />
           </motion.div>
 
           <motion.div layout transition={NAV_TRANSITION} className="shrink-0">
@@ -81,7 +121,10 @@ export function Nav() {
               <span className="flex h-8 w-8 items-center justify-center text-black">
                 <Logo className="h-6 w-6" />
               </span>
-              <span className="whitespace-nowrap text-base font-semibold">{SITE.name.split(" ")[0]}</span>
+              {/* Wordmark styled like the footer name: uppercase, medium weight, tight tracking. */}
+              <span className="whitespace-nowrap text-xl font-medium uppercase leading-none tracking-[-0.03em]">
+                {SITE.name.split(" ")[0]}
+              </span>
             </Link>
           </motion.div>
 
@@ -101,37 +144,24 @@ export function Nav() {
                     <Link
                       key={link.href}
                       href={link.href}
-                      className="whitespace-nowrap text-sm text-gray-600 hover:text-black transition-colors"
+                      className="whitespace-nowrap text-sm text-black transition-opacity hover:opacity-70"
                     >
                       {link.label}
                     </Link>
                   ))}
                 </nav>
                 {contactLink && (
-                  <Button href={contactLink.href} size="sm" tone="secondary" className="shrink-0">
+                  <Button href={contactLink.href} size="sm" variant="secondary" className="shrink-0">
                     {contactLink.label}
                   </Button>
                 )}
               </motion.div>
-            ) : (
-              // Bar gap (16px) + ml-8 (32px) = 48px from the name.
-              <motion.div
-                key="collapsed"
-                layout
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1, transition: { duration: 0.35, delay: 0.2, ease: "easeOut" } }}
-                exit={{ opacity: 0, transition: { duration: 0.15, ease: "easeOut" } }}
-                transition={NAV_TRANSITION}
-                className="ml-8 hidden shrink-0 md:block"
-              >
-                <ThemeToggle />
-              </motion.div>
-            )}
+            ) : null /* Collapsed on scroll: just the logo and name. */}
           </AnimatePresence>
 
           <button
             aria-label="Toggle menu"
-            className="md:hidden flex flex-col gap-1.5 p-2"
+            className={`${buttonVariants({ variant: "ghost", size: "icon" })} flex-col gap-1.5 md:hidden`}
             onClick={() => setOpen((v) => !v)}
           >
             <span className={`h-px w-6 bg-black transition-transform ${open ? "translate-y-1.5 rotate-45" : ""}`} />
@@ -156,7 +186,7 @@ export function Nav() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setOpen(false)}
-                  className="text-base text-gray-800"
+                  className="text-base text-black"
                 >
                   {link.label}
                 </Link>

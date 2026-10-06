@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 
 export function Eyebrow({ children }: { children: ReactNode }) {
   return (
-    <span className="inline-flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1 font-mono text-xs uppercase tracking-widest text-gray-600">
+    <span className="inline-flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1 font-mono text-xs uppercase tracking-widest text-secondary">
       {children}
     </span>
   );
@@ -21,7 +21,7 @@ export function SectionHeading({
   return (
     <Tag
       className={clsx(
-        "text-[40px] font-medium leading-[1.05] text-balance md:text-[52px] lg:text-[64px]",
+        "text-[40px] font-normal leading-[1.05] text-balance md:text-[52px] lg:text-[64px]",
         className
       )}
     >

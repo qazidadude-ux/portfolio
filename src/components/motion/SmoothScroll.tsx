@@ -20,12 +20,30 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
   const content = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
+    // Touch screens keep plain native scrolling: the smoother re-measures the page whenever the
+    // mobile address bar shows or hides, which made the page jump to another section and the nav
+    // resize mid-scroll. Anchor links still glide there via the browser.
+    if (!matchMedia("(hover: hover) and (pointer: fine)").matches) {
+      const onTouchClick = (e: MouseEvent) => {
+        const link = (e.target as Element | null)?.closest?.<HTMLAnchorElement>('a[href^="#"]');
+        if (!link || link.hash.length < 2) return;
+        const target = document.querySelector(link.hash);
+        if (!target) return;
+        e.preventDefault();
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+        history.pushState(null, "", link.hash);
+      };
+      document.addEventListener("click", onTouchClick);
+      return () => document.removeEventListener("click", onTouchClick);
+    }
+
     const smoother = ScrollSmoother.create({
       wrapper: wrapper.current!,
       content: content.current!,
       smooth: SMOOTH,
-      // Native scrolling on touch screens; smoothing there fights the finger.
       smoothTouch: false,
+      // Don't re-measure for the small resizes some browsers fire while scrolling.
+      ignoreMobileResize: true,
       effects: false,
     });
 

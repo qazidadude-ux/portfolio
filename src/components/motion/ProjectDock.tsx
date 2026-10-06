@@ -22,7 +22,8 @@ export const FAN = [
   { top: "13%", left: "52%", rotate: 10 },
 ];
 
-export const FAN_RADIUS = 12;
+// Square corners in the hero fan; they round off to GRID_RADIUS as the cards fly to the grid.
+export const FAN_RADIUS = 0;
 export const FAN_SHADOW = "0 24px 48px -16px rgba(0,0,0,0.28)";
 
 // Page-load entrance shared by the hero headline words and the hero cards: fade up, staggered.
@@ -78,6 +79,8 @@ export function ProjectDockProvider({ children }: { children: ReactNode }) {
 
     let starts: Box[] = [];
     let ends: Box[] = [];
+    // Scroll range over which the cards fly: from the hero section reaching the top of <main> to the grid landing.
+    let startScroll = 0;
     let endScroll = 1;
     let current = 0;
     let target = 0;
@@ -175,17 +178,21 @@ export function ProjectDockProvider({ children }: { children: ReactNode }) {
       ends = gridEls.map((el) => boxWithin(el!, main));
       const mainTop = main.getBoundingClientRect().top + window.scrollY;
       const gridTop = mainTop + Math.min(...ends.map((b) => b.y));
-      endScroll = Math.max(1, gridTop - window.innerHeight * LAND_AT_VIEWPORT);
-      target = clamp01(window.scrollY / endScroll);
+      const heroSection = heroEls[0]!.closest("section");
+      startScroll = heroSection ? boxWithin(heroSection, main).y : 0;
+      endScroll = Math.max(startScroll + 1, gridTop - window.innerHeight * LAND_AT_VIEWPORT);
+      target = progress();
       current = target;
       render();
       if (!entrancePlayed) playEntrance();
       setReady(true);
     };
 
+    const progress = () => clamp01((window.scrollY - startScroll) / (endScroll - startScroll));
+
     const onScroll = () => {
       if (!active) return;
-      target = clamp01(window.scrollY / endScroll);
+      target = progress();
       if (!raf) raf = requestAnimationFrame(tick);
     };
 

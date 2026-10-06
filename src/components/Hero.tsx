@@ -2,10 +2,9 @@
 
 import { Fragment } from "react";
 import { motion } from "framer-motion";
-import { HERO, SITE } from "@/data/site";
+import { HERO } from "@/data/site";
 import { PROJECTS } from "@/data/projects";
 import { ProjectThumb } from "@/components/ProjectThumb";
-import { KeyButton } from "@/components/ui/KeyButton";
 import { FAN, FAN_RADIUS, FAN_SHADOW, HERO_ENTRANCE, useProjectDock } from "@/components/motion/ProjectDock";
 
 const riseVariants = (delay: (i: number) => number) => ({
@@ -25,32 +24,36 @@ export function Hero() {
   const { heroSlots, ready } = useProjectDock();
 
   return (
-    <section className="container-max py-24 lg:flex lg:items-center lg:justify-between lg:gap-12">
+    // Stack: title, then the three facts, then the project card fan. Left-aligned on phones, centered
+    // from tablet up. Top padding puts "HELLO" 144px below the fixed nav (nav ends 72px down; the
+    // page already reserves 56px for it, so 56 + 160 = 72 + 144).
+    <section className="container-max flex flex-col items-start pb-24 pt-[160px] text-left md:items-center md:pb-64 md:text-center">
       <div>
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
+      <motion.p
+        initial={{ opacity: 0, y: HERO_ENTRANCE.rise }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="mb-6 inline-flex items-center gap-2 rounded-[24px] border border-gray-150 bg-white px-3 py-2 text-xs text-gray-600 shadow-card"
+        transition={{ duration: HERO_ENTRANCE.duration, ease: HERO_ENTRANCE.ease }}
+        className="mb-1 flex items-center justify-start gap-2 text-lg font-medium uppercase tracking-[0.05em] text-secondary md:justify-center"
       >
-        <span className="relative flex h-2 w-2 items-center justify-center">
-          <motion.span
-            className="absolute inline-flex h-full w-full rounded-full bg-accent"
-            animate={{ scale: [1, 2.4], opacity: [0.5, 0] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut" }}
-          />
-          <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
-        </span>
-        {SITE.availability}
-      </motion.div>
+        {HERO.eyebrow}
+        {/* Waves (pivoting at the wrist) a few times, rests, then waves again. */}
+        <motion.span
+          aria-hidden
+          className="inline-block origin-[70%_70%]"
+          animate={{ rotate: [0, 14, -8, 14, -4, 10, 0, 0] }}
+          transition={{ duration: 2.5, times: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 1], repeat: Infinity, delay: 0.6 }}
+        >
+          👋
+        </motion.span>
+      </motion.p>
 
-      {/* Each headline line stays on one row from lg up (sized to fit beside the card fan);
-          smaller screens wrap freely. Words rise in one after another across all lines. */}
-      <h1 className="text-[28px] font-medium leading-[1.2] tracking-[-0.02em] sm:text-[34px] lg:text-[27px] xl:text-[30px]">
+      {/* 64px title on desktop (48px on tablets, where 64px would wrap "Product & UX Designer"), one
+          headline entry per line with the first in gray; words rise in one after another. */}
+      <h1 className="text-[36px] font-medium leading-[1.1] tracking-[-0.02em] md:text-[48px] lg:text-[64px]">
         {HERO.headline.map((line, lineIndex) => {
           const before = HERO.headline.slice(0, lineIndex).join(" ").split(" ").filter(Boolean).length;
           return (
-            <span key={line} className={`lg:block lg:whitespace-nowrap ${lineIndex === 0 ? "text-gray-500" : "text-black"}`}>
+            <span key={line} className={`block ${lineIndex === 0 ? "text-gray-500" : "text-black"}`}>
               {/* Real spaces between words (not just margins) so the heading reads and copies correctly. */}
               {line.split(" ").map((word, i) => (
                 <Fragment key={word + i}>
@@ -64,19 +67,34 @@ export function Hero() {
         })}
       </h1>
 
-      <motion.div
+      {/* Currently / Specialized at / Working globally, side by side (wraps on narrow screens). */}
+      <motion.dl
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.9 }}
-        className="mt-8 flex flex-wrap items-center gap-4"
+        transition={{ duration: 0.6, delay: 0.8 }}
+        className="mt-8 flex flex-wrap justify-start gap-x-16 gap-y-8 md:justify-center"
       >
-        <KeyButton href="/projects">
-          {HERO.ctaLabel}
-        </KeyButton>
-      </motion.div>
+        {HERO.facts.map((fact) => (
+          <div key={fact.label} className="flex flex-col gap-1">
+            <dt className="text-[15px] text-gray-500">{fact.label}</dt>
+            <dd className="flex items-center justify-start gap-2 text-base text-black md:justify-center">
+              {"live" in fact && fact.live && (
+                // Availability dot: lime, gently "breathing" between 100% and 125% size.
+                <motion.span
+                  aria-hidden
+                  className="h-1.5 w-1.5 shrink-0 rounded-full bg-secondary"
+                  animate={{ scale: [1, 1.25, 1] }}
+                  transition={{ duration: 2.4, ease: "easeInOut", repeat: Infinity }}
+                />
+              )}
+              {fact.value}
+            </dd>
+          </div>
+        ))}
+      </motion.dl>
       </div>
 
-      <div className="relative hidden aspect-[554/320] w-[336px] shrink-0 lg:block xl:w-[443px]">
+      <div className="relative mt-16 hidden aspect-[554/320] w-[336px] shrink-0 lg:block xl:w-[443px]">
         {PROJECTS.map((project, i) => (
           <div
             key={project.slug}

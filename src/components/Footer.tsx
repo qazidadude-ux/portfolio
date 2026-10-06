@@ -69,8 +69,10 @@ function LocalTime() {
 }
 
 const NAME_FONT = '500 200px "Switzer", sans-serif';
-// Share of the letters' height left visible; the rest runs off the bottom of the footer.
+// Share of the letters' height left visible; the rest runs off the bottom of the footer. On
+// phones the name is small, so it shows whole (and sits clear of the bottom blur strip).
 const NAME_VISIBLE = 0.75;
+const PHONE_QUERY = "(max-width: 767px)";
 
 // Scales the name so it spans the full footer width exactly. The viewBox hugs the letters'
 // ink (not the font's line box), so spacing above the name is exactly what the layout sets.
@@ -86,10 +88,14 @@ function FitName({ text }: { text: string }) {
       const b = el.getBBox();
       ctx.font = NAME_FONT;
       const ascent = ctx.measureText(text).actualBoundingBoxAscent;
-      if (b.width > 0 && ascent > 0) setBox(`${b.x} ${-ascent} ${b.width} ${ascent * NAME_VISIBLE}`);
+      const visible = window.matchMedia(PHONE_QUERY).matches ? 1 : NAME_VISIBLE;
+      if (b.width > 0 && ascent > 0) setBox(`${b.x} ${-ascent} ${b.width} ${ascent * visible}`);
     };
     fit();
     document.fonts?.ready.then(fit);
+    const phone = window.matchMedia(PHONE_QUERY);
+    phone.addEventListener("change", fit);
+    return () => phone.removeEventListener("change", fit);
   }, [text]);
 
   return (
@@ -107,8 +113,8 @@ export function Footer() {
   return (
     <footer id="contact" className="theme-light relative z-[41] overflow-hidden border-t border-[var(--footer-line)] bg-black text-white">
       <GridLines className="" lineClassName="bg-[var(--footer-line)]" />
-      <div className="container-max pt-24">
-        <div className="flex flex-col gap-12 pb-24 md:gap-16 lg:gap-12">
+      <div className="container-max pt-16 md:pt-24">
+        <div className="flex flex-col gap-12 pb-16 md:pb-24 md:gap-16 lg:gap-12">
           <div className={HEADING}>
             <p className="flex flex-wrap items-baseline gap-x-2">
               <span>Let&rsquo;s</span>
@@ -126,18 +132,13 @@ export function Footer() {
             </div>
             <div className="flex flex-col gap-2">
               <p className="text-sm font-semibold tracking-[-0.02em] text-gray-500">Call Me</p>
-              <a
-                href={SITE.bookingUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`text-base font-medium tracking-[-0.02em] md:text-lg ${LINK}`}
-              >
-                Book Now
+              <a href={SITE.phoneHref} className={`text-base font-medium tracking-[-0.02em] md:text-lg ${LINK}`}>
+                {SITE.phone}
               </a>
             </div>
             <div className="flex flex-col gap-4">
               <p className="text-sm font-semibold tracking-[-0.02em] text-gray-500">Social</p>
-              <SocialLinks tone="light" />
+              <SocialLinks tone="light" labels={SITE.footerSocial} />
             </div>
             <div className="flex flex-col gap-2">
               <LocalTime />
@@ -146,7 +147,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="pointer-events-none select-none">
+        <div className="pointer-events-none select-none pb-8 md:pb-0">
           <FitName text={firstName} />
         </div>
       </div>

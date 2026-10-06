@@ -1,34 +1,31 @@
-import { Circle, Infinity as InfinityIcon, Triangle, Waves, type LucideIcon } from "lucide-react";
 import { CLIENTS } from "@/data/site";
 import { Marquee } from "@/components/ui/Marquee";
-
-// Wordmark stand-ins; swap for real logo files when you have them.
-const CLIENT_MARKS: Record<(typeof CLIENTS)[number], LucideIcon> = {
-  Kora: Circle,
-  KYMA: Waves,
-  Mugen: InfinityIcon,
-  Axiom: Triangle,
-};
 
 // Repeat the list inside each copy so a copy is always wider than the visible strip.
 const HALF = [...CLIENTS, ...CLIENTS];
 
-// Infinitely scrolling client strip, faded at both edges.
+// Infinitely scrolling client strip, faded at both edges. The logos come in mixed colours, so
+// they're flattened to white to sit evenly on the dark background.
 export function LogoTicker() {
   return (
+    // 50s per copy (~90px/s): slowed down on request.
     <Marquee
+      seconds={50}
       className="flex-1 opacity-70 [mask-image:linear-gradient(to_right,transparent,black_20%,black_80%,transparent)]"
       rowClassName="gap-16 pr-16"
     >
-      {HALF.map((name, i) => {
-        const Mark = CLIENT_MARKS[name];
-        return (
-          <li key={`${name}-${i}`} className="flex shrink-0 items-center gap-2 text-black">
-            <Mark className="h-6 w-6" strokeWidth={2.25} />
-            <span className="text-2xl font-semibold tracking-[-0.04em]">{name}</span>
-          </li>
-        );
-      })}
+      {HALF.map((client, i) => (
+        <li key={`${client.file}-${i}`} className="flex shrink-0 items-center">
+          {/* eslint-disable-next-line @next/next/no-img-element -- static SVGs, no optimisation needed */}
+          <img
+            src={`/clients/${client.file}`}
+            alt={i < CLIENTS.length ? client.name : ""}
+            className="h-7 w-auto max-w-[140px] object-contain brightness-0 invert"
+            loading="lazy"
+            draggable={false}
+          />
+        </li>
+      ))}
     </Marquee>
   );
 }

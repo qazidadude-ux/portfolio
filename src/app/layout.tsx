@@ -3,11 +3,11 @@ import { Space_Mono } from "next/font/google";
 import "./globals.css";
 import { SITE } from "@/data/site";
 import { GridLines } from "@/components/GridLines";
+import { GridStreaks } from "@/components/GridStreaks";
+import { NeonCursor } from "@/components/NeonCursor";
 import { ProgressiveBlur } from "@/components/ProgressiveBlur";
-import { THEME_SCRIPT } from "@/components/ThemeToggle";
 import { Nav } from "@/components/Nav";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
-import { GooFilter } from "@/components/ui/Goo";
 import { ThumbnailsProvider } from "@/components/ThumbnailsProvider";
 import { findProjectThumbnails } from "@/lib/thumbnails";
 
@@ -31,13 +31,13 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
+  // Always dark: data-theme="dark" applies the dark ramp in globals.css (there is no theme switch).
   return (
-    <html lang="en" data-theme="light" suppressHydrationWarning className={`${spaceMono.variable} h-full antialiased`}>
+    <html lang="en" data-theme="dark" className={`${spaceMono.variable} h-full antialiased`}>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
         <link rel="preconnect" href="https://api.fontshare.com" />
         <link
-          href="https://api.fontshare.com/v2/css?f[]=switzer@400,500,600,700&display=swap"
+          href="https://api.fontshare.com/v2/css?f[]=switzer@300,400,500,600,700&display=swap"
           rel="stylesheet"
         />
       </head>
@@ -51,8 +51,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             {children}
             <GridLines />
           </SmoothScroll>
+          <GridStreaks />
+          <NeonCursor />
           <ProgressiveBlur />
-          <GooFilter />
         </ThumbnailsProvider>
       </body>
     </html>

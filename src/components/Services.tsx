@@ -1,13 +1,11 @@
 import {
   Code2,
-  Globe,
   Laptop,
   LayoutDashboard,
   PaintBucket,
   PanelsTopLeft,
   PencilRuler,
   Layers,
-  WandSparkles,
   type LucideIcon,
 } from "lucide-react";
 import { siClaude, siFigma, siFramer, type SimpleIcon } from "simple-icons";
@@ -39,8 +37,6 @@ const SERVICE_ICONS: Record<Service, LucideIcon> = {
   "Brand Design": PaintBucket,
   "Web Apps": Laptop,
   "Landing Pages": PanelsTopLeft,
-  "Motion Graphics": WandSparkles,
-  "3D Design": Globe,
   "UX / UI Consultation": LayoutDashboard,
 };
 
@@ -76,8 +72,8 @@ const EDGE_FADE = "[mask-image:linear-gradient(to_right,transparent,black_8%,bla
 export function Services() {
   return (
     <section id="services">
-      <div className="container-max flex flex-col gap-16 py-24">
-        <div className="flex flex-col gap-10 md:flex-row md:items-center md:justify-between md:gap-12">
+      <div className="container-max flex flex-col gap-6 py-16 md:gap-16 md:py-24">
+        <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between md:gap-12">
           <Reveal>
             <SectionHeading>
               <span className="block text-gray-500">Services that</span>
@@ -106,7 +102,7 @@ export function Services() {
 
         <Reveal className="flex flex-col gap-4">
           <p className={STRIP_LABEL}>My services</p>
-          <Marquee seconds={70} className={`-my-8 py-8 ${EDGE_FADE}`} rowClassName="gap-12 pr-12">
+          <Marquee seconds={40} className={`-my-8 py-8 ${EDGE_FADE}`} rowClassName="gap-12 pr-12">
             {SERVICES.map((service) => {
               const Icon = SERVICE_ICONS[service];
               return (
@@ -116,7 +112,7 @@ export function Services() {
                   >
                     <Icon className="h-6 w-6 text-white" strokeWidth={1.5} />
                   </span>
-                  <span className="whitespace-nowrap text-lg font-medium leading-[1.4] tracking-[-0.03em] md:text-[22px]">
+                  <span className="whitespace-nowrap text-lg font-normal leading-[1.4] tracking-[-0.03em] md:text-[22px]">
                     {service}
                   </span>
                 </li>

@@ -5,9 +5,6 @@ import { ProjectDockProvider } from "@/components/motion/ProjectDock";
 import { Intro } from "@/components/Intro";
 import { SelectedVisuals } from "@/components/SelectedVisuals";
 import { Services } from "@/components/Services";
-import { About } from "@/components/About";
-import { ClientLogos } from "@/components/ClientLogos";
-import { Testimonials } from "@/components/Testimonials";
 import { Footer } from "@/components/Footer";
 
 export default function Home() {
@@ -22,9 +19,6 @@ export default function Home() {
         <Intro />
         <SelectedVisuals />
         <Services />
-        <About />
-        <ClientLogos />
-        <Testimonials />
       </main>
       <Footer />
     </>

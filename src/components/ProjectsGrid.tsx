@@ -3,21 +3,21 @@
 import Link from "next/link";
 import { PROJECTS } from "@/data/projects";
 import { ProjectThumb } from "@/components/ProjectThumb";
+import { ProjectCardText } from "@/components/ProjectCardText";
 import { Reveal } from "@/components/motion/Reveal";
 import { useProjectDock } from "@/components/motion/ProjectDock";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Button } from "@/components/ui/Button";
 
 export function ProjectsGrid() {
   const { gridSlots } = useProjectDock();
 
   return (
-    <section id="work" className="container-max py-24">
+    <section id="work" className="container-max py-16 md:py-24">
       <Reveal>
         <SectionHeading>Latest Projects</SectionHeading>
       </Reveal>
 
-      <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2">
+      <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 md:mt-12">
         {PROJECTS.map((project, i) => (
           <div key={project.slug}>
             {/* On desktop the frame appears once its hero card is halfway in (data-docked) and the
@@ -41,12 +41,9 @@ export function ProjectsGrid() {
                 </div>
               </div>
               <div className="overflow-hidden">
-                <div className="flex items-center justify-between p-6 transition-[transform,opacity] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] lg:translate-y-full lg:opacity-0 lg:group-data-[landed=true]:translate-y-0 lg:group-data-[landed=true]:opacity-100">
-                  <div>
-                    <h3 className="text-xl font-semibold">{project.name}</h3>
-                    <p className="text-sm text-gray-500">{project.category}</p>
-                  </div>
-                  <span className="text-sm font-medium text-black underline-offset-4 group-hover:underline">
+                <div className="flex flex-col items-start gap-4 p-6 md:flex-row md:items-end md:justify-between transition-[transform,opacity] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] lg:translate-y-full lg:opacity-0 lg:group-data-[landed=true]:translate-y-0 lg:group-data-[landed=true]:opacity-100">
+                  <ProjectCardText project={project} />
+                  <span className="shrink-0 text-sm font-medium text-black underline-offset-4 group-hover:underline">
                     View Project
                   </span>
                 </div>
@@ -55,10 +52,6 @@ export function ProjectsGrid() {
           </div>
         ))}
       </div>
-
-      <Reveal delay={0.2} className="mt-10 flex justify-center">
-        <Button href="/projects">View all my projects</Button>
-      </Reveal>
     </section>
   );
 }
