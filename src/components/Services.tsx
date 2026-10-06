@@ -82,8 +82,10 @@ export function Services() {
             </SectionHeading>
           </Reveal>
 
-          <Reveal className="shrink-0">
-            <ul aria-label="My tech stack" className="grid w-max grid-cols-4 gap-3">
+          {/* Phones: four tiles per row at their own size, spread so the first and last touch the content
+              edges (the gaps share out the spare width). From md it sizes to its tiles with 12px gaps. */}
+          <Reveal className="w-full shrink-0 md:w-auto">
+            <ul aria-label="My tech stack" className="grid w-full grid-cols-[repeat(4,auto)] justify-between gap-y-3 md:w-max md:grid-cols-4 md:gap-3">
               {TECH_STACK.map((tool) => (
                 <li key={tool} className="group relative">
                   <div

@@ -17,13 +17,10 @@ const PHOTO_FADE = "linear-gradient(to bottom, #000 73.5%, transparent 100%)";
 // fades out over its bottom 30%.
 export function Intro() {
   return (
-    // Text pinned to the left padding, work history to the right, free space between. 48px side
-    // padding at every size (phones would otherwise get the site's 24px); inline so it overrides
-    // .container-max, which isn't in a Tailwind layer.
+    // Text pinned to the left padding, work history to the right, free space between.
     <section
       id="about"
       className="group container-max relative flex flex-col items-start gap-6 py-16 md:flex-row md:justify-between md:gap-16 md:py-24 lg:gap-8"
-      style={{ paddingInline: 48 }}
     >
       <Typewriter
         paragraphs={INTRO}
