@@ -8,6 +8,7 @@ import { PROJECTS, getProject } from "@/data/projects";
 import { ProjectThumb } from "@/components/ProjectThumb";
 import { SITE } from "@/data/site";
 import { CASE_STUDIES } from "@/data/case-studies";
+import { DesktopNotice } from "@/components/DesktopNotice";
 import { CaseStudy } from "@/components/CaseStudy";
 
 export function generateStaticParams() {
@@ -38,6 +39,8 @@ export default async function ProjectPage({
   if (study) {
     return (
       <>
+        {/* Phones: suggests a desktop before reading. */}
+        <DesktopNotice />
         <main className="relative">
           <CaseStudy project={project} study={study} />
         </main>
@@ -50,6 +53,7 @@ export default async function ProjectPage({
 
   return (
     <>
+      <DesktopNotice />
       <main>
         <div className="container-max py-12 md:py-16">
           <Reveal>

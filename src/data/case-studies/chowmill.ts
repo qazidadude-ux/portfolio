@@ -283,7 +283,79 @@ export const CHOWMILL: CaseStudy = {
           type: "text",
           text: "This Analysis highlighting Chowmill’s superior features post-redesign in comparison to DoorDash, Forkable, and Uber Eats. It emphasizes how Chowmill effectively addresses the issues of limited dietary options, difficulty ordering from multiple restaurants, and lack of buffet-style meal options, positioning it as the best choice for users.",
         },
-        { type: "image", image: chow("competitors-post.png", 1520, 1805, "Competitor comparison after the redesign") },
+        {
+          type: "comparison",
+          columns: ["DoorDash", "Forkable", "Uber Eats", "Chowmill"],
+          highlight: 3,
+          rows: [
+            {
+              feature: "Limited Dietary Options",
+              cells: [
+                {
+                  strength: "Wide range of dietary options.",
+                  weakness: "Not all restaurants clearly label dietary options. Filtering system can be cumbersome.",
+                },
+                {
+                  strength: "Customizable meal plans for specific diets.",
+                  weakness: "Limited variety within dietary categories. Inconsistent availability of dietary-specific meals.",
+                },
+                {
+                  strength: "Extensive selection of dietary-specific meals.",
+                  weakness: "Inconsistent filtering experience. Occasional inaccuracies in dietary labels.",
+                },
+                {
+                  strength:
+                    "Offers an extensive range of dietary options including vegan, gluten-free, and keto. Advanced filtering system for dietary preferences. Clear and consistent labeling of dietary-specific meals.",
+                  weakness: "None identified post-redesign.",
+                },
+              ],
+            },
+            {
+              feature: "Difficulty Ordering from Multiple Restaurants",
+              cells: [
+                {
+                  strength: "Allows group orders from multiple restaurants.",
+                  weakness: "Not seamless for individual users. Higher delivery fees and longer wait times.",
+                },
+                {
+                  strength: "Group orders from multiple restaurants for office settings.",
+                  weakness: "Limited functionality for individual users. Multi-restaurant feature not widely available.",
+                },
+                {
+                  strength: "“Shared Orders” feature for adding items from different restaurants.",
+                  weakness: "Feature not widely advertised or used. Additional delivery charges.",
+                },
+                {
+                  strength:
+                    "Seamless multi-restaurant ordering feature, allowing users to add items from different restaurants in a single order. Optimized for both individual and group orders.",
+                  weakness: "None identified post-redesign.",
+                },
+              ],
+            },
+            {
+              feature: "Lack of Buffet-Style Meal Options",
+              cells: [
+                {
+                  strength: "Family-style or group meals available.",
+                  weakness: "No dedicated buffet-style category. Manual search for group meals is time-consuming",
+                },
+                {
+                  strength: "Buffet-style catering options for office settings.",
+                  weakness: "Not available for individual or small group orders. Limited geographic availability.",
+                },
+                {
+                  strength: "“Family Meals” offering multiple dishes.",
+                  weakness: "No explicit buffet-style option. Limited availability by region and restaurant.",
+                },
+                {
+                  strength:
+                    "Comprehensive buffet-style meal options available for both individual and group orders. Clearly categorized and easily accessible.",
+                  weakness: "None identified post-redesign.",
+                },
+              ],
+            },
+          ],
+        },
       ],
     },
     {

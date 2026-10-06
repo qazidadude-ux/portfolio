@@ -60,7 +60,7 @@ export const HERO = {
   // Small greeting above the title, followed by a waving hand.
   eyebrow: "Hello",
   // One entry per line; the first is set in gray.
-  headline: ["I’m Shakeel", "Product & UX Designer"],
+  headline: ["I’m Shakeel", "Product & UX Designer @ Brandcave"],
   // Label / value pairs shown under the title. `live` adds the availability dot.
   facts: [
     { label: "Currently", value: "Available for new gig", live: true },

@@ -47,9 +47,9 @@ export function Hero() {
         </motion.span>
       </motion.p>
 
-      {/* 64px title on desktop (48px on tablets, where 64px would wrap "Product & UX Designer"), one
+      {/* 60px title on desktop (just fits "Product & UX Designer @ [yeti] Brandcave" on one line; 48px on tablets), one
           headline entry per line with the first in gray; words rise in one after another. */}
-      <h1 className="text-[36px] font-medium leading-[1.1] tracking-[-0.02em] md:text-[48px] lg:text-[64px]">
+      <h1 className="text-[36px] font-medium leading-[1.1] tracking-[-0.02em] md:text-[48px] lg:text-[60px]">
         {HERO.headline.map((line, lineIndex) => {
           const before = HERO.headline.slice(0, lineIndex).join(" ").split(" ").filter(Boolean).length;
           return (
@@ -58,6 +58,18 @@ export function Hero() {
               {line.split(" ").map((word, i) => (
                 <Fragment key={word + i}>
                   <motion.span custom={before + i} initial="hidden" animate="visible" variants={wordVariants} className="inline-block">
+                    {/* Brandcave's yeti (top half) leads the company name, sized to the cap height. */}
+                    {word === "Brandcave" && (
+                      // eslint-disable-next-line @next/next/no-img-element -- small static SVG
+                      <img
+                        src="/brandcave-yeti.svg"
+                        alt=""
+                        aria-hidden
+                        width={644}
+                        height={405}
+                        className="mr-[0.12em] inline-block h-[0.95em] w-auto align-[-0.1em]"
+                      />
+                    )}
                     {word}
                   </motion.span>{" "}
                 </Fragment>
