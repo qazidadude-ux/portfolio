@@ -98,7 +98,7 @@ export function Nav() {
   return (
     // text-black re-resolves the inherited text color inside the dark scope.
     <header className={`fixed inset-x-0 top-4 z-50 text-black ${overDark ? "theme-dark" : ""}`}>
-      <div className="container-max container-nav flex justify-center">
+      <div className="container-max flex justify-center">
         {/* The bar's width change is a scale-based layout animation. Every direct child also
             gets `layout` so Framer counter-scales it; otherwise the name text gets stretched. */}
         <motion.div

@@ -17,7 +17,7 @@ export function GridStreaks() {
         {STREAKS.map((s, i) => (
           <span
             key={i}
-            className={`grid-streak-y ${s.side === "left" ? "left-4 md:left-0" : "right-4 md:right-0"}`}
+            className={`grid-streak-y ${s.side === "left" ? "left-2 md:left-0" : "right-2 md:right-0"}`}
             style={{ animationDuration: `${s.duration}s`, animationDelay: `${s.delay}s` }}
           />
         ))}

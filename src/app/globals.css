@@ -106,17 +106,12 @@ h1, h2, h3, h4 {
 .container-max {
   max-width: var(--container-max);
   margin-inline: auto;
-  /* Phones: the guide lines sit 16px in from the screen edge (GridLines) and content keeps another
-     16px inside them, so 32px. From tablet up the lines are on the box edge and content is 48px in. */
+  /* Phones: the guide lines sit 8px in from the screen edge (GridLines) and content keeps another
+     24px inside them, so 32px. From tablet up the lines are on the box edge and content is 48px in. */
   padding-inline: 32px;
 }
-/* The nav lines up with the guide lines on phones rather than with the content. */
-.container-max.container-nav {
-  padding-inline: 16px;
-}
 @media (min-width: 768px) {
-  .container-max,
-  .container-max.container-nav {
+  .container-max {
     padding-inline: 48px;
   }
 }

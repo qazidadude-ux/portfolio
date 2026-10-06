@@ -27,7 +27,7 @@ export function Hero() {
     // Stack: title, then the three facts, then the project card fan. Left-aligned on phones, centered
     // from tablet up. Top padding puts "HELLO" 144px below the fixed nav (nav ends 72px down; the
     // page already reserves 56px for it, so 56 + 160 = 72 + 144).
-    <section className="container-max flex flex-col items-start pb-24 pt-[160px] text-left md:items-center md:pb-64 md:text-center">
+    <section className="container-max flex flex-col items-start py-24 text-left md:items-center md:pb-64 md:pt-[160px] md:text-center">
       <div>
       <motion.p
         initial={{ opacity: 0, y: HERO_ENTRANCE.rise }}
