@@ -97,8 +97,26 @@ export function Nav() {
 
   return (
     // text-black re-resolves the inherited text color inside the dark scope.
-    <header className={`fixed inset-x-0 top-4 z-50 text-black ${overDark ? "theme-dark" : ""}`}>
-      <div className="container-max flex justify-center">
+    // Scrolling down slides the whole nav up out of view; scrolling up brings it back (not while
+    // the phone menu is open).
+    <header
+      className={`fixed inset-x-0 top-4 z-50 text-black transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${overDark ? "theme-dark" : ""} ${!expanded && !open ? "-translate-y-[calc(100%+1rem)]" : ""}`}
+    >
+      {/* Phones, menu open: the rest of the screen dims and blurs behind the nav; a tap closes it. */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            aria-hidden
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            onClick={() => setOpen(false)}
+            className="fixed inset-0 bg-[rgba(0,0,0,0.5)] backdrop-blur-md md:hidden"
+          />
+        )}
+      </AnimatePresence>
+      <div className="container-max relative flex justify-center">
         {/* The bar's width change is a scale-based layout animation. Every direct child also
             gets `layout` so Framer counter-scales it; otherwise the name text gets stretched. */}
         <motion.div
@@ -110,9 +128,9 @@ export function Nav() {
               ? "lg:w-[85%] xl:w-[70%] bg-white/50 backdrop-blur-[5px]"
               : // Collapsed: the logo glides to the middle (its `layout` animates the move).
                 "lg:w-fit lg:min-w-[240px] lg:justify-center bg-white/70 backdrop-blur-[14px]"
-          }`}
+          } ${open ? "max-md:!bg-[#000]" : ""}`}
         >
-          <motion.div layout aria-hidden transition={NAV_TRANSITION} style={{ borderRadius: 12 }} className="nav-glass">
+          <motion.div layout aria-hidden transition={NAV_TRANSITION} style={{ borderRadius: 12 }} className={`nav-glass ${open ? "max-md:hidden" : ""}`}>
             <div className="nav-glass-box" />
           </motion.div>
 
@@ -173,15 +191,17 @@ export function Nav() {
 
       <AnimatePresence>
         {open && (
+          // Phones: the menu drops down as a solid black panel under the bar, same width and radius.
           <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.25 }}
-            className="md:hidden overflow-hidden border-t border-gray-150"
+            className="container-max relative mt-2 md:hidden"
           >
-            <nav className="container-max flex flex-col gap-4 py-6">
-              {NAV_LINKS.map((link) => (
+            {/* Literal black: the theme's "black" token is the light text colour in dark mode. */}
+            <nav className="flex flex-col gap-4 rounded-[12px] border border-[var(--nav-glass-border)] bg-[#000] p-5">
+              {primaryLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
@@ -191,9 +211,13 @@ export function Nav() {
                   {link.label}
                 </Link>
               ))}
-              <Button href={SITE.bookingUrl} external size="sm" className="mt-2 w-full">
-                Book a call
-              </Button>
+              {contactLink && (
+                <span onClick={() => setOpen(false)} className="mt-2 block">
+                  <Button href={contactLink.href} size="sm" variant="secondary" className="w-full">
+                    {contactLink.label}
+                  </Button>
+                </span>
+              )}
             </nav>
           </motion.div>
         )}

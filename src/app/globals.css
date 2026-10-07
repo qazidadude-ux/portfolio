@@ -353,3 +353,55 @@ main > section:nth-child(4n + 2) + section::after {
 .neon-cursor * {
   cursor: none !important;
 }
+
+/* Project card hover on desktop (see focusProject in ProjectsGrid): the hovered card stacks above the
+   other grid cards (so its peeking sticker can rise over the row above) and the others blur. */
+.is-raised {
+  z-index: 20;
+}
+.is-dimmed {
+  filter: blur(4px);
+  opacity: 0.6;
+}
+
+/* Hero shooting stars (ShootingStars.tsx). A thin faded-white trail with a brighter head, angled
+   down-right (left to right); each streaks across in the first ~22% of its cycle, then waits hidden. */
+.shooting-star {
+  position: absolute;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.6));
+  opacity: 0;
+  transform: rotate(35deg) translateX(0);
+  transform-origin: 100% 50%;
+  animation: shooting-star 8s linear infinite;
+}
+.shooting-star::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 3px;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.5);
+  transform: translate(50%, -50%);
+}
+@keyframes shooting-star {
+  0% {
+    opacity: 0;
+    transform: rotate(35deg) translateX(0);
+  }
+  3% {
+    opacity: 1;
+  }
+  22% {
+    opacity: 0;
+    transform: rotate(35deg) translateX(700px);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(35deg) translateX(700px);
+  }
+}

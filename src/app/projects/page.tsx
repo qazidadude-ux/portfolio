@@ -4,6 +4,7 @@ import { Footer } from "@/components/Footer";
 import { PROJECTS } from "@/data/projects";
 import { ProjectThumb } from "@/components/ProjectThumb";
 import { ProjectCardText } from "@/components/ProjectCardText";
+import { ViewProjectButton } from "@/components/ViewProjectButton";
 import { Reveal } from "@/components/motion/Reveal";
 
 export const metadata: Metadata = { title: "Projects" };
@@ -31,9 +32,7 @@ export default function ProjectsPage() {
                 </div>
                 <div className="flex flex-col items-start gap-4 p-6 md:flex-row md:items-end md:justify-between">
                   <ProjectCardText project={project} />
-                  <span className="shrink-0 text-sm font-medium underline-offset-4 group-hover:underline">
-                    View Project
-                  </span>
+                  <ViewProjectButton />
                 </div>
               </Link>
             </Reveal>

@@ -39,8 +39,6 @@ const GRID_RADIUS = 12;
 const STAGGER = 0.1;
 // Seconds for the cards to close ~63% of the gap to the scroll position; higher is softer.
 const SMOOTHING_SECONDS = 0.45;
-// Cards finish landing when the grid's top edge reaches this fraction of the viewport height.
-const LAND_AT_VIEWPORT = 0.15;
 // Fraction of a card's own flight after which its grid frame fades in.
 const REVEAL_AT = 0.5;
 // Fraction of a card's own flight after which its title row slides up.
@@ -133,7 +131,9 @@ export function ProjectDockProvider({ children }: { children: ReactNode }) {
         const bottom = lerp(FAN_RADIUS, 0, t);
         el.style.width = `${lerp(s.w, e.w, t)}px`;
         el.style.height = `${lerp(s.h, e.h, t)}px`;
-        el.style.transform = `translate3d(${lerp(s.x, e.x, t)}px, ${lerp(s.y, e.y, t)}px, 0) rotate(${lerp(FAN[i].rotate, 0, t)}deg)`;
+        // Position via `translate`, the tilt via `transform` (same result as one combined transform).
+        el.style.translate = `${lerp(s.x, e.x, t)}px ${lerp(s.y, e.y, t)}px`;
+        el.style.transform = `rotate(${lerp(FAN[i].rotate, 0, t)}deg)`;
         el.style.borderRadius = `${top}px ${top}px ${bottom}px ${bottom}px`;
         el.style.boxShadow = `0 24px 48px -16px rgba(0,0,0,${0.28 * (1 - t)})`;
       });
@@ -177,10 +177,18 @@ export function ProjectDockProvider({ children }: { children: ReactNode }) {
       starts = heroEls.map((el) => boxWithin(el!, main));
       ends = gridEls.map((el) => boxWithin(el!, main));
       const mainTop = main.getBoundingClientRect().top + window.scrollY;
-      const gridTop = mainTop + Math.min(...ends.map((b) => b.y));
+      // The flight finishes as the first row of cards (the first two, title rows included) comes
+      // fully into view: when the lower of their bottom edges meets the bottom of the viewport.
+      const firstRowBottom = Math.max(
+        ...gridEls.slice(0, 2).map((el) => {
+          const card = el!.closest<HTMLElement>("[data-dock-card]") ?? el!;
+          const b = boxWithin(card, main);
+          return b.y + b.h;
+        }),
+      );
       const heroSection = heroEls[0]!.closest("section");
       startScroll = heroSection ? boxWithin(heroSection, main).y : 0;
-      endScroll = Math.max(startScroll + 1, gridTop - window.innerHeight * LAND_AT_VIEWPORT);
+      endScroll = Math.max(startScroll + 1, mainTop + firstRowBottom - window.innerHeight);
       target = progress();
       current = target;
       render();
@@ -221,10 +229,11 @@ export function ProjectDockProvider({ children }: { children: ReactNode }) {
         {PROJECTS.map((project, i) => (
           <div
             key={project.slug}
+            data-project-card={project.slug}
             ref={(el) => {
               cards.current[i] = el;
             }}
-            className="absolute left-0 top-0 flex items-center justify-center overflow-hidden will-change-transform"
+            className="absolute left-0 top-0 flex items-center justify-center overflow-hidden transition-[filter,opacity] duration-300 will-change-transform"
             // Same stacking as the hero fan: first project on top.
             style={{ backgroundColor: project.color, zIndex: PROJECTS.length - i }}
           >

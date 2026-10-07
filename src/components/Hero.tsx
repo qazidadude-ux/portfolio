@@ -6,6 +6,7 @@ import { HERO } from "@/data/site";
 import { PROJECTS } from "@/data/projects";
 import { ProjectThumb } from "@/components/ProjectThumb";
 import { YetiMark } from "@/components/YetiMark";
+import { ShootingStars } from "@/components/ShootingStars";
 import { FAN, FAN_RADIUS, FAN_SHADOW, HERO_ENTRANCE, useProjectDock } from "@/components/motion/ProjectDock";
 
 const riseVariants = (delay: (i: number) => number) => ({
@@ -28,7 +29,8 @@ export function Hero() {
     // Stack: title, then the three facts, then the project card fan. Left-aligned on phones, centered
     // from tablet up. Top padding puts "HELLO" 144px below the fixed nav (nav ends 72px down; the
     // page already reserves 56px for it, so 56 + 160 = 72 + 144).
-    <section className="container-max flex flex-col items-start py-24 text-left md:items-center md:pb-64 md:pt-[160px] md:text-center">
+    <section className="container-max relative isolate flex flex-col items-start py-24 text-left md:items-center md:pb-64 md:pt-[160px] md:text-center">
+      <ShootingStars />
       <div>
       <motion.p
         initial={{ opacity: 0, y: HERO_ENTRANCE.rise }}
