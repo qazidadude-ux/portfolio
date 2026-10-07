@@ -40,6 +40,18 @@ export function Intro() {
               aria-hidden
               className="absolute left-1/2 top-[calc(64px+0.8*(100%-64px))] size-[230px] -translate-x-1/2 -translate-y-1/2 scale-75 rounded-full bg-secondary opacity-0 blur-2xl transition-[opacity,scale] duration-700 ease-out group-hover:scale-100 group-hover:opacity-80"
             />
+            {/* The mascot peeks out from behind the left shoulder (right side of the picture) on hover:
+                it sits behind the photo just under the shoulder line (about 48% down, 64% across),
+                tilted 14° to follow the shoulder's slope, and rises only ~72% of its height so its
+                cut-off bottom edge stays hidden behind the jacket. */}
+            {/* eslint-disable-next-line @next/next/no-img-element -- decorative */}
+            <img
+              src="/peek-mascot.svg"
+              alt=""
+              aria-hidden
+              draggable={false}
+              className="absolute left-[calc(64px+0.64*(100%-128px))] top-[calc(64px+0.48*(100%-64px))] w-[104px] origin-bottom rotate-[14deg] opacity-0 transition-[translate,opacity] duration-300 ease-linear group-hover:-translate-y-[72%] group-hover:opacity-100 group-hover:delay-200"
+            />
             {/* Black and white until the section is hovered, then it eases into color. Fades out
                 over its bottom 30%. */}
             <Image

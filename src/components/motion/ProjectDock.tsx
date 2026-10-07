@@ -131,8 +131,11 @@ export function ProjectDockProvider({ children }: { children: ReactNode }) {
         const bottom = lerp(FAN_RADIUS, 0, t);
         el.style.width = `${lerp(s.w, e.w, t)}px`;
         el.style.height = `${lerp(s.h, e.h, t)}px`;
-        // Position via `translate`, the tilt via `transform` (same result as one combined transform).
-        el.style.translate = `${lerp(s.x, e.x, t)}px ${lerp(s.y, e.y, t)}px`;
+        // Position via left/top and tilt via `transform`, leaving `translate` free for the page-load
+        // entrance (playEntrance), which would otherwise override the position and flash the card in
+        // the top-left corner.
+        el.style.left = `${lerp(s.x, e.x, t)}px`;
+        el.style.top = `${lerp(s.y, e.y, t)}px`;
         el.style.transform = `rotate(${lerp(FAN[i].rotate, 0, t)}deg)`;
         el.style.borderRadius = `${top}px ${top}px ${bottom}px ${bottom}px`;
         el.style.boxShadow = `0 24px 48px -16px rgba(0,0,0,${0.28 * (1 - t)})`;
@@ -225,6 +228,8 @@ export function ProjectDockProvider({ children }: { children: ReactNode }) {
         ref={overlayRef}
         aria-hidden
         className={`pointer-events-none absolute inset-0 z-30 hidden lg:block ${ready ? "" : "invisible"}`}
+        // Inline as well: hidden until measured even before the stylesheet has loaded.
+        style={ready ? undefined : { visibility: "hidden" }}
       >
         {PROJECTS.map((project, i) => (
           <div
