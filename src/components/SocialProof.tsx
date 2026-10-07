@@ -5,8 +5,8 @@ import { LogoTicker } from "@/components/LogoTicker";
 export function SocialProof() {
   return (
     <section aria-label="Happy clients">
-      {/* Phones: 64px top and bottom like the other sections; a slimmer 32px bar from md. */}
-      <div className="container-max flex flex-col gap-6 py-16 md:flex-row md:items-center md:gap-8 md:py-8">
+      {/* Phones: 24px top and bottom; a 32px bar from md. */}
+      <div className="container-max flex flex-col gap-6 py-6 md:flex-row md:items-center md:gap-8 md:py-8">
         <HappyClients />
         <LogoTicker />
       </div>
