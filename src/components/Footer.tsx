@@ -69,10 +69,8 @@ function LocalTime() {
 }
 
 const NAME_FONT = '500 200px "Switzer", sans-serif';
-// Share of the letters' height left visible; the rest runs off the bottom of the footer. On
-// phones the name is small, so it shows whole (and sits clear of the bottom blur strip).
-const NAME_VISIBLE = 0.75;
-const PHONE_QUERY = "(max-width: 767px)";
+// Share of the letters' height left visible (at every size); the rest runs off the bottom of the footer.
+const NAME_VISIBLE = 0.8;
 
 // Scales the name so it spans the full footer width exactly. The viewBox hugs the letters'
 // ink (not the font's line box), so spacing above the name is exactly what the layout sets.
@@ -88,14 +86,10 @@ function FitName({ text }: { text: string }) {
       const b = el.getBBox();
       ctx.font = NAME_FONT;
       const ascent = ctx.measureText(text).actualBoundingBoxAscent;
-      const visible = window.matchMedia(PHONE_QUERY).matches ? 1 : NAME_VISIBLE;
-      if (b.width > 0 && ascent > 0) setBox(`${b.x} ${-ascent} ${b.width} ${ascent * visible}`);
+      if (b.width > 0 && ascent > 0) setBox(`${b.x} ${-ascent} ${b.width} ${ascent * NAME_VISIBLE}`);
     };
     fit();
     document.fonts?.ready.then(fit);
-    const phone = window.matchMedia(PHONE_QUERY);
-    phone.addEventListener("change", fit);
-    return () => phone.removeEventListener("change", fit);
   }, [text]);
 
   return (
@@ -147,7 +141,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="pointer-events-none select-none pb-8 md:pb-0">
+        <div className="pointer-events-none select-none">
           <FitName text={firstName} />
         </div>
       </div>
