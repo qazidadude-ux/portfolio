@@ -10,7 +10,7 @@ const CYCLE_WORDS = ["design", "build", "create"];
 const CYCLE_MS = 2200;
 const ROLL_TRANSITION = { duration: 0.7, ease: [0.65, 0, 0.35, 1] } as const;
 
-const HEADING = "text-[42px] font-medium leading-[0.95] tracking-[-0.03em] md:text-[48px] lg:text-[64px] xl:text-[72px]";
+const HEADING = "text-[42px] font-normal leading-[0.95] tracking-[-0.03em] md:text-[48px] lg:text-[64px] xl:text-[72px]";
 const LINK = "text-white transition-colors duration-[400ms] ease-[cubic-bezier(0.44,0,0.56,1)] hover:text-gray-500";
 
 function CyclingWord() {

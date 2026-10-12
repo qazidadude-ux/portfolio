@@ -56,14 +56,14 @@ export function Hero() {
         {HERO.headline.map((line, lineIndex) => {
           const before = HERO.headline.slice(0, lineIndex).join(" ").split(" ").filter(Boolean).length;
           return (
-            <span key={line} className={`block ${lineIndex === 0 ? "text-gray-500" : "text-black"}`}>
+            <span key={line} className={`block ${lineIndex === 0 ? "text-gray-500" : "text-black"} `}>
               {/* Real spaces between words (not just margins) so the heading reads and copies correctly. */}
               {line.split(" ").map((word, i) => (
                 <Fragment key={word + i}>
                   <motion.span custom={before + i} initial="hidden" animate="visible" variants={wordVariants} className="inline-block">
-                    {/* Brandcave's yeti (top half) leads the company name, sized to the cap height. */}
-                    {word === "Brandcave" && <YetiMark className="mr-[0.12em] h-[0.95em] align-[-0.1em]" />}
                     {word}
+                    {/* Brandcave's yeti (top half) follows the company name, sized to the cap height. */}
+                    {word === "Brandcave" && <YetiMark className="ml-[0.12em] h-[0.95em] align-[-0.1em]" />}
                   </motion.span>{" "}
                 </Fragment>
               ))}

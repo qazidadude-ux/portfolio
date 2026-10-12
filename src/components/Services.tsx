@@ -1,26 +1,37 @@
 import {
-  Code2,
-  Laptop,
-  LayoutDashboard,
-  PaintBucket,
-  PanelsTopLeft,
-  PencilRuler,
+  Smartphone,
+  BarChart3,
+  Sparkles,
+  GitFork,
+  ClipboardCheck,
+  Users,
+  Component,
+  Monitor,
   Layers,
+  FileCode2,
+  Palette,
+  BookOpen,
+  Image,
+  Presentation,
+  FileText,
+  Flag,
+  CreditCard,
+  Package,
+  PieChart,
+  Printer,
   type LucideIcon,
 } from "lucide-react";
-import { siClaude, siFigma, siFramer, type SimpleIcon } from "simple-icons";
+import { siClaude, siFigma, siFramer, siGithub, siVercel, type SimpleIcon } from "simple-icons";
 import { SERVICES, TECH_STACK } from "@/data/site";
 import { Reveal } from "@/components/motion/Reveal";
-import { Marquee } from "@/components/ui/Marquee";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
 type Tool = (typeof TECH_STACK)[number];
-type Service = (typeof SERVICES)[number];
+type UiuxService = (typeof SERVICES.uiux)[number];
+type GraphicService = (typeof SERVICES.graphic)[number];
 
 type ToolMark = { brand: SimpleIcon } | { monogram: string } | { icon: LucideIcon };
 
-// simple-icons dropped Adobe's marks at Adobe's request and has none for Zeplin or Balsamiq,
-// so Adobe apps use their familiar two-letter abbreviations and the rest get line icons.
 const TOOL_MARKS: Record<Tool, ToolMark> = {
   Figma: { brand: siFigma },
   Framer: { brand: siFramer },
@@ -28,23 +39,38 @@ const TOOL_MARKS: Record<Tool, ToolMark> = {
   "Adobe Photoshop": { monogram: "Ps" },
   "Adobe Illustrator": { monogram: "Ai" },
   "Adobe After Effects": { monogram: "Ae" },
-  Zeplin: { icon: Layers },
-  Balsamiq: { icon: PencilRuler },
-};
-
-const SERVICE_ICONS: Record<Service, LucideIcon> = {
-  "Framer Development": Code2,
-  "Brand Design": PaintBucket,
-  "Web Apps": Laptop,
-  "Landing Pages": PanelsTopLeft,
-  "UX / UI Consultation": LayoutDashboard,
+  Vercel: { brand: siVercel },
+  GitHub: { brand: siGithub },
 };
 
 const TILE_SHADOW =
   "shadow-[0_0.6px_0.6px_-0.94px_rgba(0,0,0,0.07),0_1.8px_1.8px_-1.88px_rgba(0,0,0,0.07),0_4.8px_4.8px_-2.8px_rgba(0,0,0,0.06),0_15px_15px_-3.75px_rgba(0,0,0,0.03)]";
 
-const BADGE_SHADOW =
-  "shadow-[inset_0_2px_4px_rgba(255,255,255,0.4),0_0.74px_0.74px_-0.75px_rgba(0,0,0,0.33),0_2px_2px_-1.5px_rgba(0,0,0,0.32),0_4.4px_4.4px_-2.25px_rgba(0,0,0,0.3),0_9.8px_9.8px_-3px_rgba(0,0,0,0.25),0_25px_25px_-3.75px_rgba(0,0,0,0.11),0_0_0_1px_#828282]";
+const UIUX_ICONS: Record<UiuxService, LucideIcon> = {
+  "App Design": Smartphone,
+  "Dashboard & Data Viz": BarChart3,
+  "AI Quick Wireframes": Sparkles,
+  "User Flows & IA": GitFork,
+  "UX Audit & Heuristics": ClipboardCheck,
+  "Usability Testing": Users,
+  "Design Systems": Component,
+  "Responsive Web Design": Monitor,
+  "SaaS Product Design": Layers,
+  "Dev Handoff & Docs": FileCode2,
+};
+
+const GRAPHIC_ICONS: Record<GraphicService, LucideIcon> = {
+  "Brand Identity & Logo": Palette,
+  "Brand Guidelines": BookOpen,
+  "Social Media Graphics": Image,
+  "Pitch Deck Design": Presentation,
+  "Brochure & Flyer Design": FileText,
+  "Poster & Banner Design": Flag,
+  "Business Card Design": CreditCard,
+  "Packaging Design": Package,
+  "Infographic Design": PieChart,
+  "Print Collateral": Printer,
+};
 
 function ToolIcon({ tool }: { tool: Tool }) {
   const mark = TOOL_MARKS[tool];
@@ -66,8 +92,29 @@ function ToolIcon({ tool }: { tool: Tool }) {
   );
 }
 
-const STRIP_LABEL = "text-lg font-medium tracking-[-0.02em]";
-const EDGE_FADE = "[mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]";
+function ServiceCard({ name, icon: Icon }: { name: string; icon: LucideIcon }) {
+  return (
+    <li className={`flex flex-col items-center gap-4 rounded-[12px] border border-gray-200 bg-white px-4 py-6 text-center ${TILE_SHADOW}`}>
+      <Icon className="h-6 w-6 text-black" strokeWidth={1.5} />
+      <span className="text-sm font-medium leading-snug tracking-[-0.01em] text-black/70">
+        {name}
+      </span>
+    </li>
+  );
+}
+
+function ServiceList({ title, items, icons }: { title: string; items: readonly string[]; icons: Record<string, LucideIcon> }) {
+  return (
+    <Reveal className="flex flex-col gap-6">
+      <p className="text-lg font-medium tracking-[-0.03em] text-foreground">{title}</p>
+      <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5">
+        {items.map((service) => (
+          <ServiceCard key={service} name={service} icon={icons[service]} />
+        ))}
+      </ul>
+    </Reveal>
+  );
+}
 
 export function Services() {
   return (
@@ -82,8 +129,6 @@ export function Services() {
             </SectionHeading>
           </Reveal>
 
-          {/* Phones: four tiles per row at their own size, spread so the first and last touch the content
-              edges (the gaps share out the spare width). From md it sizes to its tiles with 12px gaps. */}
           <Reveal className="w-full shrink-0 md:w-auto">
             <ul aria-label="My tech stack" className="grid w-full grid-cols-[repeat(4,auto)] justify-between gap-y-3 md:w-max md:grid-cols-4 md:gap-3">
               {TECH_STACK.map((tool) => (
@@ -102,26 +147,10 @@ export function Services() {
           </Reveal>
         </div>
 
-        <Reveal className="flex flex-col gap-4">
-          <p className={STRIP_LABEL}>My services</p>
-          <Marquee seconds={40} className={`-my-8 py-8 ${EDGE_FADE}`} rowClassName="gap-12 pr-12">
-            {SERVICES.map((service) => {
-              const Icon = SERVICE_ICONS[service];
-              return (
-                <li key={service} className="flex shrink-0 items-center gap-3">
-                  <span
-                    className={`flex shrink-0 items-center justify-center rounded-[24px] border border-black bg-black p-2 ${BADGE_SHADOW}`}
-                  >
-                    <Icon className="h-6 w-6 text-white" strokeWidth={1.5} />
-                  </span>
-                  <span className="whitespace-nowrap text-lg font-normal leading-[1.4] tracking-[-0.03em] md:text-[22px]">
-                    {service}
-                  </span>
-                </li>
-              );
-            })}
-          </Marquee>
-        </Reveal>
+        <div className="flex flex-col gap-12">
+          <ServiceList title="UI/UX Services" items={SERVICES.uiux} icons={UIUX_ICONS} />
+          <ServiceList title="Graphic Design" items={SERVICES.graphic} icons={GRAPHIC_ICONS} />
+        </div>
       </div>
     </section>
   );

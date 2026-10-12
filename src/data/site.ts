@@ -60,7 +60,7 @@ export const HERO = {
   // Small greeting above the title, followed by a waving hand.
   eyebrow: "Hello",
   // One entry per line; the first is set in gray.
-  headline: ["I’m Shakeel", "Product & UX Designer", "@ Brandcave"],
+  headline: ["I’m Shakeel,", "Product & UX Designer", "@ Brandcave"],
   // Label / value pairs shown under the title. `live` adds the availability dot.
   facts: [
     { label: "Currently", value: "Available for new gig", live: true },
@@ -76,17 +76,36 @@ export const TECH_STACK = [
   "Adobe Photoshop",
   "Adobe Illustrator",
   "Adobe After Effects",
-  "Zeplin",
-  "Balsamiq",
+  "Vercel",
+  "GitHub",
 ] as const;
 
-export const SERVICES = [
-  "Framer Development",
-  "Brand Design",
-  "Web Apps",
-  "Landing Pages",
-  "UX / UI Consultation",
-] as const;
+export const SERVICES = {
+  uiux: [
+    "App Design",
+    "Dashboard & Data Viz",
+    "AI Quick Wireframes",
+    "User Flows & IA",
+    "UX Audit & Heuristics",
+    "Usability Testing",
+    "Design Systems",
+    "Responsive Web Design",
+    "SaaS Product Design",
+    "Dev Handoff & Docs",
+  ],
+  graphic: [
+    "Brand Identity & Logo",
+    "Brand Guidelines",
+    "Social Media Graphics",
+    "Pitch Deck Design",
+    "Brochure & Flyer Design",
+    "Poster & Banner Design",
+    "Business Card Design",
+    "Packaging Design",
+    "Infographic Design",
+    "Print Collateral",
+  ],
+} as const;
 
 // Newest first; the first entry sits on top of the stacked deck.
 export const WORK_HISTORY = [
